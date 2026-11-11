@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crónicas de JCP - Edición Definitiva con Código en Game</title>
+<title>Crónicas de JCP - Edición Definitiva Completa</title>
 
 <!-- Firebase SDKs -->
 <script type="module">
@@ -129,7 +129,7 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
 
 <header>
     <h1>⚔ CRÓNICAS DE JCP ⚔</h1>
-    <p>Aventura Cooperativa Suprema - Sala de Espera con Código</p>
+    <p>Aventura Cooperativa Suprema - 5 Movimientos y Combate por Turnos</p>
 </header>
 
 <main class="container">
@@ -187,7 +187,7 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
         </section>
 
         <section class="section">
-            <h2>V. Técnicas y habilidades (Elegí 3)</h2>
+            <h2>V. Técnicas y habilidades (Elegí 3 de 5)</h2>
             <div id="racialTrait" class="info-box" style="margin-bottom:12px;"></div>
             <div id="abilities" class="grid"></div>
             <p id="abilityCount" style="color:var(--gold); margin-top:10px;">Habilidades elegidas: 0 / 3</p>
@@ -258,18 +258,17 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
                 <ul id="activePlayersList" style="margin:0; padding-left:15px; font-size:12px; color:var(--muted);"></ul>
             </div>
 
-            <!-- CENTRO: DADOS Y HISTORIA (CON PANTALLA DE ESPERA Y CÓDIGO) -->
+            <!-- CENTRO: DADOS Y HISTORIA -->
             <div style="display:flex; flex-direction:column; gap:15px;">
                 <div id="waitingRoomBox" class="panel" style="text-align:center; padding:20px;">
                     <h3 style="color:var(--gold);">⚔ Sala de Espera (Cooperativa)</h3>
-                    <p style="color:var(--muted); font-size:13px; margin-bottom:5px;">Pasales este **Código de Sala** exacto a tus amigos para que se metan:</p>
+                    <p style="color:var(--muted); font-size:13px; margin-bottom:5px;">Pasales este <strong>Código de Sala</strong> a tus amigos:</p>
                     <div style="background:#151316; padding:12px; border-radius:6px; border:1px dashed var(--gold); display:inline-block; margin: 10px 0;">
                         <span id="roomCodeDisplay" style="color:var(--gold); font-size:28px; font-weight:bold; letter-spacing: 3px;">----</span>
                     </div>
                     <div>
                         <button onclick="copyRoomCode()" style="background:#56845c; color:#fff; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">📋 Copiar Código</button>
                     </div>
-                    
                     <ul id="lobbyPlayersList" style="list-style:none; padding:0; color:var(--muted); margin:15px 0;"></ul>
                     <div id="hostControls" style="display:none;">
                         <button class="btn-gold" onclick="startAdventure()">🚀 Comenzar Partida Épica</button>
@@ -337,27 +336,37 @@ const classAbilities = {
     Guerrero: [
         {name:"Golpe devastador", type:"Físico", dice:"D12", mana:2, description:"Fuerza pura con desgaste leve."}, 
         {name:"Estocada veloz", type:"Rápido", dice:"D8", mana:1, description:"Ataque rápido y preciso."}, 
-        {name:"Grito de guerra", type:"Buff", dice:"D6", mana:3, description:"Inspira al grupo."}
+        {name:"Grito de guerra", type:"Buff", dice:"D6", mana:3, description:"Inspira al grupo."},
+        {name:"Carga salvaje", type:"Físico", dice:"D10", mana:3, description:"Embiste al enemigo con furia."},
+        {name:"Bloqueo de hierro", type:"Defensa", dice:"D6", mana:2, description:"Mitiga el siguiente impacto."}
     ],
     Mago: [
         {name:"Bola de fuego", type:"Ofensivo", dice:"D12", mana:8, description:"Poderoso hechizo ígneo."}, 
         {name:"Rayo arcano", type:"Ofensivo", dice:"D10", mana:5, description:"Haz de energía pura."}, 
-        {name:"Escudo mágico", type:"Defensa", dice:"D8", mana:6, description:"Barrera mística protectora."}
+        {name:"Escudo mágico", type:"Defensa", dice:"D8", mana:6, description:"Barrera mística protectora."},
+        {name:"Misil mágico", type:"Ofensivo", dice:"D8", mana:4, description:"Proyectiles certeros de energía."},
+        {name:"Drenar maná", type:"Especial", dice:"D6", mana:0, description:"Absorbe energía arcana del rival."}
     ],
     Picaro: [
         {name:"Ataque furtivo", type:"Especial", dice:"D10", mana:2, description:"Golpe desde las sombras."}, 
         {name:"Doble puñalada", type:"Rápido", dice:"D8", mana:3, description:"Combo veloz."}, 
-        {name:"Bomba de humo", type:"Sigilo", dice:"D6", mana:4, description:"Confunde al enemigo."}
+        {name:"Bomba de humo", type:"Sigilo", dice:"D6", mana:4, description:"Confunde al enemigo."},
+        {name:"Estocada venenosa", type:"Ofensivo", dice:"D10", mana:4, description:"Hoja envenenada letal."},
+        {name:"Reflejos rápidos", type:"Defensa", dice:"D6", mana:2, description:"Esquiva ágilmente el golpe."}
     ],
     Clerigo: [
         {name:"Luz sagrada", type:"Ofensivo", dice:"D10", mana:5, description:"Fuego sagrado purificador."}, 
         {name:"Curación divina", type:"Curativo", dice:"D8", mana:8, description:"Restaura salud."}, 
-        {name:"Martillo celestial", type:"Mágico", dice:"D12", mana:6, description:"Juicio divino."}
+        {name:"Martillo celestial", type:"Mágico", dice:"D12", mana:6, description:"Juicio divino."},
+        {name:"Escudo divino", type:"Defensa", dice:"D8", mana:4, description:"Bendición protectora."},
+        {name:"Destello cegador", type:"Control", dice:"D6", mana:3, description:"Desorienta al objetivo."}
     ],
     Druida: [
         {name:"Raíces atrapantes", type:"Control", dice:"D8", mana:4, description:"Naturaleza enredadora."}, 
         {name:"Llamarada natural", type:"Ofensivo", dice:"D10", mana:6, description:"Fuego silvestre."}, 
-        {name:"Garras salvajes", type:"Físico", dice:"D12", mana:3, description:"Furia animal."}
+        {name:"Garras salvajes", type:"Físico", dice:"D12", mana:3, description:"Furia animal."},
+        {name:"Soplo de vida", type:"Curativo", dice:"D8", mana:5, description:"Sanación natural."},
+        {name:"Piel de corteza", type:"Defensa", dice:"D6", mana:3, description:"Protección arbórea."}
     ]
 };
 
@@ -690,7 +699,6 @@ async function createNewRoom() {
     const saved = JSON.parse(localStorage.getItem("jcp_characters") || "[]");
     const myCharacter = saved[charIndex];
     
-    // Generador de código aleatorio de sala
     const code = Math.random().toString(36).substring(2, 7).toUpperCase();
     const campaignId = document.getElementById("campaignSelect").value;
     const selectedCampaign = campaigns[campaignId];
@@ -880,6 +888,14 @@ function renderActionChoices() {
             container.appendChild(abCard);
         });
     }
+
+    // OPCIÓN DE DESCANSO EN COMBATE (+5 HP, +5 Maná)
+    const restCard = document.createElement("div");
+    restCard.className = "ability-card-game";
+    restCard.style.borderColor = "#c99c55";
+    restCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">🏕 Descansar</strong><div style="font-size:11px; color:var(--muted);">Recupera +5 HP y +5 Maná</div>`;
+    restCard.onclick = () => selectAction({type: "rest", name: "Descansar", manaCost: 0}, restCard);
+    container.appendChild(restCard);
 }
 
 function selectAction(actionObj, element) {
@@ -1021,21 +1037,9 @@ async function rollD20Action() {
         return;
     }
     if (!currentSelectedAction) {
-        document.getElementById("rollLog").innerHTML = `¡Seleccioná un arma o habilidad primero!`;
+        document.getElementById("rollLog").innerHTML = `¡Seleccioná un arma, habilidad o descanso primero!`;
         return;
     }
-
-    const manaCost = currentSelectedAction.manaCost || 0;
-    if (activeCharacter.mana < manaCost) {
-        document.getElementById("rollLog").innerHTML = `❌ No tenés suficiente maná (${activeCharacter.mana}M / ${manaCost}M).`;
-        return;
-    }
-
-    activeCharacter.mana -= manaCost;
-
-    const d20 = Math.floor(Math.random() * 20) + 1;
-    const statMod = modifier(activeCharacter.stats.Fuerza);
-    const total = d20 + statMod;
 
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
     const snap = await window.getDoc(roomRef);
@@ -1047,57 +1051,92 @@ async function rollD20Action() {
 
     let logMessage = "";
 
-    if (stepObj && stepObj.isCombatEncounter) {
-        let bonusDamage = manaCost > 0 ? 6 : 0;
-        let damageToMonster = (total >= 12 ? 12 + statMod : 5) + bonusDamage;
-        let newMonsterHp = Math.max(0, (roomData.monsterHp || 50) - damageToMonster);
+    if (currentSelectedAction.type === "rest") {
+        if (!stepObj || !stepObj.isCombatEncounter) {
+            document.getElementById("rollLog").innerHTML = `❌ El descanso solo se puede usar durante los combates.`;
+            return;
+        }
+        activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 5);
+        activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + 5);
+        
+        logMessage = `🏕 ${activeCharacter.characterName} tomó un respiro en pleno combate: recuperó +5 HP y +5 Maná.`;
+        logSystemMessage(logMessage);
+    } 
+    else {
+        const manaCost = currentSelectedAction.manaCost || 0;
+        if (activeCharacter.mana < manaCost) {
+            document.getElementById("rollLog").innerHTML = `❌ No tenés suficiente maná (${activeCharacter.mana}M / ${manaCost}M).`;
+            return;
+        }
 
-        let monsterDamage = Math.floor(Math.random() * 6) + 3;
-        activeCharacter.hp = Math.max(0, activeCharacter.hp - monsterDamage);
+        activeCharacter.mana -= manaCost;
 
-        let updatedPlayers = roomData.players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
+        const d20 = Math.floor(Math.random() * 20) + 1;
+        const statMod = modifier(activeCharacter.stats.Fuerza);
+        const total = d20 + statMod;
 
-        logMessage = `⚔ ${activeCharacter.characterName} atacó con ${currentSelectedAction.name}. D20(${d20}) ➡ ${damageToMonster} daño. Recibió -${monsterDamage} HP.`;
+        if (stepObj && stepObj.isCombatEncounter) {
+            let bonusDamage = manaCost > 0 ? 6 : 0;
+            let damageToMonster = (total >= 12 ? 12 + statMod : 5) + bonusDamage;
+            let newMonsterHp = Math.max(0, (roomData.monsterHp || 50) - damageToMonster);
 
-        if (newMonsterHp <= 0) {
-            let manaRecovered = Math.round((activeCharacter.maxMana - activeCharacter.mana) * 0.4) + 5;
-            activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + manaRecovered);
+            logMessage = `⚔ Turno del Jugador: ${activeCharacter.characterName} atacó con ${currentSelectedAction.name}. D20(${d20}) ➡ ${damageToMonster} de daño al monstruo.`;
 
-            const possibleRewards = [
-                {name:"Poción de vida", description:"Recupera +10 HP."},
-                {name:"Antorcha", description:"Ilumina zonas oscuras (Se consume al usar)."},
-                {name:"Ración", description:"Restaura +15 Maná (Se consume al usar)."}
-            ];
-            let wonItem = possibleRewards[Math.floor(Math.random() * possibleRewards.length)];
-            activeCharacter.inventory.push(wonItem);
+            let playersList = roomData.players || [];
+            let randomTargetIndex = Math.floor(Math.random() * playersList.length);
+            let targetPlayer = playersList[randomTargetIndex];
 
-            logSystemMessage(`🎉 ¡Victoria! El equipo derrotó al enemigo. ${activeCharacter.characterName} recuperó +${manaRecovered}M y obtuvo un objeto en el bolso: ${wonItem.name}.`);
+            let monsterDamage = Math.floor(Math.random() * 6) + 3;
+            targetPlayer.hp = Math.max(0, targetPlayer.hp - monsterDamage);
 
-            let nextStep = currentStep + 1;
-            let nextStepObj = campaign[nextStep];
+            logMessage += ` | 👹 Turno del Enemigo: Atacó al azar a ${targetPlayer.characterName} infligiéndole -${monsterDamage} HP.`;
+            logSystemMessage(logMessage);
 
-            if (nextStepObj && nextStepObj.isCombatEncounter) {
-                const pCount = updatedPlayers.length;
-                const nextBaseHp = nextStepObj.isBoss ? (nextStepObj.baseHp + (pCount - 1) * 20) : (nextStepObj.baseHp + (pCount - 1) * 5);
+            playersList = playersList.map(p => p.characterName === targetPlayer.characterName ? targetPlayer : (p.characterName === activeCharacter.characterName ? activeCharacter : p));
+            if (targetPlayer.characterName === activeCharacter.characterName) {
+                activeCharacter.hp = targetPlayer.hp;
+            }
 
-                await window.updateDoc(roomRef, { 
-                    monsterHp: nextBaseHp, 
-                    monsterMaxHp: nextBaseHp,
-                    monsterName: nextStepObj.monsterName,
-                    currentStep: nextStep, 
-                    players: updatedPlayers 
-                });
+            if (newMonsterHp <= 0) {
+                let manaRecovered = Math.round((activeCharacter.maxMana - activeCharacter.mana) * 0.4) + 5;
+                activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + manaRecovered);
+
+                const possibleRewards = [
+                    {name:"Poción de vida", description:"Recupera +10 HP."},
+                    {name:"Antorcha", description:"Ilumina zonas oscuras (Se consume al usar)."},
+                    {name:"Ración", description:"Restaura +15 Maná (Se consume al usar)."}
+                ];
+                let wonItem = possibleRewards[Math.floor(Math.random() * possibleRewards.length)];
+                activeCharacter.inventory.push(wonItem);
+
+                logSystemMessage(`🎉 ¡Victoria! El equipo derrotó al enemigo. ${activeCharacter.characterName} recuperó +${manaRecovered}M y obtuvo un objeto en el bolso: ${wonItem.name}.`);
+
+                let nextStep = currentStep + 1;
+                let nextStepObj = campaign[nextStep];
+
+                if (nextStepObj && nextStepObj.isCombatEncounter) {
+                    const pCount = playersList.length;
+                    const nextBaseHp = nextStepObj.isBoss ? (nextStepObj.baseHp + (pCount - 1) * 20) : (nextStepObj.baseHp + (pCount - 1) * 5);
+
+                    await window.updateDoc(roomRef, { 
+                        monsterHp: nextBaseHp, 
+                        monsterMaxHp: nextBaseHp,
+                        monsterName: nextStepObj.monsterName,
+                        currentStep: nextStep, 
+                        players: playersList 
+                    });
+                } else {
+                    await window.updateDoc(roomRef, { 
+                        currentStep: nextStep, 
+                        players: playersList 
+                    });
+                }
             } else {
                 await window.updateDoc(roomRef, { 
-                    currentStep: nextStep, 
-                    players: updatedPlayers 
+                    monsterHp: newMonsterHp, 
+                    players: playersList 
                 });
             }
-        } else {
-            await window.updateDoc(roomRef, { 
-                monsterHp: newMonsterHp, 
-                players: updatedPlayers 
-            });
         }
     }
 
