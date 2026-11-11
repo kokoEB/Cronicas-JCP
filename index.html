@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crónicas de JCP - Edición Definitiva Completa</title>
+<title>Crónicas de JCP - Árbol Narrativo D20</title>
 
 <!-- Firebase SDKs -->
 <script type="module">
@@ -114,7 +114,7 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
 .dice-bar { display: flex; justify-content: space-around; background: var(--panel-light); border: 1px solid var(--gold-dark); border-radius: 6px; padding: 8px; flex-wrap: wrap; gap: 5px; }
 .dice-btn { background: #171518; border: 1px solid var(--gold); color: var(--gold); font-weight: bold; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 13px; }
 .dice-btn:hover { background: var(--gold); color: #121114; }
-.screen-display { background: #110f11; border: 2px solid var(--gold-dark); border-radius: 8px; padding: 15px; min-height: 180px; box-shadow: inset 0 0 10px #000; }
+.screen-display { background: #110f11; border: 2px solid var(--gold-dark); border-radius: 8px; padding: 15px; min-height: 220px; box-shadow: inset 0 0 10px #000; }
 .story-text { font-size: 15px; line-height: 1.6; color: #f3efe6; margin-bottom: 12px; }
 .choice-btn { background: #1c191a; border: 1px solid #725536; color: var(--text); text-align: left; padding: 10px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 6px; width: 100%; font-size: 13px; }
 .choice-btn:hover, .choice-btn.selected { background: #3a3026; border-color: var(--gold); }
@@ -123,13 +123,18 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
 .ability-card-game { background: #151316; border: 1px solid #625344; padding: 8px; border-radius: 5px; cursor: pointer; text-align: left; }
 .ability-card-game:hover { border-color: var(--gold); background: #252023; }
 .ability-card-game.selected { border-color: #56845c; background: #223525; }
+.tier-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-bottom: 6px; }
+.tier-bad { background: #5c1e1e; color: #ff9999; }
+.tier-regular { background: #5c4b1e; color: #ffe082; }
+.tier-good { background: #1e4d5c; color: #80deea; }
+.tier-perfect { background: #1e5c2f; color: #a5d6a7; }
 </style>
 </head>
 <body>
 
 <header>
     <h1>⚔ CRÓNICAS DE JCP ⚔</h1>
-    <p>Aventura Cooperativa Suprema - 5 Movimientos y Combate por Turnos</p>
+    <p>Aventura Cooperativa Ramificada - 4 Caminos D20 y 4 Finales</p>
 </header>
 
 <main class="container">
@@ -214,11 +219,11 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
             <h2>🚪 Sala de Partida Online (Máx. 5 Jugadores)</h2>
             
             <div class="info-box" style="margin-bottom: 15px;">
-                <strong>Seleccionar Campaña Extensa:</strong>
+                <strong>Seleccionar Campaña Ramificada:</strong>
                 <select id="campaignSelect" style="margin-top:8px;">
-                    <option value="story1">📖 Campaña 1: El Calabozo Subterráneo y los Prisioneros</option>
-                    <option value="story2">🌲 Campaña 2: El Bosque Encantado de Bestias y No Muertos</option>
-                    <option value="story3">🏚 Campaña 3: La Mansión Misteriosa del Pueblo</option>
+                    <option value="story1">📖 Campaña 1: El Calabozo Subterráneo (Árbol de 4 Caminos y 4 Finales)</option>
+                    <option value="story2">🌲 Campaña 2: El Bosque Encantado de Bestias (Árbol de 4 Caminos)</option>
+                    <option value="story3">🏚 Campaña 3: La Mansión Misteriosa del Pueblo (Árbol de 4 Caminos)</option>
                 </select>
             </div>
 
@@ -279,18 +284,18 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
 
                 <div id="activePlayBox" style="display:none; display:flex; flex-direction:column; gap:15px;">
                     <div class="dice-bar">
-                        <span id="diceInstruction" style="color:var(--gold); align-self:center; font-size:13px; font-weight:bold;">1️⃣ Elegí acción abajo ➔ 2️⃣ Tirá D20:</span>
+                        <span id="diceInstruction" style="color:var(--gold); align-self:center; font-size:13px; font-weight:bold;">1️⃣ Elegí acción/opción ➔ 2️⃣ Tirá D20:</span>
                         <button class="dice-btn" onclick="rollD20Action()" style="background:#56845c; color:#fff; border-color:#79b782; padding:8px 15px;">🎲 ¡Tirar D20 por Turno!</button>
                     </div>
                     <div class="panel">
                         <div class="screen-display">
-                            <div id="storyText" class="story-text">Cargando narrativa extendida...</div>
+                            <div id="storyText" class="story-text">Cargando narrativa ramificada...</div>
                             <div id="choicesArea"></div>
                             <div id="rollLog" class="roll-log">Esperando turno de acción...</div>
                         </div>
                     </div>
                     <div class="panel">
-                        <h3 style="color:var(--gold); margin-top:0; font-size:14px;">⚡ Acciones / Habilidades (¡Gastan Maná!)</h3>
+                        <h3 style="color:var(--gold); margin-top:0; font-size:14px;">⚡ Acciones / Habilidades de Combate (¡Gastan Maná!)</h3>
                         <div id="myAbilitiesContainer" class="abilities-container"></div>
                     </div>
                 </div>
@@ -377,106 +382,269 @@ const objectsList = [
     {name:"Ganzúas", description:"Abrir puertas cerradas (Se consume al usar)."}
 ];
 
+// ==========================================
+// SISTEMA DE HISTORIAS RAMIFICADAS (D20: 1-5 Malo, 6-10 Tranki, 11-15 Bueno, 16-20 Perfecto)
+// ==========================================
 const campaigns = {
-    story1: [
-        {
-            title: "Campaña 1 - Acto 1: El Despertar en las Profundidades y el Primer Guardia",
-            text: "El grupo de aventureros despierta en una fría celda subterránea excavada en los cimientos más antiguos de José C. Paz. Un guardia corrupto de la guardia negra bloquea el paso obligatorio con una maza humeante. ¡Comienza el primer combate formal!",
-            isCombatEncounter: true,
-            monsterName: "Guardia Negro Corrupto",
-            baseHp: 25
+    story1: {
+        start: {
+            title: "Acto I - La Celda de Hierro de José C. Paz",
+            text: "Despiertan encerrados en una celda subterránea húmeda y oscura. Un pesado portón de roble reforzado con hierro bloquea el pasillo. No tienen la llave. ¿Qué acción deciden intentar para abrirse paso? (Seleccionen una opción y tiren el D20):",
+            type: "d20_branch",
+            options: [
+                { id: "opt_force", text: "🔨 Intentar romper la puerta a golpes brutos" },
+                { id: "opt_lock", text: "🗝️ Intentar forzar la cerradura oxidada con sigilo" }
+            ],
+            outcomes: {
+                bad: { // 1 a 5
+                    log: "💥 ¡Pifia (1-5)! La puerta no cedió ni un centímetro, te lastimaste el hombro contra el hierro (-2 HP) y el ruido alertó a un guardia.",
+                    hpDelta: -2,
+                    nextNode: "act2_bad"
+                },
+                regular: { // 6 a 10
+                    log: "🪵 ¡Tranki (6-10)! Tras varios golpes, las bisagras se aflojaron bastante. Logran pasar apretados por una rendija hacia el pasillo.",
+                    hpDelta: 0,
+                    nextNode: "act2_regular"
+                },
+                good: { // 11 a 15
+                    log: "🚪 ¡Bueno (11-15)! Con un impacto certero lograron romper el cerrojo y abrir la puerta limpiamente.",
+                    hpDelta: 0,
+                    nextNode: "act2_good"
+                },
+                perfect: { // 16 a 20
+                    log: "⚡ ¡Perfecto (16-20)! La madera estaba podrida por dentro; la puerta se hizo pedazos sin hacer ruido y encontraron +5 Maná residual.",
+                    manaDelta: 5,
+                    nextNode: "act2_perfect"
+                }
+            }
         },
-        {
-            title: "Campaña 1 - Acto 2: Encuentro con los Prisioneros Clave (Igor y Varek)",
-            text: "Avanzando por los túneles, el grupo se cruza con dos figuras: **Igor**, un anciano que ofrece guiar al grupo, y **Varek**, un mercenario rebelde que exige tributo por la fuerza. ¿Cómo decidirán abordarlos democráticamente?",
-            isNpcEncounter: true,
-            npcChoices: [
-                { id: "npc1", text: "a. Desafiar duramente a Varek y acusarlo de traidor (Desencadena Emboscada Secreta)", secretFight: true },
-                { id: "npc2", text: "b. Conversar pacíficamente con Igor y aceptar su guía (Evita el combate secreto)" }
-            ]
+        // --- RAMAS ACTO II ---
+        act2_bad: {
+            title: "Acto II (Ruta Crítica) - Emboscada en el Pasillo",
+            text: "Por el estruendo al intentar romper la puerta, un Guardia Negro Corrupto los intercepta con su maza antes de que puedan esconderse. ¡Combate obligado!",
+            type: "combat",
+            monsterName: "Guardia Negro Alertado",
+            baseHp: 30,
+            nextNode: "act3_crossroads_danger"
         },
-        {
-            title: "Campaña 1 - Acto 3: La Cripta de los Experimentos Fallidos",
-            text: "En una cripta llena de vapores tóxicos, una bestia monstruosa mutada por la magia negra bloquea el paso cerrando toda retirada.",
-            isCombatEncounter: true,
-            monsterName: "Bestia Mutada de las Catacumbas",
-            baseHp: 40
+        act2_regular: {
+            title: "Acto II (Ruta Cautelosa) - El Túnel de Cristal",
+            text: "Al pasar por la rendija, llegan a una galería estrecha con trampas de presión en el suelo. Deben cruzar sin activar las flechas ocultas.",
+            type: "d20_branch",
+            options: [
+                { id: "opt_jump", text: "🏃 Saltar rápidamente sobre las baldosas seguras" },
+                { id: "opt_disarm", text: "⚙️ Desactivar el mecanismo de presión" }
+            ],
+            outcomes: {
+                bad: { log: "🏹 ¡Pifia (1-5)! Pisaron una losa falsa y una flecha rozó al grupo (-3 HP).", hpDelta: -3, nextNode: "act3_crossroads_danger" },
+                regular: { log: "😅 ¡Tranki (6-10)! Activaron la trampa pero lograron cubrirse a tiempo sin recibir daño.", nextNode: "act3_crossroads_safe" },
+                good: { log: "✨ ¡Bueno (11-15)! Cruzaron el pasillo con agilidad sin activar nada.", nextNode: "act3_crossroads_safe" },
+                perfect: { log: "💎 ¡Perfecto (16-20)! Desarmaron la trampa y recuperaron +5 HP de un alijo oculto.", hpDelta: 5, nextNode: "act3_crossroads_secret" }
+            }
         },
-        {
-            title: "Campaña 1 - Acto 4: El Alcaide de Hierro y el Cielo de José C. Paz (Jefe Final)",
-            text: "El mismísimo Alcaide del Calabozo —un gigante acorazado con placas de hierro oxidado y un enorme hacha— se para frente al umbral bloqueando la salida. ¡Comienza el combate definitivo!",
-            isCombatEncounter: true,
+        act2_good: {
+            title: "Acto II (Ruta Firme) - La Sala de Guardia Vacía",
+            text: "Al abrir la puerta limpiamente, sorprenden la sala de vigilancia sin enemigos. En la mesa hay planos del calabozo y una reja que lleva a las catacumbas.",
+            type: "d20_branch",
+            options: [
+                { id: "opt_map", text: "📜 Analizar los mapas tácticos de la fortaleza" },
+                { id: "opt_gate", text: "⛓️ Levantar la reja pesada hacia las catacumbas" }
+            ],
+            outcomes: {
+                bad: { log: "⚠️ ¡Pifia (1-5)! La reja se trabó y cayó haciendo estruendo (-2 HP).", hpDelta: -2, nextNode: "act3_crossroads_danger" },
+                regular: { log: "🕯️ ¡Tranki (6-10)! Logran levantar la reja con esfuerzo y avanzar.", nextNode: "act3_crossroads_safe" },
+                good: { log: "🗺️ ¡Bueno (11-15)! Descubren un atajo seguro hacia el corazón del calabozo.", nextNode: "act3_crossroads_safe" },
+                perfect: { log: "🌟 ¡Perfecto (16-20)! Encuentran la ruta secreta directa a la cámara del tesoro (+5 HP y +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "act3_crossroads_secret" }
+            }
+        },
+        act2_perfect: {
+            title: "Acto II (Ruta Maestra) - Pasadizo de los Antiguos",
+            text: "Gracias a la apertura silenciosa, descubren una escalera oculta detrás de un tapiz que evita toda la guarnición principal.",
+            type: "d20_branch",
+            options: [
+                { id: "opt_sneak", text: "👤 Avanzar en absoluto sigilo por las sombras" },
+                { id: "opt_relic", text: "🔮 Examinar el altar arcano del pasadizo" }
+            ],
+            outcomes: {
+                bad: { log: "🌀 ¡Pifia (1-5)! Una descarga mágica del altar los repele (-2 HP).", hpDelta: -2, nextNode: "act3_crossroads_safe" },
+                regular: { log: "🚶 ¡Tranki (6-10)! Siguen adelante sin tocar nada para no arriesgarse.", nextNode: "act3_crossroads_safe" },
+                good: { log: "✨ ¡Bueno (11-15)! El altar les otorga claridad mental (+5 Maná).", manaDelta: 5, nextNode: "act3_crossroads_secret" },
+                perfect: { log: "👑 ¡Perfecto (16-20)! Bendición total de los antiguos (+5 HP y +5 Maná) y ventaja táctica.", hpDelta: 5, manaDelta: 5, nextNode: "act3_crossroads_secret" }
+            }
+        },
+        // --- RAMAS ACTO III ---
+        act3_crossroads_danger: {
+            title: "Acto III - La Fosa de la Bestia Mutada",
+            text: "Heridos y perseguidos, caen en la fosa central donde una Bestia Mutada de las Catacumbas ruge lista para devorarlos. ¡Hay que sobrevivir!",
+            type: "combat",
+            monsterName: "Bestia Mutada Furiosa",
+            baseHp: 45,
+            nextNode: "act4_boss_hard"
+        },
+        act3_crossroads_safe: {
+            title: "Acto III - El Puente del Abismo Subterráneo",
+            text: "Llegan al abismo que separa las celdas de la salida a José C. Paz. Un puente colgante deteriorado cruza sobre la oscuridad.",
+            type: "d20_branch",
+            options: [
+                { id: "opt_cross", text: "🌉 Cruzar el puente colgante con equilibrio" },
+                { id: "opt_rope", text: "🪢 Asegurar las vigas antes de pasar" }
+            ],
+            outcomes: {
+                bad: { log: "💔 ¡Pifia (1-5)! Una tabla se rompe y apenas logran sujetarse (-4 HP).", hpDelta: -4, nextNode: "act4_boss_hard" },
+                regular: { log: "😰 ¡Tranki (6-10)! El puente cruje peligrosamente pero todos llegan al otro lado.", nextNode: "act4_boss_normal" },
+                good: { log: "🛡️ ¡Bueno (11-15)! Cruzan con firmeza y se preparan para el portón final.", nextNode: "act4_boss_normal" },
+                perfect: { log: "🦅 ¡Perfecto (16-20)! Cruzan como sombras y sorprenden a la guardia final.", nextNode: "act4_boss_advantage" }
+            }
+        },
+        act3_crossroads_secret: {
+            title: "Acto III - La Cámara de los Prisioneros Liberados",
+            text: "Encuentran a Igor y a otros prisioneros encerrados. Si logran liberar sus cadenas, los ayudarán contra el Alcaide.",
+            type: "d20_branch",
+            options: [
+                { id: "opt_free", text: "⛓️ Romper los grilletes de los prisioneros" },
+                { id: "opt_plan", text: "🗣️ Coordinar una distracción con Igor" }
+            ],
+            outcomes: {
+                bad: { log: "🔔 ¡Pifia (1-5)! Una alarma suena al golpear los grilletes.", nextNode: "act4_boss_normal" },
+                regular: { log: "🤝 ¡Tranki (6-10)! Liberan a Igor, quien les indica el punto débil del Alcaide.", nextNode: "act4_boss_advantage" },
+                good: { log: "⚔️ ¡Bueno (11-15)! Los prisioneros se arman y debilitan la defensa del jefe.", nextNode: "act4_boss_advantage" },
+                perfect: { log: "🔥 ¡Perfecto (16-20)! ¡Rebelión total! Los prisioneros reducen la vida del Alcaide antes de empezar.", nextNode: "act4_boss_advantage" }
+            }
+        },
+        // --- RAMAS ACTO IV (JEFE FINAL Y 4 FINALES ALTERNATIVOS) ---
+        act4_boss_hard: {
+            title: "Acto IV (Desafío Extremo) - El Alcaide de Hierro Enfurecido",
+            text: "El Alcaide Corrupto los espera totalmente preparado y con su armadura reforzada frente al portón de salida. ¡Es a matar o morir!",
+            type: "combat",
+            isBoss: true,
+            monsterName: "Alcaide de Hierro (Modo Furia)",
+            baseHp: 100,
+            nextNode: "ending_survivor"
+        },
+        act4_boss_normal: {
+            title: "Acto IV - El Duelo contra el Alcaide de Hierro",
+            text: "Frente al portón que da a las calles de José C. Paz, el Alcaide de Hierro alza su hacha gigante: '¡Nadie sale vivo de mis dominios!'",
+            type: "combat",
             isBoss: true,
             monsterName: "Alcaide Corrupto de Hierro",
-            baseHp: 90
+            baseHp: 85,
+            nextNode: "ending_heroic"
+        },
+        act4_boss_advantage: {
+            title: "Acto IV (Ventaja Táctica) - Emboscada al Alcaide",
+            text: "Con la ayuda obtenida y el factor sorpresa, acorralan al Alcaide de Hierro con su armadura debilitada. ¡El triunfo está al alcance!",
+            type: "combat",
+            isBoss: true,
+            monsterName: "Alcaide Debilitado",
+            baseHp: 65,
+            nextNode: "ending_legendary"
+        },
+        // --- LOS 4 FINALES ALTERNATIVOS ---
+        ending_tragic: {
+            title: "💀 FINAL 1 (TRÁGICO): Caídos en la Oscuridad",
+            text: "Las heridas y las malas decisiones sellaron el destino del grupo. El calabozo subterráneo reclama nuevas almas en silencio.",
+            type: "ending",
+            badge: "Final Trágico (1/4)"
+        },
+        ending_survivor: {
+            title: "🩹 FINAL 2 (AGRIDULCE): Supervivientes al Límite",
+            text: "Con las armaduras destrozadas y apenas fuerzas para caminar, logran derrotar al Alcaide y escapar a la superficie de José C. Paz. Sobrevivieron, aunque el calabozo aún guarda secretos.",
+            type: "ending",
+            badge: "Final Agridulce (2/4)"
+        },
+        ending_heroic: {
+            title: "⚔️ FINAL 3 (HEROICO): Libertadores de José C. Paz",
+            text: "¡Victoria! El Alcaide de Hierro cae derrotado y las puertas de la fortaleza se abren de par en par. El grupo emerge triunfante bajo el cielo abierto.",
+            type: "ending",
+            badge: "Final Heroico (3/4)"
+        },
+        ending_legendary: {
+            title: "👑 FINAL 4 (LEGENDARIO): Leyendas Inmortales",
+            text: "¡Perfección absoluta! No solo derrotaron al Alcaide con maestría táctica, sino que liberaron a todos los prisioneros y desmantelaron la red oscura para siempre. Sus nombres serán recordados como héroes legendarios.",
+            type: "ending",
+            badge: "Final Legendario (4/4)"
         }
-    ],
-    story2: [
-        {
-            title: "Campaña 2 - Acto 1: La Espesura del Bosque Maldito y la Emboscada",
-            text: "Al adentrarse en el bosque milenario de José C. Paz, una patrulla de duendes salvajes oculta en las copas de los árboles lanza flechas envenenadas y ataca.",
-            isCombatEncounter: true,
-            monsterName: "Patrulla de Duendes Asaltantes",
-            baseHp: 25
+    },
+    story2: {
+        start: {
+            title: "Campaña 2 - Acto I: El Bosque Maldito de José C. Paz",
+            text: "Una niebla espesa cubre el sendero ancestral. Escuchan tambores de duendes entre los árboles. ¿Cómo avanzan?",
+            type: "d20_branch",
+            options: [
+                { id: "b_charge", text: "⚔️ Avanzar con armas en alto rompiendo la maleza" },
+                { id: "b_track", text: "🌿 Rastrear huellas ocultas entre las raíces" }
+            ],
+            outcomes: {
+                bad: { log: "🏹 ¡Pifia (1-5)! Caen en una emboscada de flechas (-3 HP).", hpDelta: -3, nextNode: "s2_combat" },
+                regular: { log: "🌫️ ¡Tranki (6-10)! Logran esquivar las trampas pero se topan con una patrulla.", nextNode: "s2_combat" },
+                good: { log: "🌲 ¡Bueno (11-15)! Encuentran un claro seguro y flanquean a los enemigos.", nextNode: "s2_boss" },
+                perfect: { log: "✨ ¡Perfecto (16-20)! Descubren un santuario druídico (+5 HP y +5 Maná) y van directo al líder.", hpDelta: 5, manaDelta: 5, nextNode: "s2_boss" }
+            }
         },
-        {
-            title: "Campaña 2 - Acto 2: La Fogata de los Ermitaños (Sylvia y Bork)",
-            text: "Junto a una fogata descansan **Sylvia**, una druida errante, y **Bork**, un mercenario hostil que acusa al grupo de espías. ¿Qué postura votarán?",
-            isNpcEncounter: true,
-            npcChoices: [
-                { id: "npc1", text: "a. Enfrentar con agresividad a Bork (Desencadena el Combate Secreto 4)", secretFight: true },
-                { id: "npc2", text: "b. Aceptar las hierbas medicinales de Sylvia (Evita el combate secreto)" }
-            ]
+        s2_combat: {
+            title: "Acto II - Patrulla de Duendes Asaltantes",
+            text: "Los duendes salvajes saltan desde las copas de los robles para bloquear el paso.",
+            type: "combat",
+            monsterName: "Patrulla de Duendes",
+            baseHp: 35,
+            nextNode: "s2_boss"
         },
-        {
-            title: "Campaña 2 - Acto 3: El Guardián Raíz del Cañón",
-            text: "Un puente natural de piedra está custodiado por un colosal Golem compuesto por ramas retorcidas y runas druídicas parpadeantes.",
-            isCombatEncounter: true,
-            monsterName: "Golem Raíz Corrompido",
-            baseHp: 45
-        },
-        {
-            title: "Campaña 2 - Acto 4: El Rey Duende Nigromante y la Horda (Jefe Final)",
-            text: "En el claro más profundo, el Rey Duende Nigromante alza su báculo de hueso infundido en energía oscura liderando la última línea de defensa.",
-            isCombatEncounter: true,
+        s2_boss: {
+            title: "Acto Final - El Rey Duende Nigromante",
+            text: "En el altar de piedra negra, el Rey Duende alza su báculo de hueso invocando sombras. ¡Batalla final!",
+            type: "combat",
             isBoss: true,
             monsterName: "Rey Duende Nigromante",
-            baseHp: 90
+            baseHp: 85,
+            nextNode: "s2_end"
+        },
+        s2_end: {
+            title: "🌲 FINAL: El Bosque Purificado",
+            text: "Con la caída del Nigromante, la niebla maldita se disipa y la paz regresa a los bosques de José C. Paz.",
+            type: "ending",
+            badge: "Campaña 2 Completada"
         }
-    ],
-    story3: [
-        {
-            title: "Campaña 3 - Acto 1: Las Puertas de la Mansión y los Sirvientes Animados",
-            text: "Al cruzar el umbral de la mansión abandonada, los portones se cierran de golpe y armaduras medievales cobran vida portando espadas oxidadas.",
-            isCombatEncounter: true,
-            monsterName: "Estatuas Animadas de la Mansión",
-            baseHp: 25
+    },
+    story3: {
+        start: {
+            title: "Campaña 3 - Acto I: La Mansión Misteriosa",
+            text: "Los portones de la mansión se cierran solos a sus espaldas. El vestíbulo está a oscuras y se oyen pasos metálicos.",
+            type: "d20_branch",
+            options: [
+                { id: "m_light", text: "🕯️ Inspeccionar los candelabros y pasadizos" },
+                { id: "m_door", text: "🚪 Forzar la puerta doble de la biblioteca" }
+            ],
+            outcomes: {
+                bad: { log: "👻 ¡Pifia (1-5)! Una armadura animada los golpea por sorpresa (-3 HP).", hpDelta: -3, nextNode: "s3_combat" },
+                regular: { log: "🕸️ ¡Tranki (6-10)! Avanza el grupo con cautela entre telarañas.", nextNode: "s3_combat" },
+                good: { log: "📖 ¡Bueno (11-15)! Encuentran notas sobre la debilidad del espectro.", nextNode: "s3_boss" },
+                perfect: { log: "🔮 ¡Perfecto (16-20)! Hallan un talismán protector (+5 HP y +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "s3_boss" }
+            }
         },
-        {
-            title: "Campaña 3 - Acto 2: Los Habitantes Ocultos en la Biblioteca (Lady Eleanor y Garrick)",
-            text: "En la biblioteca se encuentran **Lady Eleanor**, una aristócrata fantasmal, y **Garrick**, un cazador de tesoros asustado discutiendo sobre el botín. ¿Cómo los tratarán?",
-            isNpcEncounter: true,
-            npcChoices: [
-                { id: "npc1", text: "a. Desconfiar de Garrick y atacarlo a la fuerza (Desencadena el Combate Secreto 4)", secretFight: true },
-                { id: "npc2", text: "b. Escuchar las advertencias de Lady Eleanor (Evita el combate secreto)" }
-            ]
+        s3_combat: {
+            title: "Acto II - Estatuas Animadas de la Mansión",
+            text: "Las armaduras medievales cobran vida blandiendo espadas oxidadas.",
+            type: "combat",
+            monsterName: "Estatuas Animadas",
+            baseHp: 35,
+            nextNode: "s3_boss"
         },
-        {
-            title: "Campaña 3 - Acto 3: La Quimera Umbría del Pasillo",
-            text: "Un corredor con gravedad alterada alberga una bestia híbrida con cuerpo de león sombrío y cola serpentina.",
-            isCombatEncounter: true,
-            monsterName: "Quimera Umbría",
-            baseHp: 50
-        },
-        {
-            title: "Campaña 3 - Acto 4: El Espectro Patriarca Ancestral (Jefe Final)",
-            text: "En la torre más alta, el Patriarca Fundador convertido en liche vengativo custodia el grimorio maldito. ¡Hay que derrotarlo para liberar José C. Paz!",
-            isCombatEncounter: true,
+        s3_boss: {
+            title: "Acto Final - El Espectro Patriarca Ancestral",
+            text: "En la torre más alta, el liche fundador custodia el grimorio maldito. ¡Libérenlo de su maldición!",
+            type: "combat",
             isBoss: true,
-            monsterName: "Espectro Patriarca Ancestral",
-            baseHp: 90
+            monsterName: "Espectro Patriarca",
+            baseHp: 85,
+            nextNode: "s3_end"
+        },
+        s3_end: {
+            title: "🏚 FINAL: La Maldición Rota",
+            text: "El grimorio se desvanece en polvo dorado y la mansión finalmente descansa en paz.",
+            type: "ending",
+            badge: "Campaña 3 Completada"
         }
-    ]
+    }
 };
 
 let stats = null;
@@ -486,6 +654,7 @@ let unsubscribeSnapshot = null;
 let activeRoomCode = "";
 let activeCharacter = {};
 let currentSelectedAction = null;
+let selectedStoryOptionId = null;
 
 let statRollAttempts = 0;
 let statCooldownUntil = 0;
@@ -701,24 +870,17 @@ async function createNewRoom() {
     
     const code = Math.random().toString(36).substring(2, 7).toUpperCase();
     const campaignId = document.getElementById("campaignSelect").value;
-    const selectedCampaign = campaigns[campaignId];
-
-    const playerCount = 1; 
-    const baseBossHp = selectedCampaign[3].baseHp || 90;
-    const scaledBossHp = baseBossHp + (playerCount - 1) * 20;
 
     const roomData = { 
         roomCode: code, 
         players: [myCharacter], 
-        currentStep: 0, 
+        currentNodeId: "start",
         gameStarted: false, 
         chat: [],
         campaignId: campaignId,
-        inCombat: true,
-        monsterHp: scaledBossHp,
-        monsterMaxHp: scaledBossHp,
-        monsterName: selectedCampaign[0].monsterName,
-        votes: {}
+        monsterHp: 0,
+        monsterMaxHp: 0,
+        monsterName: ""
     };
     try {
         await window.setDoc(window.doc(window.db, "rooms", code), roomData);
@@ -748,10 +910,10 @@ async function joinExistingRoom() {
 
         const pCount = roomData.players.length;
         const campaign = campaigns[roomData.campaignId || "story1"];
-        const step = campaign[roomData.currentStep || 0];
+        const node = campaign[roomData.currentNodeId || "start"];
         
-        if (step && step.isBoss) {
-            const scaledHp = (step.baseHp || 90) + (pCount - 1) * 20;
+        if (node && node.type === "combat" && node.isBoss) {
+            const scaledHp = (node.baseHp || 85) + (pCount - 1) * 20;
             roomData.monsterHp = Math.min(roomData.monsterHp, scaledHp);
             roomData.monsterMaxHp = scaledHp;
         }
@@ -767,7 +929,7 @@ async function logSystemMessage(text) {
     if (snap.exists()) {
         let chat = snap.data().chat || [];
         chat.push({ sender: "SISTEMA", text, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
-        if (chat.length > 25) chat.shift();
+        if (chat.length > 30) chat.shift();
         await window.updateDoc(roomRef, { chat });
     }
 }
@@ -797,17 +959,24 @@ function enterGameSession(code, character) {
             const data = docSnap.data();
             updateGameLobbyList(data.players);
 
+            // Sincronizar HP/Maná local si fuiste atacado por el enemigo en el turno de otro
+            const syncedMe = data.players.find(p => p.characterName === activeCharacter.characterName);
+            if (syncedMe) {
+                activeCharacter.hp = syncedMe.hp;
+                activeCharacter.mana = syncedMe.mana;
+                updateSidebarUI();
+            }
+
             const allDead = data.players.every(p => p.hp <= 0);
-            if (allDead) {
-                logSystemMessage(`💀 GAME OVER: Todos los aventureros han caído.`);
-                switchScreen("screenLobby");
+            if (allDead && data.gameStarted && data.currentNodeId !== "ending_tragic") {
+                window.updateDoc(roomRef, { currentNodeId: "ending_tragic" });
                 return;
             }
 
             if (data.gameStarted) {
                 document.getElementById("waitingRoomBox").style.display = "none";
                 document.getElementById("activePlayBox").style.display = "flex";
-                renderStoryStep(data.currentStep || 0, data);
+                renderStoryNode(data.currentNodeId || "start", data);
             } else {
                 document.getElementById("waitingRoomBox").style.display = "block";
                 document.getElementById("activePlayBox").style.display = "none";
@@ -889,7 +1058,6 @@ function renderActionChoices() {
         });
     }
 
-    // OPCIÓN DE DESCANSO EN COMBATE (+5 HP, +5 Maná)
     const restCard = document.createElement("div");
     restCard.className = "ability-card-game";
     restCard.style.borderColor = "#c99c55";
@@ -902,7 +1070,14 @@ function selectAction(actionObj, element) {
     document.querySelectorAll('.ability-card-game').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected');
     currentSelectedAction = actionObj;
-    document.getElementById("rollLog").innerHTML = `✔ Seleccionaste: <strong>${actionObj.name || actionObj.type}</strong> (Consumo: ${actionObj.manaCost} Maná). ¡Tirá el D20!`;
+    document.getElementById("rollLog").innerHTML = `✔ Acción de combate lista: <strong>${actionObj.name}</strong>. ¡Tirá el D20!`;
+}
+
+function selectStoryOption(optId, btnElement) {
+    document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+    btnElement.classList.add('selected');
+    selectedStoryOptionId = optId;
+    document.getElementById("rollLog").innerHTML = `✔ Decisión elegida. ¡Ahora hacé clic en "🎲 ¡Tirar D20 por Turno!" para ver qué camino se abre (1-5 Malo, 6-10 Tranki, 11-15 Bueno, 16-20 Perfecto)!`;
 }
 
 function updateGameLobbyList(players) {
@@ -922,122 +1097,71 @@ async function startAdventure() {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
     const snap = await window.getDoc(roomRef);
     if (!snap.exists()) return;
-    const data = snap.data();
-    const campaign = campaigns[data.campaignId || "story1"];
-    const pCount = data.players.length;
-
-    const baseHp = campaign[0].baseHp || 25;
-    const scaledHp = baseHp + (pCount - 1) * 5;
 
     await window.updateDoc(roomRef, { 
         gameStarted: true, 
-        currentStep: 0,
-        monsterHp: scaledHp,
-        monsterMaxHp: scaledHp,
-        monsterName: campaign[0].monsterName
+        currentNodeId: "start"
     });
-    logSystemMessage(`🚀 ¡La campaña ha comenzado oficialmente!`);
+    logSystemMessage(`🚀 ¡La aventura ramificada ha comenzado! Cada tirada D20 definirá su destino.`);
 }
 
-function renderStoryStep(stepIndex, roomData) {
+function renderStoryNode(nodeId, roomData) {
     const campaign = campaigns[roomData.campaignId || "story1"];
-    const step = campaign[stepIndex];
+    const node = campaign[nodeId];
 
-    if (!step) {
-        document.getElementById("storyText").innerHTML = `<h2 style="color:var(--gold); text-align:center;">🎉 ¡FELICIDADES, GANARON! 🎉</h2><p style="text-align:center;">El equipo completó todas las batallas y conquistó la campaña épica con gloria.</p>`;
-        document.getElementById("choicesArea").innerHTML = "";
-        return;
-    }
+    if (!node) return;
 
-    let html = `<strong>${step.title}</strong><br><br>${step.text}`;
-    
-    if (step.isCombatEncounter) {
-        html += `<br><br><div style="background:#2b1515; border:1px solid #a83232; padding:10px; border-radius:5px;">
-            <strong style="color:#ff6b6b;">👹 Enemigo: ${roomData.monsterName || step.monsterName}</strong><br>
-            Vida compartida: <strong style="color:#ff6b6b;">${roomData.monsterHp} / ${roomData.monsterMaxHp} HP</strong>
+    let html = `<strong>${node.title}</strong><br><br>${node.text}`;
+    const choicesArea = document.getElementById("choicesArea");
+    choicesArea.innerHTML = "";
+
+    if (node.type === "d20_branch") {
+        html += `<br><br><div style="font-size:12px; color:var(--muted); border-top:1px solid #3a3026; padding-top:8px;">
+            🎲 <strong>Destinos del D20:</strong> <span class="tier-badge tier-bad">1-5 Malo</span> <span class="tier-badge tier-regular">6-10 Tranki</span> <span class="tier-badge tier-good">11-15 Bueno</span> <span class="tier-badge tier-perfect">16-20 Perfecto</span>
         </div>`;
-        document.getElementById("choicesArea").innerHTML = `<p style="color:var(--gold);">¡Combate en curso! Seleccioná tu ataque abajo y tirá el D20.</p>`;
-    } else if (step.isNpcEncounter) {
-        const choicesArea = document.getElementById("choicesArea");
-        choicesArea.innerHTML = "";
-        step.npcChoices.forEach(ch => {
-            const votesCount = roomData.votes && roomData.votes[ch.id] ? roomData.votes[ch.id].length : 0;
+
+        node.options.forEach(opt => {
             const btn = document.createElement("button");
-            btn.className = "choice-btn";
-            btn.innerHTML = `${ch.text} <span style="float:right; color:var(--gold);">Votos: ${votesCount}</span>`;
-            btn.onclick = () => castNpcVote(ch.id, ch.secretFight);
+            btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
+            btn.textContent = opt.text;
+            btn.onclick = () => selectStoryOption(opt.id, btn);
             choicesArea.appendChild(btn);
         });
+    } 
+    else if (node.type === "combat") {
+        html += `<br><br><div style="background:#2b1515; border:1px solid #a83232; padding:10px; border-radius:5px;">
+            <strong style="color:#ff6b6b;">👹 Enemigo: ${roomData.monsterName || node.monsterName}</strong><br>
+            Vida compartida: <strong style="color:#ff6b6b;">${roomData.monsterHp} / ${roomData.monsterMaxHp} HP</strong>
+        </div>`;
+        choicesArea.innerHTML = `<p style="color:var(--gold);">¡Combate por turnos! Elegí tu ataque o descanso abajo y tirá el D20.</p>`;
+    } 
+    else if (node.type === "ending") {
+        html = `<div style="text-align:center; padding:15px;">
+            <span class="tier-badge tier-perfect" style="font-size:13px;">${node.badge}</span>
+            <h2 style="color:var(--gold); margin:10px 0;">${node.title}</h2>
+            <p>${node.text}</p>
+            <button class="btn-gold" onclick="switchScreen('screenLobby')">🔄 Volver a Salas / Nueva Partida</button>
+        </div>`;
     }
 
     document.getElementById("storyText").innerHTML = html;
 }
 
-async function castNpcVote(choiceId, isSecretFight) {
-    const roomRef = window.doc(window.db, "rooms", activeRoomCode);
-    const snap = await window.getDoc(roomRef);
-    if (!snap.exists()) return;
-    let data = snap.data();
-    let votes = data.votes || {};
-
-    for (let key in votes) {
-        votes[key] = votes[key].filter(name => name !== activeCharacter.characterName);
+async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
+    const nextNode = campaign[nextNodeId];
+    let updateObj = { currentNodeId: nextNodeId };
+    if (nextNode && nextNode.type === "combat") {
+        const scaledHp = nextNode.isBoss ? (nextNode.baseHp + (playerCount - 1) * 20) : (nextNode.baseHp + (playerCount - 1) * 5);
+        updateObj.monsterHp = scaledHp;
+        updateObj.monsterMaxHp = scaledHp;
+        updateObj.monsterName = nextNode.monsterName;
     }
-    if (!votes[choiceId]) votes[choiceId] = [];
-    votes[choiceId].push(activeCharacter.characterName);
-
-    await window.updateDoc(roomRef, { votes: votes });
-
-    const totalPlayers = data.players.length;
-    let maxVotes = 0;
-    let winningChoice = null;
-    for (let key in votes) {
-        if (votes[key].length > maxVotes) {
-            maxVotes = votes[key].length;
-            winningChoice = key;
-        }
-    }
-
-    if (maxVotes >= Math.ceil(totalPlayers / 2)) {
-        let currentStep = data.currentStep || 0;
-        const campaign = campaigns[data.campaignId || "story1"];
-
-        if (winningChoice === "npc1" && isSecretFight) {
-            logSystemMessage(`⚠️ ¡El grupo ofendió al personaje! Se desencadena un combate secreto sorpresa.`);
-            let nextStep = currentStep + 1;
-            const baseHp = 50;
-            const scaledHp = baseHp + (data.players.length - 1) * 5;
-
-            await window.updateDoc(roomRef, { 
-                currentStep: nextStep, 
-                votes: {},
-                monsterHp: scaledHp,
-                monsterMaxHp: scaledHp,
-                monsterName: "Emboscada Secreta"
-            });
-        } else {
-            logSystemMessage(`✨ Diálogo pacífico exitoso. El grupo evita el conflicto y continúa.`);
-            let nextStep = currentStep + 2;
-            const baseHp = campaign[nextStep].isBoss ? (campaign[nextStep].baseHp + (data.players.length - 1) * 20) : (campaign[nextStep].baseHp + (data.players.length - 1) * 5);
-
-            await window.updateDoc(roomRef, { 
-                currentStep: nextStep, 
-                votes: {},
-                monsterHp: baseHp,
-                monsterMaxHp: baseHp,
-                monsterName: campaign[nextStep].monsterName
-            });
-        }
-    }
+    return updateObj;
 }
 
 async function rollD20Action() {
     if (activeCharacter.hp <= 0) {
         document.getElementById("rollLog").innerHTML = `Estás derrotado y no podés actuar.`;
-        return;
-    }
-    if (!currentSelectedAction) {
-        document.getElementById("rollLog").innerHTML = `¡Seleccioná un arma, habilidad o descanso primero!`;
         return;
     }
 
@@ -1046,56 +1170,103 @@ async function rollD20Action() {
     if (!snap.exists()) return;
     const roomData = snap.data();
     const campaign = campaigns[roomData.campaignId || "story1"];
-    const currentStep = roomData.currentStep || 0;
-    const stepObj = campaign[currentStep];
+    const currentNodeId = roomData.currentNodeId || "start";
+    const node = campaign[currentNodeId];
 
+    if (!node || node.type === "ending") return;
+
+    const d20 = Math.floor(Math.random() * 20) + 1;
     let logMessage = "";
 
-    if (currentSelectedAction.type === "rest") {
-        if (!stepObj || !stepObj.isCombatEncounter) {
-            document.getElementById("rollLog").innerHTML = `❌ El descanso solo se puede usar durante los combates.`;
+    // ==========================================
+    // MODO 1: DECISIÓN DE HISTORIA RAMIFICADA (4 CAMINOS D20)
+    // ==========================================
+    if (node.type === "d20_branch") {
+        if (!selectedStoryOptionId) {
+            document.getElementById("rollLog").innerHTML = `⚠️ ¡Primero elegí una de las opciones de la historia arriba!`;
             return;
         }
-        activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 5);
-        activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + 5);
-        
-        logMessage = `🏕 ${activeCharacter.characterName} tomó un respiro en pleno combate: recuperó +5 HP y +5 Maná.`;
+
+        let outcome;
+        let tierLabel = "";
+        if (d20 <= 5) {
+            outcome = node.outcomes.bad;
+            tierLabel = "MALO (1-5)";
+        } else if (d20 <= 10) {
+            outcome = node.outcomes.regular;
+            tierLabel = "TRANKI (6-10)";
+        } else if (d20 <= 15) {
+            outcome = node.outcomes.good;
+            tierLabel = "BUENO (11-15)";
+        } else {
+            outcome = node.outcomes.perfect;
+            tierLabel = "PERFECTO (16-20)";
+        }
+
+        if (outcome.hpDelta) {
+            activeCharacter.hp = Math.max(0, Math.min(activeCharacter.maxHp, activeCharacter.hp + outcome.hpDelta));
+        }
+        if (outcome.manaDelta) {
+            activeCharacter.mana = Math.max(0, Math.min(activeCharacter.maxMana, activeCharacter.mana + outcome.manaDelta));
+        }
+
+        let updatedPlayers = roomData.players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
+        logMessage = `🎲 ${activeCharacter.characterName} sacó <strong>${d20} [${tierLabel}]</strong>: ${outcome.log}`;
         logSystemMessage(logMessage);
-    } 
-    else {
-        const manaCost = currentSelectedAction.manaCost || 0;
-        if (activeCharacter.mana < manaCost) {
-            document.getElementById("rollLog").innerHTML = `❌ No tenés suficiente maná (${activeCharacter.mana}M / ${manaCost}M).`;
+
+        selectedStoryOptionId = null;
+        const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
+        nextUpdates.players = updatedPlayers;
+
+        await window.updateDoc(roomRef, nextUpdates);
+    }
+
+    // ==========================================
+    // MODO 2: COMBATE POR TURNOS Y DESCANSO
+    // ==========================================
+    else if (node.type === "combat") {
+        if (!currentSelectedAction) {
+            document.getElementById("rollLog").innerHTML = `¡Seleccioná un arma, habilidad o descanso abajo primero!`;
             return;
         }
 
-        activeCharacter.mana -= manaCost;
+        if (currentSelectedAction.type === "rest") {
+            activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 5);
+            activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + 5);
+            
+            logMessage = `🏕 ${activeCharacter.characterName} descansó en combate (+5 HP y +5 Maná).`;
 
-        const d20 = Math.floor(Math.random() * 20) + 1;
-        const statMod = modifier(activeCharacter.stats.Fuerza);
-        const total = d20 + statMod;
+            // Enemigo aprovecha el turno y ataca al azar
+            let playersList = roomData.players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
+            let targetIdx = Math.floor(Math.random() * playersList.length);
+            let targetPlayer = playersList[targetIdx];
+            let dmg = Math.floor(Math.random() * 6) + 3;
+            targetPlayer.hp = Math.max(0, targetPlayer.hp - dmg);
+            if (targetPlayer.characterName === activeCharacter.characterName) activeCharacter.hp = targetPlayer.hp;
 
-        if (stepObj && stepObj.isCombatEncounter) {
+            logMessage += ` | 👹 Enemigo atacó al azar a ${targetPlayer.characterName} (-${dmg} HP).`;
+            logSystemMessage(logMessage);
+
+            await window.updateDoc(roomRef, { players: playersList });
+        } 
+        else {
+            const manaCost = currentSelectedAction.manaCost || 0;
+            if (activeCharacter.mana < manaCost) {
+                document.getElementById("rollLog").innerHTML = `❌ No tenés suficiente maná (${activeCharacter.mana}M / ${manaCost}M).`;
+                return;
+            }
+
+            activeCharacter.mana -= manaCost;
+            const statMod = modifier(activeCharacter.stats.Fuerza);
+            const total = d20 + statMod;
+
             let bonusDamage = manaCost > 0 ? 6 : 0;
             let damageToMonster = (total >= 12 ? 12 + statMod : 5) + bonusDamage;
             let newMonsterHp = Math.max(0, (roomData.monsterHp || 50) - damageToMonster);
 
-            logMessage = `⚔ Turno del Jugador: ${activeCharacter.characterName} atacó con ${currentSelectedAction.name}. D20(${d20}) ➡ ${damageToMonster} de daño al monstruo.`;
+            logMessage = `⚔ ${activeCharacter.characterName} atacó con ${currentSelectedAction.name}. D20(${d20}) ➡ ${damageToMonster} daño.`;
 
-            let playersList = roomData.players || [];
-            let randomTargetIndex = Math.floor(Math.random() * playersList.length);
-            let targetPlayer = playersList[randomTargetIndex];
-
-            let monsterDamage = Math.floor(Math.random() * 6) + 3;
-            targetPlayer.hp = Math.max(0, targetPlayer.hp - monsterDamage);
-
-            logMessage += ` | 👹 Turno del Enemigo: Atacó al azar a ${targetPlayer.characterName} infligiéndole -${monsterDamage} HP.`;
-            logSystemMessage(logMessage);
-
-            playersList = playersList.map(p => p.characterName === targetPlayer.characterName ? targetPlayer : (p.characterName === activeCharacter.characterName ? activeCharacter : p));
-            if (targetPlayer.characterName === activeCharacter.characterName) {
-                activeCharacter.hp = targetPlayer.hp;
-            }
+            let playersList = roomData.players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
 
             if (newMonsterHp <= 0) {
                 let manaRecovered = Math.round((activeCharacter.maxMana - activeCharacter.mana) * 0.4) + 5;
@@ -1109,29 +1280,24 @@ async function rollD20Action() {
                 let wonItem = possibleRewards[Math.floor(Math.random() * possibleRewards.length)];
                 activeCharacter.inventory.push(wonItem);
 
-                logSystemMessage(`🎉 ¡Victoria! El equipo derrotó al enemigo. ${activeCharacter.characterName} recuperó +${manaRecovered}M y obtuvo un objeto en el bolso: ${wonItem.name}.`);
+                playersList = playersList.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
 
-                let nextStep = currentStep + 1;
-                let nextStepObj = campaign[nextStep];
+                logSystemMessage(`🎉 ¡Victoria! Enemigo derrotado. ${activeCharacter.characterName} recuperó +${manaRecovered}M y ganó: ${wonItem.name}.`);
 
-                if (nextStepObj && nextStepObj.isCombatEncounter) {
-                    const pCount = playersList.length;
-                    const nextBaseHp = nextStepObj.isBoss ? (nextStepObj.baseHp + (pCount - 1) * 20) : (nextStepObj.baseHp + (pCount - 1) * 5);
-
-                    await window.updateDoc(roomRef, { 
-                        monsterHp: nextBaseHp, 
-                        monsterMaxHp: nextBaseHp,
-                        monsterName: nextStepObj.monsterName,
-                        currentStep: nextStep, 
-                        players: playersList 
-                    });
-                } else {
-                    await window.updateDoc(roomRef, { 
-                        currentStep: nextStep, 
-                        players: playersList 
-                    });
-                }
+                const nextUpdates = await prepareNextNodeData(campaign, node.nextNode, playersList.length);
+                nextUpdates.players = playersList;
+                await window.updateDoc(roomRef, nextUpdates);
             } else {
+                // TURNO DEL ENEMIGO: Ataca al azar
+                let targetIdx = Math.floor(Math.random() * playersList.length);
+                let targetPlayer = playersList[targetIdx];
+                let monsterDamage = Math.floor(Math.random() * 6) + 3;
+                targetPlayer.hp = Math.max(0, targetPlayer.hp - monsterDamage);
+                if (targetPlayer.characterName === activeCharacter.characterName) activeCharacter.hp = targetPlayer.hp;
+
+                logMessage += ` | 👹 Enemigo atacó al azar a ${targetPlayer.characterName} (-${monsterDamage} HP).`;
+                logSystemMessage(logMessage);
+
                 await window.updateDoc(roomRef, { 
                     monsterHp: newMonsterHp, 
                     players: playersList 
@@ -1154,7 +1320,7 @@ async function sendChatMessage() {
     if (snap.exists()) {
         let chat = snap.data().chat || [];
         chat.push({ sender: activeCharacter.characterName, text, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
-        if (chat.length > 25) chat.shift();
+        if (chat.length > 30) chat.shift();
         await window.updateDoc(roomRef, { chat });
         input.value = "";
     }
