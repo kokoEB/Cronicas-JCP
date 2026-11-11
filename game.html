@@ -639,10 +639,9 @@ if (shooterPlayer && shooterPlayer.characterName === activeCharacter.characterNa
     turnIndicator.innerHTML = `⏳ Turno de acción | Tirador D20 asignado: <strong>${shooterPlayer ? shooterPlayer.characterName : 'Compañero'}</strong>`;
     turnIndicator.style.color = "var(--gold)";
     rollBtn.disabled = true;
-} else {
-                document.getElementById("waitingRoomBox").style.display = "block";
-                document.getElementById("activePlayBox").style.display = "none";
-                if (data.players && data.players[0].characterName === activeCharacter.characterName) {
+    document.getElementById("waitingRoomBox").style.display = "block";
+    document.getElementById("activePlayBox").style.display = "none";
+   if (data.players && data.players[0].characterName === activeCharacter.characterName) {
                     document.getElementById("hostControls").style.display = "block";
                 }
             }
