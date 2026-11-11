@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crónicas de JCP - Todo en Uno</title>
+<title>Crónicas de JCP - Edición Definitiva con Código en Game</title>
 
 <!-- Firebase SDKs -->
 <script type="module">
@@ -54,7 +54,7 @@ header { text-align: center; margin-bottom: 25px; }
 header h1 { color: var(--gold); margin: 0 0 5px 0; font-size: 32px; text-shadow: 0 3px 15px #000; }
 header p { color: var(--muted); font-style: italic; }
 
-.container { max-width: 1000px; margin: auto; }
+.container { max-width: 1100px; margin: auto; }
 .section {
     background: linear-gradient(145deg, #282326, #1b191c);
     border: 1px solid var(--gold-dark);
@@ -113,22 +113,23 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
 .chat-input-area input { flex: 1; padding: 8px; background: #151316; border: 1px solid #625344; color: var(--text); border-radius: 4px; font-size: 13px; }
 .dice-bar { display: flex; justify-content: space-around; background: var(--panel-light); border: 1px solid var(--gold-dark); border-radius: 6px; padding: 8px; flex-wrap: wrap; gap: 5px; }
 .dice-btn { background: #171518; border: 1px solid var(--gold); color: var(--gold); font-weight: bold; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 13px; }
-.dice-btn:hover { background: #151316; }
-.screen-display { background: #110f11; border: 2px solid var(--gold-dark); border-radius: 8px; padding: 15px; min-height: 140px; box-shadow: inset 0 0 10px #000; }
-.story-text { font-size: 15px; line-height: 1.5; color: #f3efe6; margin-bottom: 12px; }
-.choice-btn { background: #1c191a; border: 1px solid #725536; color: var(--text); text-align: left; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 6px; width: 100%; font-size: 13px; }
+.dice-btn:hover { background: var(--gold); color: #121114; }
+.screen-display { background: #110f11; border: 2px solid var(--gold-dark); border-radius: 8px; padding: 15px; min-height: 180px; box-shadow: inset 0 0 10px #000; }
+.story-text { font-size: 15px; line-height: 1.6; color: #f3efe6; margin-bottom: 12px; }
+.choice-btn { background: #1c191a; border: 1px solid #725536; color: var(--text); text-align: left; padding: 10px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 6px; width: 100%; font-size: 13px; }
 .choice-btn:hover, .choice-btn.selected { background: #3a3026; border-color: var(--gold); }
 .roll-log { background: #171415; border: 1px dashed var(--gold-dark); padding: 8px; border-radius: 5px; text-align: center; color: #d5c8b4; font-size: 13px; margin-top: 8px; }
 .abilities-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
 .ability-card-game { background: #151316; border: 1px solid #625344; padding: 8px; border-radius: 5px; cursor: pointer; text-align: left; }
 .ability-card-game:hover { border-color: var(--gold); background: #252023; }
+.ability-card-game.selected { border-color: #56845c; background: #223525; }
 </style>
 </head>
 <body>
 
 <header>
     <h1>⚔ CRÓNICAS DE JCP ⚔</h1>
-    <p>Una aventura colaborativa online</p>
+    <p>Aventura Cooperativa Suprema - Sala de Espera con Código</p>
 </header>
 
 <main class="container">
@@ -138,7 +139,7 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
         <section class="section">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #725536; padding-bottom: 10px; margin-bottom: 15px;">
                 <h2 style="margin: 0; border: none; padding: 0;">I. Identidad del aventurero</h2>
-                <button onclick="switchScreen('screenLobby')" style="background: linear-gradient(135deg, #56845c, #2b4c30); color:#fff; border:none; padding:8px 14px; border-radius:5px; cursor:pointer; font-weight:bold; font-size:13px;">🚪 Ir directamente a Salas ➡</button>
+                <button onclick="switchScreen('screenLobby')" style="background: linear-gradient(135deg, #56845c, #2b4c30); color:#fff; border:none; padding:8px 14px; border-radius:5px; cursor:pointer; font-weight:bold; font-size:13px;">🚪 Ir a Salas ➡</button>
             </div>
             
             <div class="grid">
@@ -193,9 +194,12 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
         </section>
 
         <section class="section">
-            <h2>VI. Inventario inicial (Elegí 2)</h2>
+            <h2>VI. Inventario inicial (5 Pociones + Elegí 2 Objetos)</h2>
+            <div style="background:#151316; border:1px solid var(--gold-dark); padding:10px; border-radius:5px; margin-bottom:12px; font-size:13px; color:var(--gold);">
+                🧪 <strong>Pociones de vida:</strong> Bolsa equipada con 5 pociones fijas. Elegí exactamente 2 objetos adicionales.
+            </div>
             <div id="objectOptions" class="grid"></div>
-            <p id="objectCount" style="color:var(--gold); margin-top:10px;">Objetos elegidos: 0 / 2</p>
+            <p id="objectCount" style="color:var(--gold); margin-top:10px;">Objetos adicionales elegidos: 0 / 2</p>
         </section>
 
         <section class="section">
@@ -207,22 +211,35 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
     <!-- ==================== PANTALLA 2: SALA MULTIJUGADOR ==================== -->
     <div id="screenLobby" class="view-screen">
         <section class="section" style="max-width: 600px; margin: auto;">
-            <h2>🚪 Sala de Partida Online</h2>
+            <h2>🚪 Sala de Partida Online (Máx. 5 Jugadores)</h2>
+            
+            <div class="info-box" style="margin-bottom: 15px;">
+                <strong>Seleccionar Campaña Extensa:</strong>
+                <select id="campaignSelect" style="margin-top:8px;">
+                    <option value="story1">📖 Campaña 1: El Calabozo Subterráneo y los Prisioneros</option>
+                    <option value="story2">🌲 Campaña 2: El Bosque Encantado de Bestias y No Muertos</option>
+                    <option value="story3">🏚 Campaña 3: La Mansión Misteriosa del Pueblo</option>
+                </select>
+            </div>
+
             <div class="info-box" style="margin-bottom: 15px;">
                 <strong>Seleccionar tu Héroe Creado:</strong>
                 <select id="savedCharactersSelect" style="margin-top:8px;"></select>
                 <button onclick="clearCharacters()" style="background: #9e3939; color:#fff; border:none; padding:8px; border-radius:5px; margin-top:10px; cursor:pointer; width:100%;">🗑 Borrar personajes guardados</button>
             </div>
+            
             <div class="info-box" style="margin-bottom: 15px;">
-                <strong>Crear Sala:</strong>
-                <button class="btn-gold" onclick="createNewRoom()" style="margin-top:8px;">🎲 Crear Nueva Sala y Jugar</button>
+                <strong>Crear Sala (Genera Código Automático):</strong>
+                <button class="btn-gold" onclick="createNewRoom()" style="margin-top:8px;">🎲 Generar Sala y Código</button>
             </div>
-            <div class="info-box">
+
+            <div class="info-box" style="margin-bottom: 15px;">
                 <strong>Unirse con Código:</strong>
                 <input id="roomCodeInput" type="text" placeholder="CÓDIGO (EJ: JCP99)" style="text-transform:uppercase; margin-top:8px;">
                 <button class="btn-gold" onclick="joinExistingRoom()" style="margin-top:8px;">🚪 Unirse a Sala</button>
             </div>
-            <button onclick="switchScreen('screenCreate')" style="background:transparent; border:1px solid var(--gold); color:var(--gold); padding:8px; border-radius:5px; margin-top:15px; width:100%; cursor:pointer;">⬅ Volver a crear personaje</button>
+
+            <button onclick="switchScreen('screenCreate')" style="background:transparent; border:1px solid var(--gold); color:var(--gold); padding:8px; border-radius:5px; width:100%; cursor:pointer;">⬅ Volver atrás (Crear personaje)</button>
         </section>
     </div>
 
@@ -237,56 +254,60 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
                     <input type="text" id="chatInput" placeholder="Mensaje..." onkeypress="handleChatKey(event)">
                     <button class="dice-btn" onclick="sendChatMessage()">Enviar</button>
                 </div>
-                <h4 style="color:var(--gold); margin:15px 0 5px 0; font-size:13px;">Aventureros:</h4>
+                <h4 style="color:var(--gold); margin:15px 0 5px 0; font-size:13px;">Aventureros en línea:</h4>
                 <ul id="activePlayersList" style="margin:0; padding-left:15px; font-size:12px; color:var(--muted);"></ul>
             </div>
 
-            <!-- CENTRO: DADOS Y HISTORIA -->
+            <!-- CENTRO: DADOS Y HISTORIA (CON PANTALLA DE ESPERA Y CÓDIGO) -->
             <div style="display:flex; flex-direction:column; gap:15px;">
                 <div id="waitingRoomBox" class="panel" style="text-align:center; padding:20px;">
-                    <h3 style="color:var(--gold);">Sala de Espera del Grupo</h3>
+                    <h3 style="color:var(--gold);">⚔ Sala de Espera (Cooperativa)</h3>
+                    <p style="color:var(--muted); font-size:13px; margin-bottom:5px;">Pasales este **Código de Sala** exacto a tus amigos para que se metan:</p>
+                    <div style="background:#151316; padding:12px; border-radius:6px; border:1px dashed var(--gold); display:inline-block; margin: 10px 0;">
+                        <span id="roomCodeDisplay" style="color:var(--gold); font-size:28px; font-weight:bold; letter-spacing: 3px;">----</span>
+                    </div>
+                    <div>
+                        <button onclick="copyRoomCode()" style="background:#56845c; color:#fff; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">📋 Copiar Código</button>
+                    </div>
+                    
                     <ul id="lobbyPlayersList" style="list-style:none; padding:0; color:var(--muted); margin:15px 0;"></ul>
                     <div id="hostControls" style="display:none;">
-                        <button class="btn-gold" onclick="startAdventure()">🚀 Comenzar Partida</button>
+                        <button class="btn-gold" onclick="startAdventure()">🚀 Comenzar Partida Épica</button>
                     </div>
-                    <p style="color:var(--gold); font-style:italic;">Esperando al líder...</p>
+                    <p style="color:var(--gold); font-style:italic;">Esperando al líder de sala...</p>
+                    <button onclick="switchScreen('screenLobby')" style="background:transparent; border:1px solid var(--gold); color:var(--gold); padding:8px; border-radius:5px; margin-top:15px; width:100%; cursor:pointer;">⬅ Volver atrás (Lobby)</button>
                 </div>
 
                 <div id="activePlayBox" style="display:none; display:flex; flex-direction:column; gap:15px;">
                     <div class="dice-bar">
-                        <span style="color:var(--gold); align-self:center; font-size:13px; font-weight:bold;">Tirá tu Dado:</span>
-                        <button class="dice-btn" onclick="rollActiveDice(20)">🎲 D20</button>
-                        <button class="dice-btn" onclick="rollActiveDice(12)">🎲 D12</button>
-                        <button class="dice-btn" onclick="rollActiveDice(10)">🎲 D10</button>
-                        <button class="dice-btn" onclick="rollActiveDice(8)">🎲 D8</button>
-                        <button class="dice-btn" onclick="rollActiveDice(6)">🎲 D6</button>
-                        <button class="dice-btn" onclick="rollActiveDice(4)">🎲 D4</button>
+                        <span id="diceInstruction" style="color:var(--gold); align-self:center; font-size:13px; font-weight:bold;">1️⃣ Elegí acción abajo ➔ 2️⃣ Tirá D20:</span>
+                        <button class="dice-btn" onclick="rollD20Action()" style="background:#56845c; color:#fff; border-color:#79b782; padding:8px 15px;">🎲 ¡Tirar D20 por Turno!</button>
                     </div>
                     <div class="panel">
                         <div class="screen-display">
-                            <div id="storyText" class="story-text">Cargando...</div>
+                            <div id="storyText" class="story-text">Cargando narrativa extendida...</div>
                             <div id="choicesArea"></div>
-                            <div id="rollLog" class="roll-log">Seleccioná una opción y hacé clic en el dado superior.</div>
+                            <div id="rollLog" class="roll-log">Esperando turno de acción...</div>
                         </div>
                     </div>
                     <div class="panel">
-                        <h3 style="color:var(--gold); margin-top:0; font-size:14px;">⚡ Habilidades y Ataque</h3>
+                        <h3 style="color:var(--gold); margin-top:0; font-size:14px;">⚡ Acciones / Habilidades (¡Gastan Maná!)</h3>
                         <div id="myAbilitiesContainer" class="abilities-container"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- DERECHA: SACO -->
+            <!-- DERECHA: SACO (MOCHILA INTERACTIVA CON CONTADOR) -->
             <div class="panel">
-                <h3 style="color:var(--gold); margin-top:0; font-size:15px; border-bottom:1px solid #625344; padding-bottom:5px;">🎒 Saco de Cosas</h3>
+                <h3 style="color:var(--gold); margin-top:0; font-size:15px; border-bottom:1px solid #625344; padding-bottom:5px;">🎒 Saco / Mochila</h3>
                 <div style="margin-bottom:12px; font-size:13px;">
                     <strong style="color:var(--gold);">Arma:</strong>
                     <p id="charWeaponDisplay" style="margin:4px 0; color:var(--text);">-</p>
                 </div>
-                <h4 style="color:var(--gold); margin:10px 0 5px 0; font-size:13px;">Objetos:</h4>
+                <h4 style="color:var(--gold); margin:10px 0 5px 0; font-size:13px;">Inventario (Clic para usar):</h4>
                 <ul id="inventoryList" style="list-style:none; padding:0; margin:0;"></ul>
                 <div style="margin-top:15px; background:#151316; padding:10px; border-radius:5px; border:1px solid #625344; font-size:12px;">
-                    <strong style="color:var(--gold);">Stats:</strong>
+                    <strong style="color:var(--gold);">Tu Estado Vital y Maná:</strong>
                     <div id="charStatsDisplay" style="margin-top:5px; color:var(--muted);"></div>
                 </div>
             </div>
@@ -298,45 +319,167 @@ input:focus, select:focus { outline: 1px solid var(--gold); }
 <script>
 const classes = {
     Guerrero: { hp: 20, mana: 5, weapons: [{name:"Espada larga", description:"Equilibrada.", damage:"D10"}, {name:"Hacha de batalla", description:"Pesada.", damage:"D12"}, {name:"Espada y escudo", description:"Protección.", damage:"D8"}] },
-    Mago: { hp: 10, mana: 25, weapons: [{name:"Bastón arcano", description:"Mágico.", damage:"D6"}, {name:"Daga", description:"Ligera.", damage:"D4"}, {name:"Orbe", description:"Foco.", damage:"D6"}] },
+    Mago: { hp: 10, mana: 30, weapons: [{name:"Bastón arcano", description:"Mágico.", damage:"D6"}, {name:"Daga", description:"Ligera.", damage:"D4"}, {name:"Orbe", description:"Foco.", damage:"D6"}] },
     Picaro: { hp: 14, mana: 10, weapons: [{name:"Dagas dobles", description:"Rápidas.", damage:"D6"}, {name:"Arco corto", description:"Distancia.", damage:"D8"}, {name:"Espada corta", description:"Precisa.", damage:"D6"}] },
-    Clerigo: { hp: 16, mana: 20, weapons: [{name:"Maza", description:"Contundente.", damage:"D8"}, {name:"Martillo", description:"Impacto.", damage:"D10"}, {name:"Bastón sagrado", description:"Divino.", damage:"D6"}] },
-    Druida: { hp: 16, mana: 20, weapons: [{name:"Bastón natural", description:"Antiguo.", damage:"D8"}, {name:"Daga de hueso", description:"Natural.", damage:"D6"}, {name:"Hoz", description:"Silvestre.", damage:"D8"}] }
+    Clerigo: { hp: 16, mana: 25, weapons: [{name:"Maza", description:"Contundente.", damage:"D8"}, {name:"Martillo", description:"Impacto.", damage:"D10"}, {name:"Bastón sagrado", description:"Divino.", damage:"D6"}] },
+    Druida: { hp: 16, mana: 25, weapons: [{name:"Bastón natural", description:"Antiguo.", damage:"D8"}, {name:"Daga de hueso", description:"Natural.", damage:"D6"}, {name:"Hoz", description:"Silvestre.", damage:"D8"}] }
 };
 
 const races = {
     Humano: { hp: 2, mana: 2, trait: "Versatilidad humana." },
-    Elfo: { hp: 0, mana: 4, trait: "Sentidos élficos." },
+    Elfo: { hp: 0, mana: 6, trait: "Sentidos élficos." },
     Enano: { hp: 5, mana: 0, trait: "Resistencia enana." },
-    Mediano: { hp: 1, mana: 2, trait: "Agilidad mediana." },
-    Tiefling: { hp: 0, mana: 5, trait: "Herencia infernal." }
+    Mediano: { hp: 1, mana: 3, trait: "Agilidad mediana." },
+    Tiefling: { hp: 0, mana: 8, trait: "Herencia infernal." }
 };
 
 const classAbilities = {
-    Guerrero: [{name:"Golpe devastador", type:"Físico", description:"Fuerza bruta.", dice:"D12", mana:0}, {name:"Estocada veloz", type:"Rápido", description:"Veloz.", dice:"D8", mana:0}, {name:"Golpe de escudo", type:"Defensa", description:"Escudo.", dice:"D6", mana:0}, {name:"Carga brutal", type:"Ofensivo", description:"Embestida.", dice:"D10", mana:0}, {name:"Última resistencia", type:"Defensa", description:"Resistir.", dice:"D8", mana:0}],
-    Mago: [{name:"Bola de fuego", type:"Ofensivo", description:"Fuego.", dice:"D12", mana:5}, {name:"Rayo arcano", type:"Ofensivo", description:"Rayo.", dice:"D10", mana:4}, {name:"Escudo mágico", type:"Defensa", description:"Barrera.", dice:"D8", mana:4}, {name:"Explosión de hielo", type:"Área", description:"Hielo.", dice:"D8", mana:5}, {name:"Teletransporte", type:"Movimiento", description:"Salto.", dice:"D6", mana:6}],
-    Picaro: [{name:"Ataque furtivo", type:"Especial", description:"Sombras.", dice:"D10", mana:0}, {name:"Doble puñalada", type:"Rápido", description:"Dos ataques.", dice:"D8", mana:0}, {name:"Evasión", type:"Defensa", description:"Esquive.", dice:"D8", mana:0}, {name:"Golpe bajo", type:"Especial", description:"Vulnerable.", dice:"D6", mana:0}, {name:"Desaparecer", type:"Sigilo", description:"Ocultarse.", dice:"D6", mana:2}],
-    Clerigo: [{name:"Luz sagrada", type:"Ofensivo", description:"Energía.", dice:"D10", mana:5}, {name:"Curación divina", type:"Curativo", description:"Sana.", dice:"D8", mana:6}, {name:"Martillo celestial", type:"Mágico", description:"Sagrado.", dice:"D12", mana:5}, {name:"Barrera de fe", type:"Defensa", description:"Fe.", dice:"D8", mana:4}, {name:"Castigo sagrado", type:"Ofensivo", description:"Impacto.", dice:"D10", mana:7}],
-    Druida: [{name:"Raíces atrapantes", type:"Control", description:"Raíces.", dice:"D8", mana:4}, {name:"Llamarada natural", type:"Ofensivo", description:"Fuego.", dice:"D10", mana:5}, {name:"Garras salvajes", type:"Físico", description:"Garras.", dice:"D12", mana:4}, {name:"Piel de corteza", type:"Defensa", description:"Dureza.", dice:"D8", mana:4}, {name:"Transformación", type:"Especial", description:"Animal.", dice:"D10", mana:7}]
+    Guerrero: [
+        {name:"Golpe devastador", type:"Físico", dice:"D12", mana:2, description:"Fuerza pura con desgaste leve."}, 
+        {name:"Estocada veloz", type:"Rápido", dice:"D8", mana:1, description:"Ataque rápido y preciso."}, 
+        {name:"Grito de guerra", type:"Buff", dice:"D6", mana:3, description:"Inspira al grupo."}
+    ],
+    Mago: [
+        {name:"Bola de fuego", type:"Ofensivo", dice:"D12", mana:8, description:"Poderoso hechizo ígneo."}, 
+        {name:"Rayo arcano", type:"Ofensivo", dice:"D10", mana:5, description:"Haz de energía pura."}, 
+        {name:"Escudo mágico", type:"Defensa", dice:"D8", mana:6, description:"Barrera mística protectora."}
+    ],
+    Picaro: [
+        {name:"Ataque furtivo", type:"Especial", dice:"D10", mana:2, description:"Golpe desde las sombras."}, 
+        {name:"Doble puñalada", type:"Rápido", dice:"D8", mana:3, description:"Combo veloz."}, 
+        {name:"Bomba de humo", type:"Sigilo", dice:"D6", mana:4, description:"Confunde al enemigo."}
+    ],
+    Clerigo: [
+        {name:"Luz sagrada", type:"Ofensivo", dice:"D10", mana:5, description:"Fuego sagrado purificador."}, 
+        {name:"Curación divina", type:"Curativo", dice:"D8", mana:8, description:"Restaura salud."}, 
+        {name:"Martillo celestial", type:"Mágico", dice:"D12", mana:6, description:"Juicio divino."}
+    ],
+    Druida: [
+        {name:"Raíces atrapantes", type:"Control", dice:"D8", mana:4, description:"Naturaleza enredadora."}, 
+        {name:"Llamarada natural", type:"Ofensivo", dice:"D10", mana:6, description:"Fuego silvestre."}, 
+        {name:"Garras salvajes", type:"Físico", dice:"D12", mana:3, description:"Furia animal."}
+    ]
 };
 
 const objectsList = [
-    {name:"Poción de vida", description:"Recupera vida."}, {name:"Antorcha", description:"Ilumina."},
-    {name:"Cuerda", description:"Trepar."}, {name:"Ración", description:"Comida."}, {name:"Ganzúas", description:"Abrir cerraduras."}
+    {name:"Antorcha", description:"Ilumina zonas oscuras (Se consume al usar)."},
+    {name:"Cuerda", description:"Escalar abismos profundos (Se consume al usar)."}, 
+    {name:"Ración", description:"Restaura +15 Maná (Se consume al usar)."}, 
+    {name:"Ganzúas", description:"Abrir puertas cerradas (Se consume al usar)."}
 ];
+
+const campaigns = {
+    story1: [
+        {
+            title: "Campaña 1 - Acto 1: El Despertar en las Profundidades y el Primer Guardia",
+            text: "El grupo de aventureros despierta en una fría celda subterránea excavada en los cimientos más antiguos de José C. Paz. Un guardia corrupto de la guardia negra bloquea el paso obligatorio con una maza humeante. ¡Comienza el primer combate formal!",
+            isCombatEncounter: true,
+            monsterName: "Guardia Negro Corrupto",
+            baseHp: 25
+        },
+        {
+            title: "Campaña 1 - Acto 2: Encuentro con los Prisioneros Clave (Igor y Varek)",
+            text: "Avanzando por los túneles, el grupo se cruza con dos figuras: **Igor**, un anciano que ofrece guiar al grupo, y **Varek**, un mercenario rebelde que exige tributo por la fuerza. ¿Cómo decidirán abordarlos democráticamente?",
+            isNpcEncounter: true,
+            npcChoices: [
+                { id: "npc1", text: "a. Desafiar duramente a Varek y acusarlo de traidor (Desencadena Emboscada Secreta)", secretFight: true },
+                { id: "npc2", text: "b. Conversar pacíficamente con Igor y aceptar su guía (Evita el combate secreto)" }
+            ]
+        },
+        {
+            title: "Campaña 1 - Acto 3: La Cripta de los Experimentos Fallidos",
+            text: "En una cripta llena de vapores tóxicos, una bestia monstruosa mutada por la magia negra bloquea el paso cerrando toda retirada.",
+            isCombatEncounter: true,
+            monsterName: "Bestia Mutada de las Catacumbas",
+            baseHp: 40
+        },
+        {
+            title: "Campaña 1 - Acto 4: El Alcaide de Hierro y el Cielo de José C. Paz (Jefe Final)",
+            text: "El mismísimo Alcaide del Calabozo —un gigante acorazado con placas de hierro oxidado y un enorme hacha— se para frente al umbral bloqueando la salida. ¡Comienza el combate definitivo!",
+            isCombatEncounter: true,
+            isBoss: true,
+            monsterName: "Alcaide Corrupto de Hierro",
+            baseHp: 90
+        }
+    ],
+    story2: [
+        {
+            title: "Campaña 2 - Acto 1: La Espesura del Bosque Maldito y la Emboscada",
+            text: "Al adentrarse en el bosque milenario de José C. Paz, una patrulla de duendes salvajes oculta en las copas de los árboles lanza flechas envenenadas y ataca.",
+            isCombatEncounter: true,
+            monsterName: "Patrulla de Duendes Asaltantes",
+            baseHp: 25
+        },
+        {
+            title: "Campaña 2 - Acto 2: La Fogata de los Ermitaños (Sylvia y Bork)",
+            text: "Junto a una fogata descansan **Sylvia**, una druida errante, y **Bork**, un mercenario hostil que acusa al grupo de espías. ¿Qué postura votarán?",
+            isNpcEncounter: true,
+            npcChoices: [
+                { id: "npc1", text: "a. Enfrentar con agresividad a Bork (Desencadena el Combate Secreto 4)", secretFight: true },
+                { id: "npc2", text: "b. Aceptar las hierbas medicinales de Sylvia (Evita el combate secreto)" }
+            ]
+        },
+        {
+            title: "Campaña 2 - Acto 3: El Guardián Raíz del Cañón",
+            text: "Un puente natural de piedra está custodiado por un colosal Golem compuesto por ramas retorcidas y runas druídicas parpadeantes.",
+            isCombatEncounter: true,
+            monsterName: "Golem Raíz Corrompido",
+            baseHp: 45
+        },
+        {
+            title: "Campaña 2 - Acto 4: El Rey Duende Nigromante y la Horda (Jefe Final)",
+            text: "En el claro más profundo, el Rey Duende Nigromante alza su báculo de hueso infundido en energía oscura liderando la última línea de defensa.",
+            isCombatEncounter: true,
+            isBoss: true,
+            monsterName: "Rey Duende Nigromante",
+            baseHp: 90
+        }
+    ],
+    story3: [
+        {
+            title: "Campaña 3 - Acto 1: Las Puertas de la Mansión y los Sirvientes Animados",
+            text: "Al cruzar el umbral de la mansión abandonada, los portones se cierran de golpe y armaduras medievales cobran vida portando espadas oxidadas.",
+            isCombatEncounter: true,
+            monsterName: "Estatuas Animadas de la Mansión",
+            baseHp: 25
+        },
+        {
+            title: "Campaña 3 - Acto 2: Los Habitantes Ocultos en la Biblioteca (Lady Eleanor y Garrick)",
+            text: "En la biblioteca se encuentran **Lady Eleanor**, una aristócrata fantasmal, y **Garrick**, un cazador de tesoros asustado discutiendo sobre el botín. ¿Cómo los tratarán?",
+            isNpcEncounter: true,
+            npcChoices: [
+                { id: "npc1", text: "a. Desconfiar de Garrick y atacarlo a la fuerza (Desencadena el Combate Secreto 4)", secretFight: true },
+                { id: "npc2", text: "b. Escuchar las advertencias de Lady Eleanor (Evita el combate secreto)" }
+            ]
+        },
+        {
+            title: "Campaña 3 - Acto 3: La Quimera Umbría del Pasillo",
+            text: "Un corredor con gravedad alterada alberga una bestia híbrida con cuerpo de león sombrío y cola serpentina.",
+            isCombatEncounter: true,
+            monsterName: "Quimera Umbría",
+            baseHp: 50
+        },
+        {
+            title: "Campaña 3 - Acto 4: El Espectro Patriarca Ancestral (Jefe Final)",
+            text: "En la torre más alta, el Patriarca Fundador convertido en liche vengativo custodia el grimorio maldito. ¡Hay que derrotarlo para liberar José C. Paz!",
+            isCombatEncounter: true,
+            isBoss: true,
+            monsterName: "Espectro Patriarca Ancestral",
+            baseHp: 90
+        }
+    ]
+};
 
 let stats = null;
 let selectedAbilities = [];
 let selectedObjects = [];
 let unsubscribeSnapshot = null;
-let selectedChoice = null;
 let activeRoomCode = "";
 let activeCharacter = {};
+let currentSelectedAction = null;
 
-// Control de intentos de estadísticas (Máx 3 intentos / Cooldown de 10 minutos)
 let statRollAttempts = 0;
 let statCooldownUntil = 0;
-
 const STAT_NAMES = ["Fuerza", "Defensa", "Destreza", "Constitución", "Sabiduría", "Carisma"];
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -357,18 +500,11 @@ function modifierText(v) { return v >= 0 ? "+" + v : String(v); }
 function checkStatCooldown() {
     const savedCooldown = localStorage.getItem("jcp_stat_cooldown");
     const savedAttempts = localStorage.getItem("jcp_stat_attempts");
-    
     if (savedAttempts) statRollAttempts = parseInt(savedAttempts);
     if (savedCooldown) {
         statCooldownUntil = parseInt(savedCooldown);
-        const now = Date.now();
-        if (now < statCooldownUntil) {
-            startCooldownTimer();
-        } else {
-            statRollAttempts = 0;
-            localStorage.removeItem("jcp_stat_cooldown");
-            localStorage.setItem("jcp_stat_attempts", "0");
-        }
+        if (Date.now() < statCooldownUntil) startCooldownTimer();
+        else { statRollAttempts = 0; localStorage.removeItem("jcp_stat_cooldown"); localStorage.setItem("jcp_stat_attempts", "0"); }
     }
     document.getElementById("rollStatus").textContent = `Intentos utilizados: ${statRollAttempts} / 3`;
 }
@@ -376,50 +512,40 @@ function checkStatCooldown() {
 function startCooldownTimer() {
     const btn = document.getElementById("rollStatsBtn");
     btn.disabled = true;
-
     const interval = setInterval(() => {
-        const now = Date.now();
-        const timeLeft = statCooldownUntil - now;
-
+        const timeLeft = statCooldownUntil - Date.now();
         if (timeLeft <= 0) {
             clearInterval(interval);
             btn.disabled = false;
             statRollAttempts = 0;
             localStorage.setItem("jcp_stat_attempts", "0");
             localStorage.removeItem("jcp_stat_cooldown");
-            document.getElementById("rollStatus").textContent = `Intentos utilizados: 0 / 3 (¡Ya podés tirar de nuevo!)`;
+            document.getElementById("rollStatus").textContent = `Intentos utilizados: 0 / 3 (¡Ya podés tirar!)`;
         } else {
             const minutes = Math.floor(timeLeft / 60000);
             const seconds = Math.floor((timeLeft % 60000) / 1000);
-            document.getElementById("rollStatus").textContent = `Límite alcanzado. Esperá ${minutes}m ${seconds}s para volver a tirar.`;
-            document.getElementById("rollStatus").innerHTML = `⏳ Límite alcanzado. Esperá <strong>${minutes}m ${seconds}s</strong> para volver a tirar.`;
+            document.getElementById("rollStatus").innerHTML = `⏳ Bloqueado. Esperá <strong>${minutes}m ${seconds}s</strong>.`;
         }
     }, 1000);
 }
 
 function generateStats() {
-    const now = Date.now();
-    if (statCooldownUntil && now < statCooldownUntil) return;
-
+    if (Date.now() < statCooldownUntil) return;
     if (statRollAttempts >= 3) {
-        statCooldownUntil = now + (10 * 60 * 1000); // 10 minutos de cooldown
+        statCooldownUntil = Date.now() + (10 * 60 * 1000);
         localStorage.setItem("jcp_stat_cooldown", statCooldownUntil);
         startCooldownTimer();
         return;
     }
-
     statRollAttempts++;
     localStorage.setItem("jcp_stat_attempts", statRollAttempts);
-
     stats = {};
     STAT_NAMES.forEach(stat => { stats[stat] = Math.floor(Math.random() * 16) + 3; });
     renderStats();
     updateResources();
-
     document.getElementById("rollStatus").textContent = `Intentos utilizados: ${statRollAttempts} / 3`;
-
     if (statRollAttempts >= 3) {
-        statCooldownUntil = now + (10 * 60 * 1000);
+        statCooldownUntil = Date.now() + (10 * 60 * 1000);
         localStorage.setItem("jcp_stat_cooldown", statCooldownUntil);
         startCooldownTimer();
     }
@@ -465,7 +591,7 @@ function renderAbilities() {
     classAbilities[cls].forEach((ability, index) => {
         const card = document.createElement("label");
         card.className = "ability-card";
-        card.innerHTML = `<input type="checkbox" value="${index}"><span><strong>${ability.name}</strong> (${ability.type})<br>${ability.description}<div class="ability-info">🎲 ${ability.dice} · 🔮 ${ability.mana}M</div></span>`;
+        card.innerHTML = `<input type="checkbox" value="${index}"><span><strong>${ability.name}</strong> (${ability.type})<br><small>${ability.description}</small><div class="ability-info">🎲 ${ability.dice} · 🔮 ${ability.mana}M Maná</div></span>`;
         const cb = card.querySelector("input");
         cb.addEventListener("change", () => {
             if (cb.checked && selectedAbilities.length >= 3) { cb.checked = false; alert("Máximo 3 habilidades."); return; }
@@ -487,10 +613,10 @@ function renderObjects() {
         card.innerHTML = `<input type="checkbox" value="${index}"><span><strong>${obj.name}</strong><br>${obj.description}</span>`;
         const cb = card.querySelector("input");
         cb.addEventListener("change", () => {
-            if (cb.checked && selectedObjects.length >= 2) { cb.checked = false; alert("Máximo 2 objetos."); return; }
+            if (cb.checked && selectedObjects.length >= 2) { cb.checked = false; alert("Máximo 2 objetos adicionales."); return; }
             if (cb.checked) selectedObjects.push(obj);
             else selectedObjects = selectedObjects.filter(item => item.name !== obj.name);
-            document.getElementById("objectCount").textContent = `Objetos elegidos: ${selectedObjects.length} / 2`;
+            document.getElementById("objectCount").textContent = `Objetos adicionales elegidos: ${selectedObjects.length} / 2`;
         });
         container.appendChild(card);
     });
@@ -509,22 +635,31 @@ function createSheet() {
     const weaponInput = document.querySelector('input[name="weapon"]:checked');
     if (!weaponInput) { alert("Elegí un arma."); return; }
     if (selectedAbilities.length !== 3) { alert("Elegí exactamente 3 habilidades."); return; }
-    if (selectedObjects.length !== 2) { alert("Elegí exactamente 2 objetos."); return; }
+    if (selectedObjects.length !== 2) { alert("Elegí exactamente 2 objetos adicionales."); return; }
 
     const weapon = classes[cls].weapons[Number(weaponInput.value)];
     const hp = classes[cls].hp + races[race].hp + (stats.Constitución * 2);
     const mana = classes[cls].mana + races[race].mana + stats.Sabiduría;
 
+    let initialInventory = [
+        {name:"Poción de vida", description:"Recupera +10 HP."},
+        {name:"Poción de vida", description:"Recupera +10 HP."},
+        {name:"Poción de vida", description:"Recupera +10 HP."},
+        {name:"Poción de vida", description:"Recupera +10 HP."},
+        {name:"Poción de vida", description:"Recupera +10 HP."}
+    ];
+    selectedObjects.forEach(obj => initialInventory.push(obj));
+
     const currentCharacter = {
         playerName, characterName, selectedClass: cls, selectedRace: race,
-        weapon, stats, hp, mana, attack: modifier(stats.Fuerza), defense: 10 + modifier(stats.Defensa),
-        abilities: selectedAbilities, inventory: selectedObjects
+        weapon, stats, hp, maxHp: hp, mana, maxMana: mana, attack: modifier(stats.Fuerza), defense: 10 + modifier(stats.Defensa),
+        abilities: selectedAbilities, inventory: initialInventory, isDead: false
     };
 
     let saved = JSON.parse(localStorage.getItem("jcp_characters") || "[]");
     saved.push(currentCharacter);
     localStorage.setItem("jcp_characters", JSON.stringify(saved));
-    alert("¡Personaje creado y guardado con éxito!");
+    alert("¡Personaje creado con éxito con 5 pociones y 2 objetos!");
     switchScreen("screenLobby");
 }
 
@@ -542,7 +677,7 @@ function loadSavedCharactersToLobby() {
 }
 
 function clearCharacters() {
-    if (confirm("¿Borrar todos los personajes guardados?")) {
+    if (confirm("¿Borrar personajes guardados?")) {
         localStorage.removeItem("jcp_characters");
         loadSavedCharactersToLobby();
         alert("Personajes borrados.");
@@ -554,9 +689,29 @@ async function createNewRoom() {
     if (charIndex === "") { alert("Seleccioná un personaje."); return; }
     const saved = JSON.parse(localStorage.getItem("jcp_characters") || "[]");
     const myCharacter = saved[charIndex];
+    
+    // Generador de código aleatorio de sala
     const code = Math.random().toString(36).substring(2, 7).toUpperCase();
+    const campaignId = document.getElementById("campaignSelect").value;
+    const selectedCampaign = campaigns[campaignId];
 
-    const roomData = { roomCode: code, players: [myCharacter], currentStep: 0, gameStarted: false, chat: [] };
+    const playerCount = 1; 
+    const baseBossHp = selectedCampaign[3].baseHp || 90;
+    const scaledBossHp = baseBossHp + (playerCount - 1) * 20;
+
+    const roomData = { 
+        roomCode: code, 
+        players: [myCharacter], 
+        currentStep: 0, 
+        gameStarted: false, 
+        chat: [],
+        campaignId: campaignId,
+        inCombat: true,
+        monsterHp: scaledBossHp,
+        monsterMaxHp: scaledBossHp,
+        monsterName: selectedCampaign[0].monsterName,
+        votes: {}
+    };
     try {
         await window.setDoc(window.doc(window.db, "rooms", code), roomData);
         enterGameSession(code, myCharacter);
@@ -566,66 +721,66 @@ async function createNewRoom() {
 async function joinExistingRoom() {
     const code = document.getElementById("roomCodeInput").value.trim().toUpperCase();
     const charIndex = document.getElementById("savedCharactersSelect").value;
-    if (!code || charIndex === "") { alert("Ingresá código y elegí personaje."); return; }
+    if (!code || charIndex === "") { alert("Ingresá el código de sala y elegí tu personaje."); return; }
     const saved = JSON.parse(localStorage.getItem("jcp_characters") || "[]");
     const myCharacter = saved[charIndex];
 
     try {
         const roomRef = window.doc(window.db, "rooms", code);
         const roomSnap = await window.getDoc(roomRef);
-        if (!roomSnap.exists()) { alert("La sala no existe."); return; }
+        if (!roomSnap.exists()) { alert("La sala no existe. Verificá el código."); return; }
         let roomData = roomSnap.data();
+        
+        if (roomData.players.length >= 5) {
+            alert("❌ Lo siento, esta sala ya alcanzó el límite máximo de 5 jugadores.");
+            return;
+        }
+
         roomData.players.push(myCharacter);
-        await window.updateDoc(roomRef, { players: roomData.players });
+
+        const pCount = roomData.players.length;
+        const campaign = campaigns[roomData.campaignId || "story1"];
+        const step = campaign[roomData.currentStep || 0];
+        
+        if (step && step.isBoss) {
+            const scaledHp = (step.baseHp || 90) + (pCount - 1) * 20;
+            roomData.monsterHp = Math.min(roomData.monsterHp, scaledHp);
+            roomData.monsterMaxHp = scaledHp;
+        }
+
+        await window.updateDoc(roomRef, { players: roomData.players, monsterHp: roomData.monsterHp, monsterMaxHp: roomData.monsterMaxHp });
         enterGameSession(code, myCharacter);
     } catch (e) { alert("Error: " + e.message); }
 }
 
-const storySteps = [
-    {
-        text: "El grupo de aventureros despierta en una celda húmeda en las profundidades subterráneas de José C. Paz. Un guardia encapuchado camina de espaldas portando una antorcha.",
-        choices: [
-            { text: "a. Negociar con astucia con el guardia (Usar Carisma / DC: 11)", stat: "Carisma", dc: 11, success: "El guardia se acerca y podés alcanzar sus llaves.", fail: "El guardia te ignora y golpea los barrotes." },
-            { text: "b. Forzar los barrotes con fuerza pura (Usar Fuerza / DC: 13)", stat: "Fuerza", dc: 13, success: "¡Los barrotes ceden abriendo la celda!", fail: "Te lastimás los brazos contra el hierro frío." }
-        ]
-    },
-    {
-        text: "Logran salir al pasillo principal del calabozo, pero una bestia rabiosa corta el paso. ¡Entran en combate!",
-        choices: [
-            { text: "a. Atacar al monstruo de frente con fuerza (Usar Fuerza / DC: 12)", stat: "Fuerza", dc: 12, success: "¡Impactás a la bestia haciéndola retroceder!", fail: "La bestia te lanza un zarpazo defensivo." },
-            { text: "b. Usar agilidad para esquivar por los flancos (Usar Destreza / DC: 11)", stat: "Destreza", dc: 11, success: "Lográs confundir a la bestia y pasar.", fail: "Tropezás en el suelo empedrado." }
-        ]
-    },
-    {
-        text: "Llegan ante un grandioso portón de piedra sellado con símbolos arcanos que requiere canalizar energía.",
-        choices: [
-            { text: "a. Realizar canalización en grupo (Usar Sabiduría / DC: 10)", stat: "Sabiduría", dc: 10, success: "¡El sello se rompe liberando al grupo a la superficie!", fail: "La magia rebrota sacudiendo al grupo." }
-        ]
+async function logSystemMessage(text) {
+    const roomRef = window.doc(window.db, "rooms", activeRoomCode);
+    const snap = await window.getDoc(roomRef);
+    if (snap.exists()) {
+        let chat = snap.data().chat || [];
+        chat.push({ sender: "SISTEMA", text, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+        if (chat.length > 25) chat.shift();
+        await window.updateDoc(roomRef, { chat });
     }
-];
+}
+
+function copyRoomCode() {
+    const codeText = document.getElementById("roomCodeDisplay").textContent;
+    navigator.clipboard.writeText(codeText).then(() => {
+        logSystemMessage(`📋 ${activeCharacter.characterName} copió el código de sala (${codeText}) al portapapeles.`);
+    });
+}
 
 function enterGameSession(code, character) {
     activeRoomCode = code;
     activeCharacter = character;
+    if (!activeCharacter.maxHp) activeCharacter.maxHp = activeCharacter.hp;
+    if (!activeCharacter.maxMana) activeCharacter.maxMana = activeCharacter.mana;
+
     switchScreen("screenGame");
-
-    document.getElementById("charWeaponDisplay").textContent = `${character.weapon.name} (${character.weapon.damage})`;
-    const invList = document.getElementById("inventoryList");
-    invList.innerHTML = "";
-    if (character.inventory) {
-        character.inventory.forEach(item => {
-            invList.innerHTML += `<li style="background:#151316; border:1px solid #625344; padding:6px; border-radius:4px; margin-bottom:5px; font-size:12px;"><strong>${item.name}</strong></li>`;
-        });
-    }
-    document.getElementById("charStatsDisplay").innerHTML = `HP: ${character.hp} | Maná: ${character.mana}<br>FUE: ${character.stats.Fuerza} | DES: ${character.stats.Destreza}`;
-
-    const abContainer = document.getElementById("myAbilitiesContainer");
-    abContainer.innerHTML = `<div class="ability-card-game" onclick="rollWeaponAttack()" style="border-color:var(--gold);"><strong style="color:var(--gold); font-size:12px;">⚔ ${character.weapon.name}</strong><div style="font-size:11px; color:var(--muted);">Daño: ${character.weapon.damage}</div></div>`;
-    if (character.abilities) {
-        character.abilities.forEach(ab => {
-            abContainer.innerHTML += `<div class="ability-card-game" onclick="useAbility('${ab.name}', '${ab.dice}', ${ab.mana})"><strong style="color:var(--gold); font-size:12px;">${ab.name}</strong><div style="font-size:11px; color:var(--muted);">🎲 ${ab.dice} | 🔮 ${ab.mana}M</div></div>`;
-        });
-    }
+    document.getElementById("roomCodeDisplay").textContent = code;
+    updateSidebarUI();
+    renderActionChoices();
 
     if (unsubscribeSnapshot) unsubscribeSnapshot();
     const roomRef = window.doc(window.db, "rooms", code);
@@ -634,10 +789,17 @@ function enterGameSession(code, character) {
             const data = docSnap.data();
             updateGameLobbyList(data.players);
 
+            const allDead = data.players.every(p => p.hp <= 0);
+            if (allDead) {
+                logSystemMessage(`💀 GAME OVER: Todos los aventureros han caído.`);
+                switchScreen("screenLobby");
+                return;
+            }
+
             if (data.gameStarted) {
                 document.getElementById("waitingRoomBox").style.display = "none";
                 document.getElementById("activePlayBox").style.display = "flex";
-                renderStoryStep(data.currentStep || 0);
+                renderStoryStep(data.currentStep || 0, data);
             } else {
                 document.getElementById("waitingRoomBox").style.display = "block";
                 document.getElementById("activePlayBox").style.display = "none";
@@ -650,6 +812,83 @@ function enterGameSession(code, character) {
     });
 }
 
+function updateSidebarUI() {
+    document.getElementById("charWeaponDisplay").textContent = `${activeCharacter.weapon.name} (${activeCharacter.weapon.damage})`;
+    
+    const invList = document.getElementById("inventoryList");
+    invList.innerHTML = "";
+
+    let counts = {};
+    if (activeCharacter.inventory) {
+        activeCharacter.inventory.forEach(item => {
+            if (!counts[item.name]) {
+                counts[item.name] = { count: 0, description: item.description };
+            }
+            counts[item.name].count++;
+        });
+    }
+
+    let itemNames = Object.keys(counts);
+    if (itemNames.length > 0) {
+        itemNames.forEach(name => {
+            let data = counts[name];
+            invList.innerHTML += `<li style="background:#151316; border:1px solid #625344; padding:6px; border-radius:4px; margin-bottom:5px; font-size:12px; cursor:pointer;" onclick="useInventoryItemByName('${name}')"><strong>📦 ${name} (x${data.count})</strong><br><small style="color:var(--muted);">${data.description}</small></li>`;
+        });
+    } else {
+        invList.innerHTML = `<li style="font-size:12px; color:var(--muted);">El saco está vacío.</li>`;
+    }
+
+    document.getElementById("charStatsDisplay").innerHTML = `❤️ HP: <strong style="color:#e85d5d;">${activeCharacter.hp} / ${activeCharacter.maxHp}</strong><br>🔮 Maná: <strong style="color:#5dc1e8;">${activeCharacter.mana} / ${activeCharacter.maxMana}</strong>`;
+}
+
+function useInventoryItemByName(itemName) {
+    const index = activeCharacter.inventory.findIndex(i => i.name === itemName);
+    if (index === -1) return;
+
+    const item = activeCharacter.inventory[index];
+    if (item.name === "Poción de vida") {
+        activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 10);
+        logSystemMessage(`✨ ${activeCharacter.characterName} usó una Poción de vida. (+10 HP)`);
+    } else if (item.name === "Ración") {
+        activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + 15);
+        logSystemMessage(`🍞 ${activeCharacter.characterName} consumió una ración. (+15 Maná)`);
+    } else {
+        logSystemMessage(`🔦 ${activeCharacter.characterName} usó ${item.name}: ${item.description}`);
+    }
+
+    activeCharacter.inventory.splice(index, 1);
+    updateSidebarUI();
+}
+
+function renderActionChoices() {
+    const container = document.getElementById("myAbilitiesContainer");
+    container.innerHTML = "";
+    currentSelectedAction = null;
+
+    const weaponCard = document.createElement("div");
+    weaponCard.className = "ability-card-game";
+    weaponCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚔ Arma: ${activeCharacter.weapon.name}</strong><div style="font-size:11px; color:var(--muted);">Daño: ${activeCharacter.weapon.damage} (0 Maná)</div>`;
+    weaponCard.onclick = () => selectAction({type: "weapon", name: activeCharacter.weapon.name, damage: activeCharacter.weapon.damage, manaCost: 0}, weaponCard);
+    container.appendChild(weaponCard);
+
+    if (activeCharacter.abilities) {
+        activeCharacter.abilities.forEach(ab => {
+            const abCard = document.createElement("div");
+            abCard.className = "ability-card-game";
+            abCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚡ ${ab.name}</strong><div style="font-size:11px; color:var(--muted);">🎲 ${ab.dice} | 🔮 ${ab.mana}M Maná</div>`;
+            abCard.onclick = () => selectAction({type: "ability", ...ab, manaCost: ab.mana}, abCard);
+            container.appendChild(abCard);
+        });
+    }
+}
+
+function selectAction(actionObj, element) {
+    document.querySelectorAll('.ability-card-game').forEach(el => el.classList.remove('selected'));
+    element.classList.add('selected');
+    currentSelectedAction = actionObj;
+    document.getElementById("rollLog").innerHTML = `✔ Seleccionaste: <strong>${actionObj.name || actionObj.type}</strong> (Consumo: ${actionObj.manaCost} Maná). ¡Tirá el D20!`;
+}
+
 function updateGameLobbyList(players) {
     const lobbyList = document.getElementById("lobbyPlayersList");
     const activeList = document.getElementById("activePlayersList");
@@ -657,80 +896,216 @@ function updateGameLobbyList(players) {
     activeList.innerHTML = "";
     if (players) {
         players.forEach(p => {
-            lobbyList.innerHTML += `<li>⚔ ${p.characterName} (${p.selectedClass})</li>`;
-            activeList.innerHTML += `<li>${p.characterName}</li>`;
+            lobbyList.innerHTML += `<li>⚔ ${p.characterName} (${p.selectedClass}) - HP: ${p.hp} | Maná: ${p.mana}</li>`;
+            activeList.innerHTML += `<li>${p.characterName} [HP: ${p.hp}|M: ${p.mana}]</li>`;
         });
     }
 }
 
 async function startAdventure() {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
-    await window.updateDoc(roomRef, { gameStarted: true, currentStep: 0 });
-}
+    const snap = await window.getDoc(roomRef);
+    if (!snap.exists()) return;
+    const data = snap.data();
+    const campaign = campaigns[data.campaignId || "story1"];
+    const pCount = data.players.length;
 
-function renderStoryStep(stepIndex) {
-    const step = storySteps[stepIndex] || storySteps[0];
-    document.getElementById("storyText").textContent = step.text;
-    const choicesArea = document.getElementById("choicesArea");
-    choicesArea.innerHTML = "";
-    selectedChoice = null;
+    const baseHp = campaign[0].baseHp || 25;
+    const scaledHp = baseHp + (pCount - 1) * 5;
 
-    step.choices.forEach((choice) => {
-        const btn = document.createElement("button");
-        btn.className = "choice-btn";
-        btn.innerHTML = `<strong>${choice.text}</strong>`;
-        btn.onclick = () => {
-            document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            selectedChoice = choice;
-            document.getElementById("rollLog").innerHTML = `✔ Elegiste: <strong>${choice.text}</strong>. <br><span style="color:var(--gold)">¡Ahora hacé clic en el dado superior (ej: D20)!</span>`;
-        };
-        choicesArea.appendChild(btn);
+    await window.updateDoc(roomRef, { 
+        gameStarted: true, 
+        currentStep: 0,
+        monsterHp: scaledHp,
+        monsterMaxHp: scaledHp,
+        monsterName: campaign[0].monsterName
     });
+    logSystemMessage(`🚀 ¡La campaña ha comenzado oficialmente!`);
 }
 
-function rollActiveDice(sides) {
-    const roll = Math.floor(Math.random() * sides) + 1;
-    if (!selectedChoice) {
-        document.getElementById("rollLog").textContent = `🎲 Tiraste D${sides} y salió ${roll}. (Elegí una opción de la historia primero).`;
+function renderStoryStep(stepIndex, roomData) {
+    const campaign = campaigns[roomData.campaignId || "story1"];
+    const step = campaign[stepIndex];
+
+    if (!step) {
+        document.getElementById("storyText").innerHTML = `<h2 style="color:var(--gold); text-align:center;">🎉 ¡FELICIDADES, GANARON! 🎉</h2><p style="text-align:center;">El equipo completó todas las batallas y conquistó la campaña épica con gloria.</p>`;
+        document.getElementById("choicesArea").innerHTML = "";
         return;
     }
 
-    const statVal = activeCharacter.stats[selectedChoice.stat] || 10;
-    const mod = Math.floor((statVal - 10) / 2);
-    const total = roll + mod;
-    const success = total >= selectedChoice.dc;
+    let html = `<strong>${step.title}</strong><br><br>${step.text}`;
+    
+    if (step.isCombatEncounter) {
+        html += `<br><br><div style="background:#2b1515; border:1px solid #a83232; padding:10px; border-radius:5px;">
+            <strong style="color:#ff6b6b;">👹 Enemigo: ${roomData.monsterName || step.monsterName}</strong><br>
+            Vida compartida: <strong style="color:#ff6b6b;">${roomData.monsterHp} / ${roomData.monsterMaxHp} HP</strong>
+        </div>`;
+        document.getElementById("choicesArea").innerHTML = `<p style="color:var(--gold);">¡Combate en curso! Seleccioná tu ataque abajo y tirá el D20.</p>`;
+    } else if (step.isNpcEncounter) {
+        const choicesArea = document.getElementById("choicesArea");
+        choicesArea.innerHTML = "";
+        step.npcChoices.forEach(ch => {
+            const votesCount = roomData.votes && roomData.votes[ch.id] ? roomData.votes[ch.id].length : 0;
+            const btn = document.createElement("button");
+            btn.className = "choice-btn";
+            btn.innerHTML = `${ch.text} <span style="float:right; color:var(--gold);">Votos: ${votesCount}</span>`;
+            btn.onclick = () => castNpcVote(ch.id, ch.secretFight);
+            choicesArea.appendChild(btn);
+        });
+    }
 
-    document.getElementById("rollLog").innerHTML = `🎲 D${sides} (${roll}) ${mod >= 0 ? '+' + mod : mod} = <strong>${total}</strong> (DC: ${selectedChoice.dc}) ➡ ${success ? '✨ ¡ÉXITO! ' + selectedChoice.success : '❌ ¡FALLO! ' + selectedChoice.fail}`;
+    document.getElementById("storyText").innerHTML = html;
+}
 
-    setTimeout(async () => {
-        const roomRef = window.doc(window.db, "rooms", activeRoomCode);
-        const snap = await window.getDoc(roomRef);
-        if (snap.exists()) {
-            let nextStep = (snap.data().currentStep || 0) + 1;
-            if (nextStep < storySteps.length) {
-                await window.updateDoc(roomRef, { currentStep: nextStep });
-            } else {
-                alert("🎉 ¡Aventura completada!");
-                switchScreen("screenLobby");
-            }
+async function castNpcVote(choiceId, isSecretFight) {
+    const roomRef = window.doc(window.db, "rooms", activeRoomCode);
+    const snap = await window.getDoc(roomRef);
+    if (!snap.exists()) return;
+    let data = snap.data();
+    let votes = data.votes || {};
+
+    for (let key in votes) {
+        votes[key] = votes[key].filter(name => name !== activeCharacter.characterName);
+    }
+    if (!votes[choiceId]) votes[choiceId] = [];
+    votes[choiceId].push(activeCharacter.characterName);
+
+    await window.updateDoc(roomRef, { votes: votes });
+
+    const totalPlayers = data.players.length;
+    let maxVotes = 0;
+    let winningChoice = null;
+    for (let key in votes) {
+        if (votes[key].length > maxVotes) {
+            maxVotes = votes[key].length;
+            winningChoice = key;
         }
-    }, 4000);
+    }
+
+    if (maxVotes >= Math.ceil(totalPlayers / 2)) {
+        let currentStep = data.currentStep || 0;
+        const campaign = campaigns[data.campaignId || "story1"];
+
+        if (winningChoice === "npc1" && isSecretFight) {
+            logSystemMessage(`⚠️ ¡El grupo ofendió al personaje! Se desencadena un combate secreto sorpresa.`);
+            let nextStep = currentStep + 1;
+            const baseHp = 50;
+            const scaledHp = baseHp + (data.players.length - 1) * 5;
+
+            await window.updateDoc(roomRef, { 
+                currentStep: nextStep, 
+                votes: {},
+                monsterHp: scaledHp,
+                monsterMaxHp: scaledHp,
+                monsterName: "Emboscada Secreta"
+            });
+        } else {
+            logSystemMessage(`✨ Diálogo pacífico exitoso. El grupo evita el conflicto y continúa.`);
+            let nextStep = currentStep + 2;
+            const baseHp = campaign[nextStep].isBoss ? (campaign[nextStep].baseHp + (data.players.length - 1) * 20) : (campaign[nextStep].baseHp + (data.players.length - 1) * 5);
+
+            await window.updateDoc(roomRef, { 
+                currentStep: nextStep, 
+                votes: {},
+                monsterHp: baseHp,
+                monsterMaxHp: baseHp,
+                monsterName: campaign[nextStep].monsterName
+            });
+        }
+    }
 }
 
-function rollWeaponAttack() {
-    const sides = activeCharacter.weapon.damage.replace('D', '');
-    const roll = Math.floor(Math.random() * parseInt(sides)) + 1;
-    const mod = modifier(activeCharacter.stats.Fuerza);
-    document.getElementById("rollLog").innerHTML = `⚔ Ataque con ${activeCharacter.weapon.name}: Tiraste ${activeCharacter.weapon.damage} (${roll}) + Mod (${mod}) = <strong>${roll + mod} daño</strong>.`;
+async function rollD20Action() {
+    if (activeCharacter.hp <= 0) {
+        document.getElementById("rollLog").innerHTML = `Estás derrotado y no podés actuar.`;
+        return;
+    }
+    if (!currentSelectedAction) {
+        document.getElementById("rollLog").innerHTML = `¡Seleccioná un arma o habilidad primero!`;
+        return;
+    }
+
+    const manaCost = currentSelectedAction.manaCost || 0;
+    if (activeCharacter.mana < manaCost) {
+        document.getElementById("rollLog").innerHTML = `❌ No tenés suficiente maná (${activeCharacter.mana}M / ${manaCost}M).`;
+        return;
+    }
+
+    activeCharacter.mana -= manaCost;
+
+    const d20 = Math.floor(Math.random() * 20) + 1;
+    const statMod = modifier(activeCharacter.stats.Fuerza);
+    const total = d20 + statMod;
+
+    const roomRef = window.doc(window.db, "rooms", activeRoomCode);
+    const snap = await window.getDoc(roomRef);
+    if (!snap.exists()) return;
+    const roomData = snap.data();
+    const campaign = campaigns[roomData.campaignId || "story1"];
+    const currentStep = roomData.currentStep || 0;
+    const stepObj = campaign[currentStep];
+
+    let logMessage = "";
+
+    if (stepObj && stepObj.isCombatEncounter) {
+        let bonusDamage = manaCost > 0 ? 6 : 0;
+        let damageToMonster = (total >= 12 ? 12 + statMod : 5) + bonusDamage;
+        let newMonsterHp = Math.max(0, (roomData.monsterHp || 50) - damageToMonster);
+
+        let monsterDamage = Math.floor(Math.random() * 6) + 3;
+        activeCharacter.hp = Math.max(0, activeCharacter.hp - monsterDamage);
+
+        let updatedPlayers = roomData.players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
+
+        logMessage = `⚔ ${activeCharacter.characterName} atacó con ${currentSelectedAction.name}. D20(${d20}) ➡ ${damageToMonster} daño. Recibió -${monsterDamage} HP.`;
+
+        if (newMonsterHp <= 0) {
+            let manaRecovered = Math.round((activeCharacter.maxMana - activeCharacter.mana) * 0.4) + 5;
+            activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + manaRecovered);
+
+            const possibleRewards = [
+                {name:"Poción de vida", description:"Recupera +10 HP."},
+                {name:"Antorcha", description:"Ilumina zonas oscuras (Se consume al usar)."},
+                {name:"Ración", description:"Restaura +15 Maná (Se consume al usar)."}
+            ];
+            let wonItem = possibleRewards[Math.floor(Math.random() * possibleRewards.length)];
+            activeCharacter.inventory.push(wonItem);
+
+            logSystemMessage(`🎉 ¡Victoria! El equipo derrotó al enemigo. ${activeCharacter.characterName} recuperó +${manaRecovered}M y obtuvo un objeto en el bolso: ${wonItem.name}.`);
+
+            let nextStep = currentStep + 1;
+            let nextStepObj = campaign[nextStep];
+
+            if (nextStepObj && nextStepObj.isCombatEncounter) {
+                const pCount = updatedPlayers.length;
+                const nextBaseHp = nextStepObj.isBoss ? (nextStepObj.baseHp + (pCount - 1) * 20) : (nextStepObj.baseHp + (pCount - 1) * 5);
+
+                await window.updateDoc(roomRef, { 
+                    monsterHp: nextBaseHp, 
+                    monsterMaxHp: nextBaseHp,
+                    monsterName: nextStepObj.monsterName,
+                    currentStep: nextStep, 
+                    players: updatedPlayers 
+                });
+            } else {
+                await window.updateDoc(roomRef, { 
+                    currentStep: nextStep, 
+                    players: updatedPlayers 
+                });
+            }
+        } else {
+            await window.updateDoc(roomRef, { 
+                monsterHp: newMonsterHp, 
+                players: updatedPlayers 
+            });
+        }
+    }
+
+    updateSidebarUI();
+    document.getElementById("rollLog").innerHTML = logMessage;
 }
 
-function useAbility(name, dice, manaCost) {
-    const sides = dice.replace('D', '');
-    const roll = Math.floor(Math.random() * parseInt(sides)) + 1;
-    document.getElementById("rollLog").innerHTML = `⚡ Habilidad <strong>${name}</strong> (${manaCost}M). Tiraste ${dice} ➡ <strong>${roll}</strong>`;
-}
-
+// CHAT
 async function sendChatMessage() {
     const input = document.getElementById("chatInput");
     const text = input.value.trim();
@@ -740,7 +1115,7 @@ async function sendChatMessage() {
     if (snap.exists()) {
         let chat = snap.data().chat || [];
         chat.push({ sender: activeCharacter.characterName, text, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
-        if (chat.length > 20) chat.shift();
+        if (chat.length > 25) chat.shift();
         await window.updateDoc(roomRef, { chat });
         input.value = "";
     }
@@ -749,7 +1124,13 @@ function handleChatKey(e) { if (e.key === "Enter") sendChatMessage(); }
 function renderChat(chatArray) {
     const container = document.getElementById("chatMessages");
     container.innerHTML = "";
-    chatArray.forEach(m => { container.innerHTML += `<div style="margin-bottom:4px;"><span style="color:var(--gold);">${m.sender}:</span> ${m.text}</div>`; });
+    chatArray.forEach(m => { 
+        if(m.sender === "SISTEMA") {
+            container.innerHTML += `<div style="margin-bottom:4px; color:var(--gold); font-style:italic;">[${m.time}] ${m.text}</div>`;
+        } else {
+            container.innerHTML += `<div style="margin-bottom:4px;"><span style="color:var(--gold);">${m.sender}:</span> ${m.text}</div>`; 
+        }
+    });
     container.scrollTop = container.scrollHeight;
 }
 </script>
