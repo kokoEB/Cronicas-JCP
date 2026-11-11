@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crónicas del Abismo - Partida Ramificada Masiva</title>
+<title>Crónicas del Abismo - Campaña Masiva</title>
 
 <!-- Firebase SDKs -->
 <script type="module">
@@ -64,7 +64,7 @@ header p { color: var(--muted); font-style: italic; }
 
 <header>
     <h1>⚔ CRÓNICAS DEL ABISMO ⚔</h1>
-    <p>Campaña Épica de 5 Niveles, Turnos Estrictos y Cooldowns</p>
+    <p>Campaña Épica de Profundidad Masiva</p>
 </header>
 
 <main class="container" style="max-width:1300px;">
@@ -135,196 +135,443 @@ header p { color: var(--muted); font-style: italic; }
 </main>
 
 <script>
-// ÚNICA CAMPAÑA MASIVA DE 5 NIVELES DE PROFUNDIDAD Y 4 CAMINOS PRINCIPALES
+// CAMPAÑA MASIVA TRIPLE: 4 CAMINOS INICIALES Y MÚLTIPLES NIVELES PROFUNDOS DE RAMIFICACIÓN
 const campaigns = {
     story1: {
         start: {
-            title: "Nivel 1: Los Cuatro Portales del Abismo",
-            text: "Se encuentran en una amplia cámara circular de piedra ancestral. Cuatro imponentes portales se alzan ante ustedes, sin rastro de enemigos cercanos. ¿Qué camino deciden tomar?",
+            title: "Nivel 1: La Gran Encrucijada del Abismo",
+            text: "Despiertan en una vasta cámara circular iluminada por cristales titilantes. Cuatro imponentes senderos se extienden ante ustedes en total calma, sin enemigos a la vista. ¿Qué camino deciden tomar?",
             type: "d20_branch",
             options: [
-                { id: "p1_forja", text: "🔥 Portal 1: El Sendero de las Forjas Subterráneas" },
-                { id: "p2_agua", text: "🌊 Portal 2: Las Cavernas de los Espejos de Agua" },
-                { id: "p3_ruinas", text: "🏛️ Portal 3: Las Ruinas del Templo Olvidado" },
-                { id: "p4_bosque", text: "🌿 Portal 4: Los Sub-sótanos de Raíces Místicas" }
+                { id: "p1_forja", text: "🔥 Camino 1: El Desfiladero de las Forjas Ancestrales" },
+                { id: "p2_agua", text: "🌊 Camino 2: Las Cavernas Subterráneas de los Espejos" },
+                { id: "p3_ruinas", text: "🏛️ Camino 3: Las Columnas del Templo de los Ecos" },
+                { id: "p4_bosque", text: "🌿 Camino 4: Las Raíces Profundas y Lumínicas" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia (1-5)! Una trampa menor se activa al cruzar el umbral (-2 HP).", hpDelta: -2, nextNode: "n2_caminoA" },
-                regular: { log: "🪵 ¡Tranki (6-10)! Cruzan el portal con prudencia y estabilidad.", nextNode: "n2_caminoB" },
-                good: { log: "🚪 ¡Bueno (11-15)! Hallan inscripciones que revelan secretos de la zona.", nextNode: "n2_caminoC" },
-                perfect: { log: "⚡ ¡Perfecto (16-20)! Energía arcana residual les otorga +5 Maná.", manaDelta: 5, nextNode: "n2_caminoD" }
+                bad: { log: "💥 ¡Pifia (1-5)! Una trampa menor oculta en el suelo se activa (-2 HP).", hpDelta: -2, nextNode: "n2_ramaA" },
+                regular: { log: "🪵 ¡Tranki (6-10)! Avanzan con cautela por el sendero elegido.", nextNode: "n2_ramaB" },
+                good: { log: "🚪 ¡Bueno (11-15)! Hallan rastros y mapas útiles sobre el terreno.", nextNode: "n2_ramaC" },
+                perfect: { log: "⚡ ¡Perfecto (16-20)! Energía pura del entorno les otorga +5 Maná.", manaDelta: 5, nextNode: "n2_ramaD" }
             }
         },
 
-        // NVEL 2 (4 Ramificaciones secundarias)
-        n2_caminoA: {
-            title: "Nivel 2 (Ruta A) - El Salón de los Ecos",
-            text: "Un pasillo lleno de estatuas que replican sus movimientos. ¿Cómo avanzan?",
+        // ================= NIVEL 2 =================
+        n2_ramaA: {
+            title: "Nivel 2 (Sector A) - El Salón de las Estatuas Gemelas",
+            text: "Filas de estatuas antiguas flanquean el paso. Sus ojos parecen seguirlos. ¿Cómo proceden?",
             type: "d20_branch",
             options: [
-                { id: "n2a_1", text: "🛡️ Avanzar con escudos y formaciones cerradas" },
-                { id: "n2a_2", text: "🏃 Cruzar corriendo a toda velocidad" },
-                { id: "n2a_3", text: "🗣️ Gritarle a las estatuas para romper la ilusión" },
-                { id: "n2a_4", text: "🕵️‍♂️ Buscar un mecanismo oculto en los muros" }
+                { id: "n2a_1", text: "🛡️ Avanzar con escudos en formación defensiva" },
+                { id: "n2a_2", text: "🏃 Correr rápidamente para evitar sorpresas" },
+                { id: "n2a_3", text: "🗣️ Hablar en voz alta para tantear el ambiente" },
+                { id: "n2a_4", text: "🕵️‍♂️ Inspeccionar la base de las estatuas" }
             ],
             outcomes: {
-                bad: { log: "🏹 ¡Pifia! Las estatuas cobran vida en combate directo.", nextNode: "combate_n2_a" },
-                regular: { log: "😅 ¡Tranki! Pasaron con algunos raspones (-1 HP).", hpDelta: -1, nextNode: "n3_rama1" },
-                good: { log: "✨ ¡Bueno! Desactivaron el mecanismo con éxito.", nextNode: "n3_rama2" },
-                perfect: { log: "💎 ¡Perfecto! Hallaron un cristal oculto (+5 HP).", hpDelta: 5, nextNode: "n3_rama2" }
+                bad: { log: "🏹 ¡Pifia! Las estatuas cobran vida y los atacan.", nextNode: "combate_n2_1" },
+                regular: { log: "😅 ¡Tranki! Pasaron con un leve desgaste (-1 HP).", hpDelta: -1, nextNode: "n3_rama1" },
+                good: { log: "✨ ¡Bueno! Descubrieron un compartimento secreto.", nextNode: "n3_rama2" },
+                perfect: { log: "💎 ¡Perfecto! Cristal sanador hallado (+5 HP).", hpDelta: 5, nextNode: "n3_rama2" }
             }
         },
-        n2_caminoB: {
-            title: "Nivel 2 (Ruta B) - La Galería de Cristal",
-            text: "Cristales lumínicos iluminan abismos profundos. ¿Qué estrategia usan?",
+        n2_ramaB: {
+            title: "Nivel 2 (Sector B) - El Puente de Rocas Flotantes",
+            text: "Rocas suspendidas sobre un abismo humeante conectan ambos lados. ¿Cómo cruzan?",
             type: "d20_branch",
             options: [
-                { id: "n2b_1", text: "🔦 Usar antorchas para guiar el camino" },
-                { id: "n2b_2", text: "🧗 Escalar por los salientes de la pared" },
-                { id: "n2b_3", text: "🔮 Canalizar maná para iluminar la ruta" },
-                { id: "n2b_4", text: "🚶 Caminar a tientas en total silencio" }
+                { id: "n2b_1", text: "🧗 Saltar con precisión de roca en roca" },
+                { id: "n2b_2", text: "🪢 Lanzar una cuerda de seguridad" },
+                { id: "n2b_3", text: "🔮 Usar levitación menor con maná" },
+                { id: "n2b_4", text: "🚶 Caminar despacio probando cada piedra" }
             ],
             outcomes: {
-                bad: { log: "⚠️ ¡Pifia! Una bestia menor emerge de la oscuridad.", nextNode: "combate_n2_b" },
-                regular: { log: "🕯️ ¡Tranki! Avanzan con paso firme.", nextNode: "n3_rama2" },
-                good: { log: "🗺️ ¡Bueno! Encuentran un atajo seguro.", nextNode: "n3_rama3" },
-                perfect: { log: "🌟 ¡Perfecto! Manantial de energía (+5 Maná).", manaDelta: 5, nextNode: "n3_rama3" }
+                bad: { log: "⚠️ ¡Pifia! Una roca se desploma y casi caen (-3 HP).", hpDelta: -3, nextNode: "combate_n2_2" },
+                regular: { log: "🕯️ ¡Tranki! Cruce superado con éxito.", nextNode: "n3_rama2" },
+                good: { log: "🗺️ ¡Bueno! Hallan provisiones intactas.", nextNode: "n3_rama3" },
+                perfect: { log: "🌟 ¡Perfecto! Manantial arcano (+5 Maná).", manaDelta: 5, nextNode: "n3_rama3" }
             }
         },
-        n2_caminoC: {
-            title: "Nivel 2 (Ruta C) - El Laberinto de Piedra",
-            text: "Paredes móviles que cambian de posición constantemente. ¿Cómo se orientan?",
+        n2_ramaC: {
+            title: "Nivel 2 (Sector C) - El Laberinto de Espejos de Obsidiana",
+            text: "Paredes de cristal oscuro multiplican sus reflejos hasta desorientarlos. ¿Cómo se guían?",
             type: "d20_branch",
             options: [
-                { id: "n2c_1", text: "🗺️ Seguir marcas en el suelo" },
-                { id: "n2c_2", text: "🔨 Forzar una pared a golpes" },
-                { id: "n2c_3", text: "🧭 Usar brújula mística" },
-                { id: "n2c_4", text: "👥 Dividirse en grupos pequeños" }
+                { id: "n2c_1", text: "🔨 Romper un espejo para abrir paso" },
+                { id: "n2c_2", text: "🧭 Guiarse tocando la pared izquierda" },
+                { id: "n2c_3", text: "✨ Emitir destellos de luz mágica" },
+                { id: "n2c_4", text: "👥 Avanzar tomados de las manos" }
             ],
             outcomes: {
-                bad: { log: "🌀 ¡Pifia! Quedan encerrados con una criatura hostil.", nextNode: "combate_n2_c" },
-                regular: { log: "🚶 ¡Tranki! Salen del laberinto tras varios intentos.", nextNode: "n3_rama3" },
-                good: { log: "✨ ¡Bueno! Hallan provisiones (+3 HP).", hpDelta: 3, nextNode: "n3_rama4" },
-                perfect: { log: "👑 ¡Perfecto! Dominan el laberinto (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n3_rama4" }
+                bad: { log: "🌀 ¡Pifia! Una sombra emerge de los espejos.", nextNode: "combate_n2_3" },
+                regular: { log: "🚶 ¡Tranki! Salen del laberinto tras dar un par de vueltas.", nextNode: "n3_rama3" },
+                good: { log: "✨ ¡Bueno! Hallan un atajo directo.", nextNode: "n3_rama4" },
+                perfect: { log: "👑 ¡Perfecto! Dominio absoluto del laberinto (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n3_rama4" }
             }
         },
-        n2_caminoD: {
-            title: "Nivel 2 (Ruta D) - El Puente Suspendido",
-            text: "Un puente de cuerdas sobre un abismo sin fondo azotado por el viento.",
+        n2_ramaD: {
+            title: "Nivel 2 (Sector D) - La Galería de los Susurros",
+            text: "Voces lejanas resuenan en las paredes contando historias del pasado. ¿Qué hacen?",
             type: "d20_branch",
             options: [
-                { id: "n2d_1", text: "🪢 Asegurar las cuerdas con nudos fuertes" },
-                { id: "n2d_2", text: "🏃 Cruzar corriendo antes de que oscurezca" },
-                { id: "n2d_3", text: "🦉 Enviar un explorador ágil primero" },
-                { id: "n2d_4", text: "🧘 Meditar para calmar el viento" }
+                { id: "n2d_1", text: "👂 Escuchar con atención los mensajes" },
+                { id: "n2d_2", text: "🔇 Taponarse los oídos y avanzar rápido" },
+                { id: "n2d_3", text: "🕯️ Dejar una ofrenda en honor a los caídos" },
+                { id: "n2d_4", text: "⚡ Canales de energía para silenciar el lugar" }
             ],
             outcomes: {
-                bad: { log: "💔 ¡Pifia! El puente cede parcialmente (-4 HP).", hpDelta: -4, nextNode: "combate_n2_d" },
-                regular: { log: "😰 ¡Tranki! Cruzan con mucho susto.", nextNode: "n3_rama4" },
-                good: { log: "🛡️ ¡Bueno! Cruce impecable y seguro.", nextNode: "n3_rama4" },
-                perfect: { log: "🦅 ¡Perfecto! Hallan equipo olvidado en el abismo (+5 HP).", hpDelta: 5, nextNode: "n3_rama1" }
+                bad: { log: "💔 ¡Pifia! Los susurros nublan su mente (-2 HP).", hpDelta: -2, nextNode: "combate_n2_4" },
+                regular: { log: "😰 ¡Tranki! Soportan los ecos sin mayores problemas.", nextNode: "n3_rama4" },
+                good: { log: "🛡️ ¡Bueno! Revelaciones útiles obtenidas.", nextNode: "n3_rama4" },
+                perfect: { log: "🦅 ¡Perfecto! Bendición ancestral (+5 HP).", hpDelta: 5, nextNode: "n3_rama1" }
             }
         },
 
         // COMBATES NIVEL 2
-        combate_n2_a: { title: "Combate - Estatuas Guardianes", text: "¡Las estatuas cobran vida!", type: "combat", monsterName: "Estatuas Guardianes", baseHp: 35, nextNode: "n3_rama1" },
-        combate_n2_b: { title: "Combate - Bestia de las Cavernas", text: "¡Una criatura emerge!", type: "combat", monsterName: "Bestia de las Cavernas", baseHp: 40, nextNode: "n3_rama2" },
-        combate_n2_c: { title: "Combate - Merodeador del Laberinto", text: "¡Un cazador los acecha!", type: "combat", monsterName: "Merodeador", baseHp: 45, nextNode: "n3_rama3" },
-        combate_n2_d: { title: "Combate - Espíritu del Abismo", text: "¡Una ráfaga espectral ataca!", type: "combat", monsterName: "Espíritu Eólico", baseHp: 45, nextNode: "n3_rama4" },
+        combate_n2_1: { title: "Combate - Guardianes de Piedra", text: "¡Las estatuas cobran vida hostil!", type: "combat", monsterName: "Guardianes de Piedra", baseHp: 35, nextNode: "n3_rama1" },
+        combate_n2_2: { title: "Combate - Acechador de los Abismos", text: "¡Una criatura alada emerge!", type: "combat", monsterName: "Acechador Alado", baseHp: 40, nextNode: "n3_rama2" },
+        combate_n2_3: { title: "Combate - Reflejo Maligno", text: "¡Su propia oscuridad cobra forma!", type: "combat", monsterName: "Reflejo Maligno", baseHp: 40, nextNode: "n3_rama3" },
+        combate_n2_4: { title: "Combate - Espectro Errante", text: "¡Un alma en pena los ataca!", type: "combat", monsterName: "Espectro Errante", baseHp: 45, nextNode: "n3_rama4" },
 
-        // NIVEL 3 (4 Ramificaciones intermedias)
+        // ================= NIVEL 3 =================
         n3_rama1: {
-            title: "Nivel 3 (Fase I) - La Encrucijada de los Vientos",
-            text: "Llegan a una cima subterránea con corrientes de aire helado y cuatro pasadizos nuevos.",
+            title: "Nivel 3 (Fase I) - La Encrucijada de los Cuatro Vientos",
+            text: "Llegan a una explanada donde convergen corrientes de aire de cuatro túneles distintos.",
             type: "d20_branch",
             options: [
-                { id: "n3_1", text: "🌪️ Tomar el túnel del norte (vientos fuertes)" },
-                { id: "n3_2", text: "🔥 Tomar el túnel del sur (calor volcánico)" },
-                { id: "n3_3", text: "💧 Tomar el túnel del este (humedad y cascadas)" },
-                { id: "n3_4", text: "🌑 Tomar el túnel del oeste (oscuridad total)" }
+                { id: "n3_1", text: "🌪️ Tomar el túnel norte (corriente helada)" },
+                { id: "n3_2", text: "🔥 Tomar el túnel sur (corriente cálida)" },
+                { id: "n3_3", text: "💧 Tomar el túnel este (brisa húmeda)" },
+                { id: "n3_4", text: "🌑 Tomar el túnel oeste (corriente estática)" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia! Trampa ambiental (-3 HP).", hpDelta: -3, nextNode: "n4_rama1" },
-                regular: { log: "🪵 ¡Tranki! Superan el túnel sin contratiempos.", nextNode: "n4_rama2" },
-                good: { log: "✨ ¡Bueno! Ventaja estratégica obtenida (+5 Maná).", manaDelta: 5, nextNode: "n4_rama3" },
-                perfect: { log: "⚡ ¡Perfecto! Bendición de los elementos (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
+                bad: { log: "💥 ¡Pifia! Ráfaga cortante (-3 HP).", hpDelta: -3, nextNode: "n4_rama1" },
+                regular: { log: "🪵 ¡Tranki! Superan el cruce sin contratiempos.", nextNode: "n4_rama2" },
+                good: { log: "✨ ¡Bueno! Impulso favorable (+5 Maná).", manaDelta: 5, nextNode: "n4_rama3" },
+                perfect: { log: "⚡ ¡Perfecto! Armonía elemental (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
             }
         },
         n3_rama2: {
-            title: "Nivel 3 (Fase II) - El Valle de los Cristales Cantores",
-            text: "Un santuario donde los cristales emiten sonidos extraños. ¿Cómo interactúan?",
+            title: "Nivel 3 (Fase II) - El Valle de los Cristales Sonoros",
+            text: "Un jardín subterráneo de formaciones cristalinas que vibran al tacto.",
             type: "d20_branch",
             options: [
-                { id: "n3_21", text: "🎵 Tocar los cristales en armonía" },
-                { id: "n3_22", text: "⛏️ Extraer fragmentos para inventario" },
-                { id: "n3_23", text: "🤫 Ignorarlos y pasar rápido" },
-                { id: "n3_24", text: "🔮 Absorber su frecuencia mística" }
+                { id: "n3_21", text: "🎵 Tocar los cristales para crear resonancia" },
+                { id: "n3_22", text: "⛏️ Recolectar fragmentos puros" },
+                { id: "n3_23", text: "🤫 Cruzar en absoluto silencio" },
+                { id: "n3_24", text: "🔮 Canalizar energía a través de ellos" }
             ],
             outcomes: {
-                bad: { log: "🔔 ¡Pifia! El sonido atrae hostiles.", nextNode: "combate_n3_b" },
-                regular: { log: "🚶 ¡Tranki! Cruce silencioso.", nextNode: "n4_rama2" },
-                good: { log: "💎 ¡Bueno! Cristales recolectados (+5 HP).", hpDelta: 5, nextNode: "n4_rama3" },
-                perfect: { log: "🌟 ¡Perfecto! Resonancia pura (+10 Maná).", manaDelta: 10, nextNode: "n4_rama4" }
+                bad: { log: "🔔 ¡Pifia! La vibración atrae bestias.", nextNode: "combate_n3_1" },
+                regular: { log: "🚶 ¡Tranki! Cruce pacífico.", nextNode: "n4_rama2" },
+                good: { log: "💎 ¡Bueno! Cristales útiles (+5 HP).", hpDelta: 5, nextNode: "n4_rama3" },
+                perfect: { log: "🌟 ¡Perfecto! Sintonía perfecta (+10 Maná).", manaDelta: 10, nextNode: "n4_rama4" }
             }
         },
         n3_rama3: {
-            title: "Nivel 3 (Fase III) - La Cripta de los Sabios",
-            text: "Tumbas antiguas con jeroglíficos en las paredes. ¿Qué investigan?",
+            title: "Nivel 3 (Fase III) - La Cripta de los Antepasados",
+            text: "Antiguos sarcófagos de piedra cubiertos de musgo luminoso.",
             type: "d20_branch",
             options: [
-                { id: "n3_31", text: "📜 Traducir los textos antiguos" },
-                { id: "n3_32", text: "🏺 Buscar ofrendas en las urnas" },
-                { id: "n3_33", text: "🕯️ Encender velas ceremoniales" },
-                { id: "n3_34", text: "🚪 Forzar la puerta principal del fondo" }
+                { id: "n3_31", text: "📜 Leer las inscripciones de las lápidas" },
+                { id: "n3_32", text: "🏺 Inspeccionar las ofrendas funerarias" },
+                { id: "n3_33", text: "🕯️ Encender una luz en memoria de los caídos" },
+                { id: "n3_34", text: "🚪 Abrir el portón blindado del fondo" }
             ],
             outcomes: {
-                bad: { log: "👻 ¡Pifia! Despiertan un protector espectral.", nextNode: "combate_n3_c" },
-                regular: { log: "📖 ¡Tranki! Sabiduría adquirida.", nextNode: "n4_rama3" },
-                good: { log: "✨ ¡Bueno! Ofrenda útil hallada (+5 HP).", hpDelta: 5, nextNode: "n4_rama4" },
-                perfect: { log: "👑 ¡Perfecto! Legado de los sabios (+10 HP).", hpDelta: 10, nextNode: "n4_rama4" }
+                bad: { log: "👻 ¡Pifia! Guardián de la cripta alertado.", nextNode: "combate_n3_2" },
+                regular: { log: "📖 ¡Tranki! Camino despejado.", nextNode: "n4_rama3" },
+                good: { log: "✨ ¡Bueno! Reliquia menor hallada (+5 HP).", hpDelta: 5, nextNode: "n4_rama4" },
+                perfect: { log: "👑 ¡Perfecto! Bendición de los sabios (+10 HP).", hpDelta: 10, nextNode: "n4_rama4" }
             }
         },
         n3_rama4: {
-            title: "Nivel 3 (Fase IV) - La Falla Geológica",
-            text: "El suelo tiembla y rocas caen del techo. ¿Cómo esquivan el peligro?",
+            title: "Nivel 3 (Fase IV) - El Abismo de los Suspiros",
+            text: "Un puente natural de roca que cruza una profunda sima brumosa.",
             type: "d20_branch",
             options: [
-                { id: "n3_41", text: "🏃 Correr hacia la salida más cercana" },
-                { id: "n3_42", text: "🛡️ Cubrirse bajo salientes rocosas" },
-                { id: "n3_43", text: "⚡ Usar magia para desviar rocas" },
-                { id: "n3_44", text: "🤝 Ayudar al grupo a ponerse a salvo" }
+                { id: "n3_41", text: "🏃 Cruzar a paso ligero" },
+                { id: "n3_42", text: "🛡️ Avanzar con extrema precaución" },
+                { id: "n3_43", text: "🦉 Enviar un explorador adelante" },
+                { id: "n3_44", text: "⚡ Lanzar un hechizo de estabilidad" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia! Impacto de roca (-4 HP).", hpDelta: -4, nextNode: "combate_n3_d" },
-                regular: { log: "😅 ¡Tranki! Raspones leves (-2 HP).", hpDelta: -2, nextNode: "n4_rama4" },
-                good: { log: "✨ ¡Bueno! Refugio perfecto hallado.", nextNode: "n4_rama4" },
-                perfect: { log: "💎 ¡Perfecto! Mineral raro descubierto (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
+                bad: { log: "💥 ¡Pifia! Tropiezo y caída leve (-3 HP).", hpDelta: -3, nextNode: "combate_n3_3" },
+                regular: { log: "😅 ¡Tranki! Cruzaron sin incidentes.", nextNode: "n4_rama4" },
+                good: { log: "✨ ¡Bueno! Hallan equipo útil.", nextNode: "n4_rama4" },
+                perfect: { log: "💎 ¡Perfecto! Viento a favor (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
             }
         },
 
-        combate_n3_b: { title: "Combate - Protector de Cristal", text: "¡El sonido despertó al golem!", type: "combat", monsterName: "Golem de Cristal", baseHp: 50, nextNode: "n4_rama2" },
-        combate_n3_c: { title: "Combate - Espectro Sabio", text: "¡El protector reclama su cripta!", type: "combat", monsterName: "Espectro Guardián", baseHp: 50, nextNode: "n4_rama3" },
-        combate_n3_d: { title: "Combate - Bestia Subterránea", text: "¡El temblor liberó a una fiera!", type: "combat", monsterName: "Fiera de las Profundidades", baseHp: 55, nextNode: "n4_rama4" },
+        combate_n3_1: { title: "Combate - Golem de Cristal", text: "¡El ruido despertó al golem!", type: "combat", monsterName: "Golem de Cristal", baseHp: 50, nextNode: "n4_rama2" },
+        combate_n3_2: { title: "Combate - Guardián de la Cripta", text: "¡Un protector ancestral ataca!", type: "combat", monsterName: "Guardián de la Cripta", baseHp: 50, nextNode: "n4_rama3" },
+        combate_n3_3: { title: "Combate - Bestia de la Sima", text: "¡Una criatura emerge de la bruma!", type: "combat", monsterName: "Bestia de la Sima", baseHp: 55, nextNode: "n4_rama4" },
 
-        // NIVEL 4 (4 Ramificaciones avanzadas previas al jefe)
-        n4_rama1: { title: "Nivel 4 (Paso I) - La Puerta de Obsidiana", text: "Un portón gigante con runas oscuras.", type: "d20_branch", options: [{id:"n4_1", text:"🔨 Romper con fuerza"}, {id:"n4_2", text:"🗝️ Desactivar runas"}, {id:"n4_3", text:"🔮 Disipar con maná"}, {id:"n4_4", text:"🕵️‍♂️ Buscar bypass"}], outcomes: { bad: {log:"💥 Trampa defensiva (-3 HP).", hpDelta:-3, nextNode:"boss_hard"}, regular: {log:"🪵 Portón abierto con esfuerzo.", nextNode:"boss_normal"}, good: {log:"✨ Desactivación limpia.", nextNode:"boss_advantage"}, perfect: {log:"⚡ Bendición (+5 HP/+5M).", hpDelta:5, manaDelta:5, nextNode:"boss_legendary"} } },
-        n4_rama2: { title: "Nivel 4 (Paso II) - El Salón del Trono Vacío", text: "Vestigios de un antiguo rey tirano.", type: "d20_branch", options: [{id:"n4_21", text:"👑 Investigar el trono"}, {id:"n4_22", text:"📜 Leer decretos reales"}, {id:"n4_23", text:"🪙 Buscar tesoros ocultos"}, {id:"n4_24", text:"🚪 Avanzar sin detenerse"}], outcomes: { bad: {log:"⚠️ Maldición menor (-3 HP).", hpDelta:-3, nextNode:"boss_normal"}, regular: {log:"🚶 Camino libre.", nextNode: "boss_normal"}, good: {log:"🗺️ Tesoro hallado (+5 HP).", hpDelta:5, nextNode:"boss_advantage"}, perfect: {log:"🌟 Poder real (+10 Maná).", manaDelta:10, nextNode:"boss_legendary"} } },
-        n4_rama3: { title: "Nivel 4 (Paso III) - El Pozo de las Almas", text: "Energía suspendida sobre un abismo profundo.", type: "d20_branch", options: [{id:"n4_31", text:"🔮 Canalizar energía"}, {id:"n4_32", text:"💧 Purificar el agua"}, {id:"n4_33", text:"🕯️ Orar en silencio"}, {id:"n4_34", text:"🏃 Rodear con presteza"}], outcomes: { bad: {log:"🌀 Rebote de energía (-3 HP).", hpDelta:-3, nextNode:"boss_normal"}, regular: {log:"✨ Paso seguro.", nextNode:"boss_advantage"}, good: {log:"✨ Energía restaurada (+5 Maná).", manaDelta:5, nextNode:"boss_advantage"}, perfect: {log:"👑 Armonía total (+10 HP).", hpDelta:10, nextNode:"boss_legendary"} } },
-        n4_rama4: { title: "Nivel 4 (Paso IV) - La Antesala del Titán", text: "El suelo vibra con la presencia del gran gobernante del abismo.", type: "d20_branch", options: [{id:"n4_41", text:"⚔️ Afilar armas y preparar defensas"}, {id:"n4_42", text:"🧪 Consumir pociones preventivas"}, {id:"n4_43", text:"🗣️ Consignas de aliento grupal"}, {id:"n4_44", text:"👁️ Vigilar flancos estratégicos"}], outcomes: { bad: {log:"⚠️ Descuido táctico (-2 HP).", hpDelta:-2, nextNode:"boss_normal"}, regular: {log:"🛡️ Preparados para el combate.", nextNode:"boss_normal"}, good: {log:"🔥 Ventaja táctica inicial.", nextNode:"boss_advantage"}, perfect: {log:"⚡ Inspiración máxima (+10 HP / +10 Maná).", hpDelta:10, manaDelta:10, nextNode:"boss_legendary"} } },
+        // ================= NIVEL 4 =================
+        n4_rama1: {
+            title: "Nivel 4 (Paso I) - El Portón de Obsidiana",
+            text: "Una puerta ciclópea con runas que brillan con fuego interno. ¿Cómo la abren?",
+            type: "d20_branch",
+            options: [
+                { id: "n4_11", text: "🔨 Forzar la cerradura con fuerza bruta" },
+                { id: "n4_12", text: "🗝️ Resolver el acertijo rúnico grabado" },
+                { id: "n4_13", text: "🔮 Disipar las runas con maná puro" },
+                { id: "n4_14", text: "🕵️‍♂️ Buscar una entrada alternativa" }
+            ],
+            outcomes: {
+                bad: { log: "💥 ¡Pifia! Descarga rúnica defensiva (-3 HP).", hpDelta: -3, nextNode: "boss_hard" },
+                regular: { log: "🪵 ¡Tranki! Portón abierto con esfuerzo.", nextNode: "boss_normal" },
+                good: { log: "✨ ¡Bueno! Apertura limpia y precisa.", nextNode: "boss_advantage" },
+                perfect: { log: "⚡ ¡Perfecto! Energía absorbida (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "boss_legendary" }
+            }
+        },
+        n4_rama2: {
+            title: "Nivel 4 (Paso II) - La Sala del Trono del Monarca Caído",
+            text: "Un salón regio cubierto de estandartes destrozados. ¿Qué inspeccionan?",
+            type: "d20_branch",
+            options: [
+                { id: "n4_21", text: "👑 Examinar el trono real" },
+                { id: "n4_22", text: "📜 Leer los registros reales en los atriles" },
+                { id: "n4_23", text: "🪙 Buscar tesoros en las esquinas" },
+                { id: "n4_24", text: "🚪 Cruzar directamente hacia el fondo" }
+            ],
+            outcomes: {
+                bad: { log: "⚠️ ¡Pifia! Maldición del monarca (-3 HP).", hpDelta: -3, nextNode: "boss_normal" },
+                regular: { log: "🚶 ¡Tranki! Sin novedades relevantes.", nextNode: "boss_normal" },
+                good: { log: "🗺️ ¡Bueno! Botín de guerra hallado (+5 HP).", hpDelta: 5, nextNode: "boss_advantage" },
+                perfect: { log: "🌟 ¡Perfecto! Poder real latente (+10 Maná).", manaDelta: 10, nextNode: "boss_legendary" }
+            }
+        },
+        n4_rama3: {
+            title: "Nivel 4 (Paso III) - El Santuario de la Llama Eterna",
+            text: "Un brasero gigante arde con fuego místico en el centro de la sala.",
+            type: "d20_branch",
+            options: [
+                { id: "n4_31", text: "🔥 Calentar armas en la llama sagrada" },
+                { id: "n4_32", text: "💧 Apagar parte del fuego con prudencia" },
+                { id: "n4_33", text: "🕯️ Meditar frente al brasero" },
+                { id: "n4_34", text: "🏃 Rodear la llama con rapidez" }
+            ],
+            outcomes: {
+                bad: { log: "🌀 ¡Pifia! Quemadura mística (-3 HP).", hpDelta: -3, nextNode: "boss_normal" },
+                regular: { log: "✨ ¡Tranki! Energía templada.", nextNode: "boss_advantage" },
+                good: { log: "✨ ¡Bueno! Espíritu revitalizado (+5 Maná).", manaDelta: 5, nextNode: "boss_advantage" },
+                perfect: { log: "👑 ¡Perfecto! Bendición de la llama (+10 HP).", hpDelta: 10, nextNode: "boss_legendary" }
+            }
+        },
+        n4_rama4: {
+            title: "Nivel 4 (Paso IV) - La Antesala del Titán",
+            text: "El suelo vibra intensamente. El jefe supremo aguarda tras el último umbral.",
+            type: "d20_branch",
+            options: [
+                { id: "n4_41", text: "⚔️ Afilar armas y revisar armaduras" },
+                { id: "n4_42", text: "🧪 Beber pociones preparatorias" },
+                { id: "n4_43", text: "🗣️ Dar un discurso motivacional al grupo" },
+                { id: "n4_44", text: "👁️ Vigilar los flancos en silencio" }
+            ],
+            outcomes: {
+                bad: { log: "⚠️ ¡Pifia! Descuido en la preparación (-2 HP).", hpDelta: -2, nextNode: "boss_normal" },
+                regular: { log: "🛡️ ¡Tranki! Listos para el combate.", nextNode: "boss_normal" },
+                good: { log: "🔥 ¡Bueno! Excelente preparación táctica.", nextNode: "boss_advantage" },
+                perfect: { log: "⚡ ¡Perfecto! Moral al máximo (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "boss_legendary" }
+            }
+        },
 
-        // NVEL 5: JEFES FINALES Y 4 FINALES
-        boss_hard: { title: "Nivel 5 (Clímax) - Titán de Obsidiana (Furia)", text: "El coloso guardián los ataca con furia implacable.", type: "combat", isBoss: true, monsterName: "Titán de Obsidiana", baseHp: 100, nextNode: "ending_survivor" },
-        boss_normal: { title: "Nivel 5 (Clímax) - Señor de las Profundidades", text: "El enfrentamiento definitivo por la salvación.", type: "combat", isBoss: true, monsterName: "Señor de las Profundidades", baseHp: 85, nextNode: "ending_heroic" },
-        boss_advantage: { title: "Nivel 5 (Clímax) - Señor del Abismo (Debilitado)", text: "Sus defensas flaquean gracias a sus decisiones previas.", type: "combat", isBoss: true, monsterName: "Señor del Abismo", baseHp: 65, nextNode: "ending_heroic" },
-        boss_legendary: { title: "Nivel 5 (Clímax) - Entidad Primigenia del Caos", text: "El ser supremo que habitaba el núcleo del calabozo.", type: "combat", isBoss: true, monsterName: "Entidad Primigenia", baseHp: 110, nextNode: "ending_legendary" },
+       // ================= NIVEL 5 =================
+        n5_rama1: {
+            title: "Nivel 5 (Fase I) - La Caverna de los Ecos Espejados",
+            text: "Las paredes multiplican cada sonido, creando una sinfonía de ecos confusos. ¿Cómo avanzan?",
+            type: "d20_branch",
+            options: [
+                { id: "n5_11", text: "🗣️ Cantar en armonía para calmar los ecos" },
+                { id: "n5_12", text: "🤫 Avanzar en absoluto silencio" },
+                { id: "n5_13", text: "⚡ Emitir una onda sónica para disipar el efecto" },
+                { id: "n5_14", text: "🕵️‍♂️ Buscar el origen de la resonancia" }
+            ],
+            outcomes: {
+                bad: { log: "💥 ¡Pifia! Onda sónica destructiva (-3 HP).", hpDelta: -3, nextNode: "n6_rama1" },
+                regular: { log: "🪵 ¡Tranki! Superan el salón con paciencia.", nextNode: "n6_rama2" },
+                good: { log: "✨ ¡Bueno! Resonancia aprovechada (+5 Maná).", manaDelta: 5, nextNode: "n6_rama3" },
+                perfect: { log: "⚡ ¡Perfecto! Armonía perfecta (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n6_rama4" }
+            }
+        },
+        n5_rama2: {
+            title: "Nivel 5 (Fase II) - El Río de Magma Subterráneo",
+            text: "Un caudal de roca fundida bloquea el paso principal. Un puente de cadenas cuelga arriba.",
+            type: "d20_branch",
+            options: [
+                { id: "n5_21", text: "⛓️ Cruzar corriendo por las cadenas colgantes" },
+                { id: "n5_22", text: "❄️ Usar maná de hielo para enfriar un sector" },
+                { id: "n5_23", text: "🧗 Buscar un vado menos profundo" },
+                { id: "n5_24", text: "🛡️ Cubrirse con escudos contra el calor intenso" }
+            ],
+            outcomes: {
+                bad: { log: "🔥 ¡Pifia! Ola de calor sofocante (-3 HP).", hpDelta: -3, nextNode: "n6_rama2" },
+                regular: { log: "🚶 ¡Tranki! Cruce caluroso pero seguro.", nextNode: "n6_rama3" },
+                good: { log: "💎 ¡Bueno! Materiales volcánicos recolectados (+5 HP).", hpDelta: 5, nextNode: "n6_rama4" },
+                perfect: { log: "🌟 ¡Perfecto! Control del fuego (+10 Maná).", manaDelta: 10, nextNode: "n6_rama1" }
+            }
+        },
+
+        // ================= NIVEL 6 =================
+        n6_rama1: {
+            title: "Nivel 6 (Fase I) - La Biblioteca de los Pergaminos Perdidos",
+            text: "Anaqueles infinitos con tomos antiguos que flotan levemente en el aire.",
+            type: "d20_branch",
+            options: [
+                { id: "n6_11", text: "📜 Leer los grimorios de magia arcana" },
+                { id: "n6_12", text: "🔍 Buscar mapas ocultos del calabozo" },
+                { id: "n6_13", text: "🕯️ Ignorar los libros y seguir el pasillo" },
+                { id: "n6_14", text: "🔮 Absorbir la energía de los tomos flotantes" }
+            ],
+            outcomes: {
+                bad: { log: "👻 ¡Pifia! Trampa de maldición escrita (-3 HP).", hpDelta: -3, nextNode: "n7_rama1" },
+                regular: { log: "📖 ¡Tranki! Conocimiento adquirido.", nextNode: "n7_rama2" },
+                good: { log: "✨ ¡Bueno! Pergamino útil hallado (+5 Maná).", manaDelta: 5, nextNode: "n7_rama3" },
+                perfect: { log: "👑 ¡Perfecto! Sabiduría absoluta (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "n7_rama4" }
+            }
+        },
+        n6_rama2: {
+            title: "Nivel 6 (Fase II) - El Bosque de Hongos Gigantes",
+            text: "Una selva subterránea de esporas luminosas y raíces titánicas.",
+            type: "d20_branch",
+            options: [
+                { id: "n6_21", text: "🍄 Recolectar esporas medicinales" },
+                { id: "n6_22", text: "🗡️ Abrir camino cortando raíces espesas" },
+                { id: "n6_23", text: "🦉 Escalar una raíz alta para otear el terreno" },
+                { id: "n6_24", text: "⚡ Encender fuego controlado para espilar fauna" }
+            ],
+            outcomes: {
+                bad: { log: "🌿 ¡Pifia! Enmarañados y golpeados (-2 HP).", hpDelta: -2, nextNode: "n7_rama2" },
+                regular: { log: "🚶 ¡Tranki! Senda abierta con éxito.", nextNode: "n7_rama3" },
+                good: { log: "✨ ¡Bueno! Suministros naturales (+6 HP).", hpDelta: 6, nextNode: "n7_rama4" },
+                perfect: { log: "💎 ¡Perfecto! Esencia vital pura (+10 HP).", hpDelta: 10, nextNode: "n7_rama1" }
+            }
+        },
+
+        // ================= NIVEL 7 =================
+        n7_rama1: {
+            title: "Nivel 7 (Fase I) - La Sima de los Mil Abismos",
+            text: "Un puente colgante destruido sobre un abismo vertical interminable.",
+            type: "d20_branch",
+            options: [
+                { id: "n7_11", text: "🪢 Reparar el puente con cuerdas y pernos" },
+                { id: "n7_12", text: "🧗 Descender por la pared y escalar al otro lado" },
+                { id: "n7_13", text: "🔮 Usar levitación grupal" },
+                { id: "n7_14", text: "🏃 Tomar impulso y saltar al saliente" }
+            ],
+            outcomes: {
+                bad: { log: "💥 ¡Pifia! Caída dolorosa (-4 HP).", hpDelta: -4, nextNode: "n8_rama1" },
+                regular: { log: "😅 ¡Tranki! Cruce con gran esfuerzo.", nextNode: "n8_rama2" },
+                good: { log: "✨ ¡Bueno! Maniobra impecable.", nextNode: "n8_rama3" },
+                perfect: { log: "🌟 ¡Perfecto! Viento favorable (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n8_rama4" }
+            }
+        },
+        n7_rama2: {
+            title: "Nivel 7 (Fase II) - El Palacio de Cristal Quebrado",
+            text: "Ruinas de un palacio de cristal con miles de fragmentos cortantes en el suelo.",
+            type: "d20_branch",
+            options: [
+                { id: "n7_21", text: "🛡️ Usar placas de metal para deslizarse" },
+                { id: "n7_22", text: "🧹 Barrer el camino con magia de viento" },
+                { id: "n7_23", text: "🚶 Caminar con extremo cuidado paso a paso" },
+                { id: "n7_24", text: "⚡ Fundir los cristales del suelo con calor" }
+            ],
+            outcomes: {
+                bad: { log: "🔪 ¡Pifia! Cortes profundos en las piernas (-3 HP).", hpDelta: -3, nextNode: "n8_rama2" },
+                regular: { log: "🚶 ¡Tranki! Pasaron con mínimos raspones.", nextNode: "n8_rama3" },
+                good: { log: "💎 ¡Bueno! Fragmentos puros recolectados (+5 HP).", hpDelta: 5, nextNode: "n8_rama4" },
+                perfect: { log: "👑 ¡Perfecto! Dominio del cristal (+10 Maná).", manaDelta: 10, nextNode: "n8_rama1" }
+            }
+        },
+
+        // ================= NIVEL 8 =================
+        n8_rama1: {
+            title: "Nivel 8 (Fase I) - La Galería de los Espejos Temporales",
+            text: "Reflejos del pasado y el futuro parpadean en los espejos de las paredes.",
+            type: "d20_branch",
+            options: [
+                { id: "n8_11", text: "🔮 Intentar ver la debilidad del jefe final" },
+                { id: "n8_12", text: "🔨 Romper los espejos para evitar distracciones" },
+                { id: "n8_13", text: "🧘 Meditar en el centro de la sala" },
+                { id: "n8_14", text: "🏃 Avanzar sin mirar los reflejos" }
+            ],
+            outcomes: {
+                bad: { log: "🌀 ¡Pifia! Confusión mental (-3 HP).", hpDelta: -3, nextNode: "n9_rama1" },
+                regular: { log: "✨ ¡Tranki! Visión templada.", nextNode: "n9_rama2" },
+                good: { log: "🌟 ¡Bueno! Ventaja estratégica (+5 Maná).", manaDelta: 5, nextNode: "n9_rama3" },
+                perfect: { log: "⚡ ¡Perfecto! Claridad absoluta (+8 HP / +8 Maná).", hpDelta: 8, manaDelta: 8, nextNode: "n9_rama4" }
+            }
+        },
+        n8_rama2: {
+            title: "Nivel 8 (Fase II) - La Armería del Valhalla Subterráneo",
+            text: "Un depósito repleto de armas legendarias cubiertas de polvo milenario.",
+            type: "d20_branch",
+            options: [
+                { id: "n8_21", text: "⚔️ Reemplazar empuñaduras y afilar filos" },
+                { id: "n8_22", text: "🛡️ Buscar escudos y protecciones extra" },
+                { id: "n8_23", text: "🔮 Bendecir el equipo con runas de poder" },
+                { id: "n8_24", text: "🏃 Tomar suministros rápidos y seguir" }
+            ],
+            outcomes: {
+                bad: { log: "💥 ¡Pifia! Trampa en un cofre de armas (-3 HP).", hpDelta: -3, nextNode: "n9_rama2" },
+                regular: { log: "🪵 ¡Tranki! Equipo revisado.", nextNode: "n9_rama3" },
+                good: { log: "✨ ¡Bueno! Armamento mejorado (+5 HP).", hpDelta: 5, nextNode: "n9_rama4" },
+                perfect: { log: "⚡ ¡Perfecto! Bendición de armería (+10 HP).", hpDelta: 10, nextNode: "n9_rama1" }
+            }
+        },
+
+        // ================= NIVEL 9 =================
+        n9_rama1: {
+            title: "Nivel 9 (Fase I) - La Antesala del Núcleo",
+            text: "El suelo vibra violentamente. El aire huele a energía pura y ozono. Se acercan al final.",
+            type: "d20_branch",
+            options: [
+                { id: "n9_11", text: "⚔️ Afilar armas y preparar técnicas definitivas" },
+                { id: "n9_12", text: "🧪 Consumir pociones y elixires restantes" },
+                { id: "n9_13", text: "🗣️ Juramento final de hermandad grupal" },
+                { id: "n9_14", text: "👁️ Inspeccionar las entradas al gran salón" }
+            ],
+            outcomes: {
+                bad: { log: "⚠️ ¡Pifia! Descuido en la concentración (-2 HP).", hpDelta: -2, nextNode: "nivel10_climax" },
+                regular: { log: "🛡️ ¡Tranki! Listos para el juicio final.", nextNode: "nivel10_climax" },
+                good: { log: "🔥 ¡Bueno! Espíritu de combate elevado (+5 Maná).", manaDelta: 5, nextNode: "nivel10_climax" },
+                perfect: { log: "⚡ ¡Perfecto! Poder interior desatado (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "nivel10_climax" }
+            }
+        },
+        n9_rama2: {
+            title: "Nivel 9 (Fase II) - El Puente de Luz Estelar",
+            text: "Un puente hecho de energía pura que cruza hacia la cúspide del santuario central.",
+            type: "d20_branch",
+            options: [
+                { id: "n9_21", text: "✨ Cruzar absorbiendo parte de la luz" },
+                { id: "n9_22", text: "🏃 Correr con velocidad antes de que disipe" },
+                { id: "n9_23", text: "🔮 Sintonizar la energía con el maná propio" },
+                { id: "n9_24", text: "🚶 Avanzar firmes y concentrados" }
+            ],
+            outcomes: {
+                bad: { log: "🌀 ¡Pifia! Inestabilidad energética (-3 HP).", hpDelta: -3, nextNode: "nivel10_climax" },
+                regular: { log: "✨ ¡Tranki! Cruce completado.", nextNode: "nivel10_climax" },
+                good: { log: "🌟 ¡Bueno! Aura protectora obtenida (+5 HP).", hpDelta: 5, nextNode: "nivel10_climax" },
+                perfect: { log: "👑 ¡Perfecto! Bendición estelar máxima (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "nivel10_climax" }
+            }
+        },
+
+        // ================= NIVEL 10: CLÍMAX FINAL Y 4 FINALES =================
+        nivel10_climax: {
+            title: "Nivel 10 (CLÍMAX FINAL) - La Cámara del Creador del Abismo",
+            text: "Han llegado al corazón de todo el complejo subterráneo. El guardián supremo y gobernante del abismo se alza imponente ante ustedes para el combate definitivo.",
+            type: "combat",
+            isBoss: true,
+            monsterName: "Creador Supremo del Abismo",
+            baseHp: 120,
+            nextNode: "ending_legendary"
+        },
 
         // 4 FINALES EXACTOS
-        ending_tragic: { title: "💀 FINAL 1: Caídos en el Abismo", text: "Las heridas y el cansancio sellaron el destino del grupo en la oscuridad eterna.", type: "ending", badge: "Final Trágico (1/4)" },
-        ending_survivor: { title: "🩹 FINAL 2: Supervivientes al Límite", text: "Lograron salir a la superficie con vida, aunque maltrechos y marcados por los horrores.", type: "ending", badge: "Final Agridulce (2/4)" },
-        ending_heroic: { title: "⚔️ FINAL 3: Libertadores del Abismo", text: "Derrotaron al tirano final y restauraron la paz en las tierras subterráneas.", type: "ending", badge: "Final Heroico (3/4)" },
-        ending_legendary: { title: "👑 FINAL 4: Leyendas Inmortales", text: "Maestría absoluta. Superaron cada prueba con perfección y son recordados como héroes míticos.", type: "ending", badge: "Final Legendario (4/4)" }
-    }
-};
+        ending_tragic: { title: "💀 FINAL 1: Caídos en el Abismo", text: "Las heridas y el agotamiento sellaron el destino del grupo en la oscuridad eterna.", type: "ending", badge: "Final Trágico (1/4)" },
+        ending_survivor: { title: "🩹 FINAL 2: Supervivientes al Límite", text: "Lograron salir a la superficie con vida, aunque maltrechos y marcados por los horrores superados.", type: "ending", badge: "Final Agridulce (2/4)" },
+        ending_heroic: { title: "⚔️ FINAL 3: Libertadores del Abismo", text: "Derrotaron al tirano final y restauraron la paz en todas las tierras subterráneas.", type: "ending", badge: "Final Heroico (3/4)" },
+        ending_legendary: { title: "👑 FINAL 4: Leyendas Inmortales", text: "Maestría absoluta. Superaron los 10 niveles de prueba con perfección y son recordados como héroes míticos.", type: "ending", badge: "Final Legendario (4/4)" }
 
 let activeRoomCode = "", activeCharacter = {}, currentSelectedAction = null, selectedStoryOptionId = null, unsubscribeSnapshot = null;
 
@@ -449,7 +696,7 @@ function renderActionChoices() {
         activeCharacter.abilities.forEach((ab, index) => {
             const abCd = ab.currentCd || 0, abCard = document.createElement("div"); abCard.className = "ability-card-game";
             if (abCd > 0) {
-                abCard.style.opacity = "0.5";
+                abCd.style.opacity = "0.5";
                 abCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚡ ${ab.name}</strong><div style="font-size:11px; color:#ff6b6b;">⏳ En CD: ${abCd} turnos</div>`;
             } else {
                 abCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚡ ${ab.name}</strong><div style="font-size:11px; color:var(--muted);">🎲 ${ab.dice} | 🔮 ${ab.mana}M | CD: ${ab.cdMax}</div>`;
@@ -491,7 +738,7 @@ function updateGameLobbyList(players) {
 async function startAdventure() {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
     await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0 });
-    logSystemMessage(`🚀 ¡La campaña épica de 5 niveles ha comenzado!`);
+    logSystemMessage(`🚀 ¡La campaña masiva ha comenzado!`);
 }
 
 function renderStoryNode(nodeId, roomData) {
