@@ -53,9 +53,6 @@ header p { color: var(--muted); font-style: italic; }
 .ability-card-game:hover { border-color: var(--gold); background: #252023; }
 .ability-card-game.selected { border-color: #56845c; background: #223525; }
 .tier-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-bottom: 6px; }
-.tier-bad { background: #5c1e1e; color: #ff9999; }
-.tier-regular { background: #5c4b1e; color: #ffe082; }
-.tier-good { background: #1e4d5c; color: #80deea; }
 .tier-perfect { background: #1e5c2f; color: #a5d6a7; }
 .btn-gold { background: linear-gradient(135deg, #c99c55, #8c642f); color: #17120d; font-weight: bold; border: none; padding: 12px 18px; border-radius: 5px; cursor: pointer; font-size: 15px; width: 100%; }
 </style>
@@ -64,7 +61,7 @@ header p { color: var(--muted); font-style: italic; }
 
 <header>
     <h1>⚔ CRÓNICAS DEL ABISMO ⚔</h1>
-    <p>Campaña Épica de Profundidad Masiva</p>
+    <p>Campaña Épica de Profundidad Masiva hasta Nivel 10</p>
 </header>
 
 <main class="container" style="max-width:1300px;">
@@ -135,7 +132,6 @@ header p { color: var(--muted); font-style: italic; }
 </main>
 
 <script>
-// CAMPAÑA MASIVA TRIPLE: 4 CAMINOS INICIALES Y MÚLTIPLES NIVELES PROFUNDOS DE RAMIFICACIÓN
 const campaigns = {
     story1: {
         start: {
@@ -149,10 +145,10 @@ const campaigns = {
                 { id: "p4_bosque", text: "🌿 Camino 4: Las Raíces Profundas y Lumínicas" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia (1-5)! Una trampa menor oculta en el suelo se activa (-2 HP).", hpDelta: -2, nextNode: "n2_ramaA" },
-                regular: { log: "🪵 ¡Tranki (6-10)! Avanzan con cautela por el sendero elegido.", nextNode: "n2_ramaB" },
-                good: { log: "🚪 ¡Bueno (11-15)! Hallan rastros y mapas útiles sobre el terreno.", nextNode: "n2_ramaC" },
-                perfect: { log: "⚡ ¡Perfecto (16-20)! Energía pura del entorno les otorga +5 Maná.", manaDelta: 5, nextNode: "n2_ramaD" }
+                bad: { log: "Una trampa menor oculta en el suelo se activa (-2 HP).", hpDelta: -2, nextNode: "n2_ramaA" },
+                regular: { log: "Avanzan con cautela por el sendero elegido.", nextNode: "n2_ramaB" },
+                good: { log: "Hallan rastros y mapas útiles sobre el terreno.", nextNode: "n2_ramaC" },
+                perfect: { log: "Energía pura del entorno les otorga +5 Maná.", manaDelta: 5, nextNode: "n2_ramaD" }
             }
         },
 
@@ -168,10 +164,10 @@ const campaigns = {
                 { id: "n2a_4", text: "🕵️‍♂️ Inspeccionar la base de las estatuas" }
             ],
             outcomes: {
-                bad: { log: "🏹 ¡Pifia! Las estatuas cobran vida y los atacan.", nextNode: "combate_n2_1" },
-                regular: { log: "😅 ¡Tranki! Pasaron con un leve desgaste (-1 HP).", hpDelta: -1, nextNode: "n3_rama1" },
-                good: { log: "✨ ¡Bueno! Descubrieron un compartimento secreto.", nextNode: "n3_rama2" },
-                perfect: { log: "💎 ¡Perfecto! Cristal sanador hallado (+5 HP).", hpDelta: 5, nextNode: "n3_rama2" }
+                bad: { log: "Las estatuas cobran vida y los atacan.", nextNode: "combate_n2_1" },
+                regular: { log: "Pasaron con un leve desgaste (-1 HP).", hpDelta: -1, nextNode: "n3_rama1" },
+                good: { log: "Descubrieron un compartimento secreto.", nextNode: "n3_rama2" },
+                perfect: { log: "Cristal sanador hallado (+5 HP).", hpDelta: 5, nextNode: "n3_rama2" }
             }
         },
         n2_ramaB: {
@@ -185,10 +181,10 @@ const campaigns = {
                 { id: "n2b_4", text: "🚶 Caminar despacio probando cada piedra" }
             ],
             outcomes: {
-                bad: { log: "⚠️ ¡Pifia! Una roca se desploma y casi caen (-3 HP).", hpDelta: -3, nextNode: "combate_n2_2" },
-                regular: { log: "🕯️ ¡Tranki! Cruce superado con éxito.", nextNode: "n3_rama2" },
-                good: { log: "🗺️ ¡Bueno! Hallan provisiones intactas.", nextNode: "n3_rama3" },
-                perfect: { log: "🌟 ¡Perfecto! Manantial arcano (+5 Maná).", manaDelta: 5, nextNode: "n3_rama3" }
+                bad: { log: "Una roca se desploma y casi caen (-3 HP).", hpDelta: -3, nextNode: "combate_n2_2" },
+                regular: { log: "Cruce superado con éxito.", nextNode: "n3_rama2" },
+                good: { log: "Hallan provisiones intactas.", nextNode: "n3_rama3" },
+                perfect: { log: "Manantial arcano (+5 Maná).", manaDelta: 5, nextNode: "n3_rama3" }
             }
         },
         n2_ramaC: {
@@ -202,10 +198,10 @@ const campaigns = {
                 { id: "n2c_4", text: "👥 Avanzar tomados de las manos" }
             ],
             outcomes: {
-                bad: { log: "🌀 ¡Pifia! Una sombra emerge de los espejos.", nextNode: "combate_n2_3" },
-                regular: { log: "🚶 ¡Tranki! Salen del laberinto tras dar un par de vueltas.", nextNode: "n3_rama3" },
-                good: { log: "✨ ¡Bueno! Hallan un atajo directo.", nextNode: "n3_rama4" },
-                perfect: { log: "👑 ¡Perfecto! Dominio absoluto del laberinto (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n3_rama4" }
+                bad: { log: "Una sombra emerge de los espejos.", nextNode: "combate_n2_3" },
+                regular: { log: "Salen del laberinto tras dar un par de vueltas.", nextNode: "n3_rama3" },
+                good: { log: "Hallan un atajo directo.", nextNode: "n3_rama4" },
+                perfect: { log: "Dominio absoluto del laberinto (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n3_rama4" }
             }
         },
         n2_ramaD: {
@@ -219,14 +215,13 @@ const campaigns = {
                 { id: "n2d_4", text: "⚡ Canales de energía para silenciar el lugar" }
             ],
             outcomes: {
-                bad: { log: "💔 ¡Pifia! Los susurros nublan su mente (-2 HP).", hpDelta: -2, nextNode: "combate_n2_4" },
-                regular: { log: "😰 ¡Tranki! Soportan los ecos sin mayores problemas.", nextNode: "n3_rama4" },
-                good: { log: "🛡️ ¡Bueno! Revelaciones útiles obtenidas.", nextNode: "n3_rama4" },
-                perfect: { log: "🦅 ¡Perfecto! Bendición ancestral (+5 HP).", hpDelta: 5, nextNode: "n3_rama1" }
+                bad: { log: "Los susurros nublan su mente (-2 HP).", hpDelta: -2, nextNode: "combate_n2_4" },
+                regular: { log: "Soportan los ecos sin mayores problemas.", nextNode: "n3_rama4" },
+                good: { log: "Revelaciones útiles obtenidas.", nextNode: "n3_rama4" },
+                perfect: { log: "Bendición ancestral (+5 HP).", hpDelta: 5, nextNode: "n3_rama1" }
             }
         },
 
-        // COMBATES NIVEL 2
         combate_n2_1: { title: "Combate - Guardianes de Piedra", text: "¡Las estatuas cobran vida hostil!", type: "combat", monsterName: "Guardianes de Piedra", baseHp: 35, nextNode: "n3_rama1" },
         combate_n2_2: { title: "Combate - Acechador de los Abismos", text: "¡Una criatura alada emerge!", type: "combat", monsterName: "Acechador Alado", baseHp: 40, nextNode: "n3_rama2" },
         combate_n2_3: { title: "Combate - Reflejo Maligno", text: "¡Su propia oscuridad cobra forma!", type: "combat", monsterName: "Reflejo Maligno", baseHp: 40, nextNode: "n3_rama3" },
@@ -244,10 +239,10 @@ const campaigns = {
                 { id: "n3_4", text: "🌑 Tomar el túnel oeste (corriente estática)" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia! Ráfaga cortante (-3 HP).", hpDelta: -3, nextNode: "n4_rama1" },
-                regular: { log: "🪵 ¡Tranki! Superan el cruce sin contratiempos.", nextNode: "n4_rama2" },
-                good: { log: "✨ ¡Bueno! Impulso favorable (+5 Maná).", manaDelta: 5, nextNode: "n4_rama3" },
-                perfect: { log: "⚡ ¡Perfecto! Armonía elemental (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
+                bad: { log: "Ráfaga cortante (-3 HP).", hpDelta: -3, nextNode: "n4_rama1" },
+                regular: { log: "Superan el cruce sin contratiempos.", nextNode: "n4_rama2" },
+                good: { log: "Impulso favorable (+5 Maná).", manaDelta: 5, nextNode: "n4_rama3" },
+                perfect: { log: "Armonía elemental (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
             }
         },
         n3_rama2: {
@@ -261,10 +256,10 @@ const campaigns = {
                 { id: "n3_24", text: "🔮 Canalizar energía a través de ellos" }
             ],
             outcomes: {
-                bad: { log: "🔔 ¡Pifia! La vibración atrae bestias.", nextNode: "combate_n3_1" },
-                regular: { log: "🚶 ¡Tranki! Cruce pacífico.", nextNode: "n4_rama2" },
-                good: { log: "💎 ¡Bueno! Cristales útiles (+5 HP).", hpDelta: 5, nextNode: "n4_rama3" },
-                perfect: { log: "🌟 ¡Perfecto! Sintonía perfecta (+10 Maná).", manaDelta: 10, nextNode: "n4_rama4" }
+                bad: { log: "La vibración atrae bestias.", nextNode: "combate_n3_1" },
+                regular: { log: "Cruce pacífico.", nextNode: "n4_rama2" },
+                good: { log: "Cristales útiles (+5 HP).", hpDelta: 5, nextNode: "n4_rama3" },
+                perfect: { log: "Sintonía perfecta (+10 Maná).", manaDelta: 10, nextNode: "n4_rama4" }
             }
         },
         n3_rama3: {
@@ -278,10 +273,10 @@ const campaigns = {
                 { id: "n3_34", text: "🚪 Abrir el portón blindado del fondo" }
             ],
             outcomes: {
-                bad: { log: "👻 ¡Pifia! Guardián de la cripta alertado.", nextNode: "combate_n3_2" },
-                regular: { log: "📖 ¡Tranki! Camino despejado.", nextNode: "n4_rama3" },
-                good: { log: "✨ ¡Bueno! Reliquia menor hallada (+5 HP).", hpDelta: 5, nextNode: "n4_rama4" },
-                perfect: { log: "👑 ¡Perfecto! Bendición de los sabios (+10 HP).", hpDelta: 10, nextNode: "n4_rama4" }
+                bad: { log: "Guardián de la cripta alertado.", nextNode: "combate_n3_2" },
+                regular: { log: "Camino despejado.", nextNode: "n4_rama3" },
+                good: { log: "Reliquia menor hallada (+5 HP).", hpDelta: 5, nextNode: "n4_rama4" },
+                perfect: { log: "Bendición de los sabios (+10 HP).", hpDelta: 10, nextNode: "n4_rama4" }
             }
         },
         n3_rama4: {
@@ -295,10 +290,10 @@ const campaigns = {
                 { id: "n3_44", text: "⚡ Lanzar un hechizo de estabilidad" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia! Tropiezo y caída leve (-3 HP).", hpDelta: -3, nextNode: "combate_n3_3" },
-                regular: { log: "😅 ¡Tranki! Cruzaron sin incidentes.", nextNode: "n4_rama4" },
-                good: { log: "✨ ¡Bueno! Hallan equipo útil.", nextNode: "n4_rama4" },
-                perfect: { log: "💎 ¡Perfecto! Viento a favor (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
+                bad: { log: "Tropiezo y caída leve (-3 HP).", hpDelta: -3, nextNode: "combate_n3_3" },
+                regular: { log: "Cruzaron sin incidentes.", nextNode: "n4_rama4" },
+                good: { log: "Hallan equipo útil.", nextNode: "n4_rama4" },
+                perfect: { log: "Viento a favor (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
             }
         },
 
@@ -318,10 +313,10 @@ const campaigns = {
                 { id: "n4_14", text: "🕵️‍♂️ Buscar una entrada alternativa" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia! Descarga rúnica defensiva (-3 HP).", hpDelta: -3, nextNode: "boss_hard" },
-                regular: { log: "🪵 ¡Tranki! Portón abierto con esfuerzo.", nextNode: "boss_normal" },
-                good: { log: "✨ ¡Bueno! Apertura limpia y precisa.", nextNode: "boss_advantage" },
-                perfect: { log: "⚡ ¡Perfecto! Energía absorbida (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "boss_legendary" }
+                bad: { log: "Descarga rúnica defensiva (-3 HP).", hpDelta: -3, nextNode: "n5_rama1" },
+                regular: { log: "Portón abierto con esfuerzo.", nextNode: "n5_rama1" },
+                good: { log: "Apertura limpia y precisa.", nextNode: "n5_rama2" },
+                perfect: { log: "Energía absorbida (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n5_rama2" }
             }
         },
         n4_rama2: {
@@ -335,10 +330,10 @@ const campaigns = {
                 { id: "n4_24", text: "🚪 Cruzar directamente hacia el fondo" }
             ],
             outcomes: {
-                bad: { log: "⚠️ ¡Pifia! Maldición del monarca (-3 HP).", hpDelta: -3, nextNode: "boss_normal" },
-                regular: { log: "🚶 ¡Tranki! Sin novedades relevantes.", nextNode: "boss_normal" },
-                good: { log: "🗺️ ¡Bueno! Botín de guerra hallado (+5 HP).", hpDelta: 5, nextNode: "boss_advantage" },
-                perfect: { log: "🌟 ¡Perfecto! Poder real latente (+10 Maná).", manaDelta: 10, nextNode: "boss_legendary" }
+                bad: { log: "Maldición del monarca (-3 HP).", hpDelta: -3, nextNode: "n5_rama1" },
+                regular: { log: "Sin novedades relevantes.", nextNode: "n5_rama1" },
+                good: { log: "Botín de guerra hallado (+5 HP).", hpDelta: 5, nextNode: "n5_rama2" },
+                perfect: { log: "Poder real latente (+10 Maná).", manaDelta: 10, nextNode: "n5_rama2" }
             }
         },
         n4_rama3: {
@@ -352,15 +347,15 @@ const campaigns = {
                 { id: "n4_34", text: "🏃 Rodear la llama con rapidez" }
             ],
             outcomes: {
-                bad: { log: "🌀 ¡Pifia! Quemadura mística (-3 HP).", hpDelta: -3, nextNode: "boss_normal" },
-                regular: { log: "✨ ¡Tranki! Energía templada.", nextNode: "boss_advantage" },
-                good: { log: "✨ ¡Bueno! Espíritu revitalizado (+5 Maná).", manaDelta: 5, nextNode: "boss_advantage" },
-                perfect: { log: "👑 ¡Perfecto! Bendición de la llama (+10 HP).", hpDelta: 10, nextNode: "boss_legendary" }
+                bad: { log: "Quemadura mística (-3 HP).", hpDelta: -3, nextNode: "n5_rama1" },
+                regular: { log: "Energía templada.", nextNode: "n5_rama2" },
+                good: { log: "Espíritu revitalizado (+5 Maná).", manaDelta: 5, nextNode: "n5_rama2" },
+                perfect: { log: "Bendición de la llama (+10 HP).", hpDelta: 10, nextNode: "n5_rama2" }
             }
         },
         n4_rama4: {
             title: "Nivel 4 (Paso IV) - La Antesala del Titán",
-            text: "El suelo vibra intensamente. El jefe supremo aguarda tras el último umbral.",
+            text: "El suelo vibra intensamente. El camino continúa hacia las profundidades.",
             type: "d20_branch",
             options: [
                 { id: "n4_41", text: "⚔️ Afilar armas y revisar armaduras" },
@@ -369,14 +364,14 @@ const campaigns = {
                 { id: "n4_44", text: "👁️ Vigilar los flancos en silencio" }
             ],
             outcomes: {
-                bad: { log: "⚠️ ¡Pifia! Descuido en la preparación (-2 HP).", hpDelta: -2, nextNode: "boss_normal" },
-                regular: { log: "🛡️ ¡Tranki! Listos para el combate.", nextNode: "boss_normal" },
-                good: { log: "🔥 ¡Bueno! Excelente preparación táctica.", nextNode: "boss_advantage" },
-                perfect: { log: "⚡ ¡Perfecto! Moral al máximo (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "boss_legendary" }
+                bad: { log: "Descuido en la preparación (-2 HP).", hpDelta: -2, nextNode: "n5_rama1" },
+                regular: { log: "Listos para seguir.", nextNode: "n5_rama1" },
+                good: { log: "Excelente preparación táctica.", nextNode: "n5_rama2" },
+                perfect: { log: "Moral al máximo (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "n5_rama2" }
             }
         },
 
-       // ================= NIVEL 5 =================
+        // ================= NIVEL 5 =================
         n5_rama1: {
             title: "Nivel 5 (Fase I) - La Caverna de los Ecos Espejados",
             text: "Las paredes multiplican cada sonido, creando una sinfonía de ecos confusos. ¿Cómo avanzan?",
@@ -388,10 +383,10 @@ const campaigns = {
                 { id: "n5_14", text: "🕵️‍♂️ Buscar el origen de la resonancia" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia! Onda sónica destructiva (-3 HP).", hpDelta: -3, nextNode: "n6_rama1" },
-                regular: { log: "🪵 ¡Tranki! Superan el salón con paciencia.", nextNode: "n6_rama2" },
-                good: { log: "✨ ¡Bueno! Resonancia aprovechada (+5 Maná).", manaDelta: 5, nextNode: "n6_rama3" },
-                perfect: { log: "⚡ ¡Perfecto! Armonía perfecta (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n6_rama4" }
+                bad: { log: "Onda sónica destructiva (-3 HP).", hpDelta: -3, nextNode: "n6_rama1" },
+                regular: { log: "Superan el salón con paciencia.", nextNode: "n6_rama2" },
+                good: { log: "Resonancia aprovechada (+5 Maná).", manaDelta: 5, nextNode: "n6_rama3" },
+                perfect: { log: "Armonía perfecta (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n6_rama4" }
             }
         },
         n5_rama2: {
@@ -405,10 +400,10 @@ const campaigns = {
                 { id: "n5_24", text: "🛡️ Cubrirse con escudos contra el calor intenso" }
             ],
             outcomes: {
-                bad: { log: "🔥 ¡Pifia! Ola de calor sofocante (-3 HP).", hpDelta: -3, nextNode: "n6_rama2" },
-                regular: { log: "🚶 ¡Tranki! Cruce caluroso pero seguro.", nextNode: "n6_rama3" },
-                good: { log: "💎 ¡Bueno! Materiales volcánicos recolectados (+5 HP).", hpDelta: 5, nextNode: "n6_rama4" },
-                perfect: { log: "🌟 ¡Perfecto! Control del fuego (+10 Maná).", manaDelta: 10, nextNode: "n6_rama1" }
+                bad: { log: "Ola de calor sofocante (-3 HP).", hpDelta: -3, nextNode: "n6_rama2" },
+                regular: { log: "Cruce caluroso pero seguro.", nextNode: "n6_rama3" },
+                good: { log: "Materiales volcánicos recolectados (+5 HP).", hpDelta: 5, nextNode: "n6_rama4" },
+                perfect: { log: "Control del fuego (+10 Maná).", manaDelta: 10, nextNode: "n6_rama1" }
             }
         },
 
@@ -424,10 +419,10 @@ const campaigns = {
                 { id: "n6_14", text: "🔮 Absorbir la energía de los tomos flotantes" }
             ],
             outcomes: {
-                bad: { log: "👻 ¡Pifia! Trampa de maldición escrita (-3 HP).", hpDelta: -3, nextNode: "n7_rama1" },
-                regular: { log: "📖 ¡Tranki! Conocimiento adquirido.", nextNode: "n7_rama2" },
-                good: { log: "✨ ¡Bueno! Pergamino útil hallado (+5 Maná).", manaDelta: 5, nextNode: "n7_rama3" },
-                perfect: { log: "👑 ¡Perfecto! Sabiduría absoluta (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "n7_rama4" }
+                bad: { log: "Trampa de maldición escrita (-3 HP).", hpDelta: -3, nextNode: "n7_rama1" },
+                regular: { log: "Conocimiento adquirido.", nextNode: "n7_rama2" },
+                good: { log: "Pergamino útil hallado (+5 Maná).", manaDelta: 5, nextNode: "n7_rama3" },
+                perfect: { log: "Sabiduría absoluta (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "n7_rama4" }
             }
         },
         n6_rama2: {
@@ -441,10 +436,44 @@ const campaigns = {
                 { id: "n6_24", text: "⚡ Encender fuego controlado para espilar fauna" }
             ],
             outcomes: {
-                bad: { log: "🌿 ¡Pifia! Enmarañados y golpeados (-2 HP).", hpDelta: -2, nextNode: "n7_rama2" },
-                regular: { log: "🚶 ¡Tranki! Senda abierta con éxito.", nextNode: "n7_rama3" },
-                good: { log: "✨ ¡Bueno! Suministros naturales (+6 HP).", hpDelta: 6, nextNode: "n7_rama4" },
-                perfect: { log: "💎 ¡Perfecto! Esencia vital pura (+10 HP).", hpDelta: 10, nextNode: "n7_rama1" }
+                bad: { log: "Enmarañados y golpeados (-2 HP).", hpDelta: -2, nextNode: "n7_rama2" },
+                regular: { log: "Senda abierta con éxito.", nextNode: "n7_rama3" },
+                good: { log: "Suministros naturales (+6 HP).", hpDelta: 6, nextNode: "n7_rama4" },
+                perfect: { log: "Esencia vital pura (+10 HP).", hpDelta: 10, nextNode: "n7_rama1" }
+            }
+        },
+        n6_rama3: {
+            title: "Nivel 6 (Fase III) - Galería Oculta",
+            text: "Un desvío lleno de misteriosas inscripciones luminosas.",
+            type: "d20_branch",
+            options: [
+                { id: "n6_31", text: "🔍 Investigar las paredes" },
+                { id: "n6_32", text: "🚶 Pasar de largo" },
+                { id: "n6_33", text: "✨ Tocar las marcas" },
+                { id: "n6_34", text: "🛡️ Activar guardia" }
+            ],
+            outcomes: {
+                bad: { log: "Golpe de energía menor (-2 HP).", hpDelta: -2, nextNode: "n7_rama1" },
+                regular: { log: "Paso seguro.", nextNode: "n7_rama2" },
+                good: { log: "Objeto menor encontrado (+3 HP).", hpDelta: 3, nextNode: "n7_rama3" },
+                perfect: { log: "Revelación arcana (+5 Maná).", manaDelta: 5, nextNode: "n7_rama4" }
+            }
+        },
+        n6_rama4: {
+            title: "Nivel 6 (Fase IV) - Descenso Estrecho",
+            text: "Una grieta muy angosta desciende hacia los niveles inferiores.",
+            type: "d20_branch",
+            options: [
+                { id: "n6_41", text: "🧗 Desender con cuidado" },
+                { id: "n6_42", text: "🏃 Deslizarse rápido" },
+                { id: "n6_43", text: "🔮 Usar magia para ablandar roca" },
+                { id: "n6_44", text: "👥 Ayudarse mutuamente" }
+            ],
+            outcomes: {
+                bad: { log: "Rasguños en el descenso (-2 HP).", hpDelta: -2, nextNode: "n7_rama2" },
+                regular: { log: "Descenso completado.", nextNode: "n7_rama3" },
+                good: { log: "Buena postura mantenida (+4 HP).", hpDelta: 4, nextNode: "n7_rama4" },
+                perfect: { log: "Manantial oculto (+6 Maná).", manaDelta: 6, nextNode: "n7_rama1" }
             }
         },
 
@@ -460,10 +489,10 @@ const campaigns = {
                 { id: "n7_14", text: "🏃 Tomar impulso y saltar al saliente" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia! Caída dolorosa (-4 HP).", hpDelta: -4, nextNode: "n8_rama1" },
-                regular: { log: "😅 ¡Tranki! Cruce con gran esfuerzo.", nextNode: "n8_rama2" },
-                good: { log: "✨ ¡Bueno! Maniobra impecable.", nextNode: "n8_rama3" },
-                perfect: { log: "🌟 ¡Perfecto! Viento favorable (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n8_rama4" }
+                bad: { log: "Caída dolorosa (-4 HP).", hpDelta: -4, nextNode: "n8_rama1" },
+                regular: { log: "Cruce con gran esfuerzo.", nextNode: "n8_rama2" },
+                good: { log: "Maniobra impecable.", nextNode: "n8_rama3" },
+                perfect: { log: "Viento favorable (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n8_rama4" }
             }
         },
         n7_rama2: {
@@ -477,10 +506,44 @@ const campaigns = {
                 { id: "n7_24", text: "⚡ Fundir los cristales del suelo con calor" }
             ],
             outcomes: {
-                bad: { log: "🔪 ¡Pifia! Cortes profundos en las piernas (-3 HP).", hpDelta: -3, nextNode: "n8_rama2" },
-                regular: { log: "🚶 ¡Tranki! Pasaron con mínimos raspones.", nextNode: "n8_rama3" },
-                good: { log: "💎 ¡Bueno! Fragmentos puros recolectados (+5 HP).", hpDelta: 5, nextNode: "n8_rama4" },
-                perfect: { log: "👑 ¡Perfecto! Dominio del cristal (+10 Maná).", manaDelta: 10, nextNode: "n8_rama1" }
+                bad: { log: "Cortes profundos en las piernas (-3 HP).", hpDelta: -3, nextNode: "n8_rama2" },
+                regular: { log: "Pasaron con mínimos raspones.", nextNode: "n8_rama3" },
+                good: { log: "Fragmentos puros recolectados (+5 HP).", hpDelta: 5, nextNode: "n8_rama4" },
+                perfect: { log: "Dominio del cristal (+10 Maná).", manaDelta: 10, nextNode: "n8_rama1" }
+            }
+        },
+        n7_rama3: {
+            title: "Nivel 7 (Fase III) - Salón de los Ecos Dorados",
+            text: "Una cámara decorada con metales preciosos que resuenan.",
+            type: "d20_branch",
+            options: [
+                { id: "n7_31", text: "🪙 Recoger polvo de oro" },
+                { id: "n7_32", text: "🎵 Tocar las placas musicales" },
+                { id: "n7_33", text: "🚪 Abrir la gran puerta oeste" },
+                { id: "n7_34", text: "🕯️ Registrar altares antiguos" }
+            ],
+            outcomes: {
+                bad: { log: "Trampa de presión (-3 HP).", hpDelta: -3, nextNode: "n8_rama1" },
+                regular: { log: "Paso libre.", nextNode: "n8_rama2" },
+                good: { log: "Tesoros menores (+5 HP).", hpDelta: 5, nextNode: "n8_rama3" },
+                perfect: { log: "Bendición dorada (+8 Maná).", manaDelta: 8, nextNode: "n8_rama4" }
+            }
+        },
+        n7_rama4: {
+            title: "Nivel 7 (Fase IV) - Túnel del Viento Arcano",
+            text: "Corrientes mágicas impulsan el avance pero dificultan el equilibrio.",
+            type: "d20_branch",
+            options: [
+                { id: "n7_41", text: "🌪️ Usar la corriente a favor" },
+                { id: "n7_42", text: "⚓ Anclarse con ganchos" },
+                { id: "n7_43", text: "🔮 Disipar el viento con magia" },
+                { id: "n7_44", text: "🏃 Cruzar a máxima velocidad" }
+            ],
+            outcomes: {
+                bad: { log: "Golpe contra la pared (-3 HP).", hpDelta: -3, nextNode: "n8_rama2" },
+                regular: { log: "Avance sostenido.", nextNode: "n8_rama3" },
+                good: { log: "Impulsor mágico (+5 Maná).", manaDelta: 5, nextNode: "n8_rama4" },
+                perfect: { log: "Dominio eólico (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "n8_rama1" }
             }
         },
 
@@ -496,10 +559,10 @@ const campaigns = {
                 { id: "n8_14", text: "🏃 Avanzar sin mirar los reflejos" }
             ],
             outcomes: {
-                bad: { log: "🌀 ¡Pifia! Confusión mental (-3 HP).", hpDelta: -3, nextNode: "n9_rama1" },
-                regular: { log: "✨ ¡Tranki! Visión templada.", nextNode: "n9_rama2" },
-                good: { log: "🌟 ¡Bueno! Ventaja estratégica (+5 Maná).", manaDelta: 5, nextNode: "n9_rama3" },
-                perfect: { log: "⚡ ¡Perfecto! Claridad absoluta (+8 HP / +8 Maná).", hpDelta: 8, manaDelta: 8, nextNode: "n9_rama4" }
+                bad: { log: "Confusión mental (-3 HP).", hpDelta: -3, nextNode: "n9_rama1" },
+                regular: { log: "Visión templada.", nextNode: "n9_rama2" },
+                good: { log: "Ventaja estratégica (+5 Maná).", manaDelta: 5, nextNode: "n9_rama3" },
+                perfect: { log: "Claridad absoluta (+8 HP / +8 Maná).", hpDelta: 8, manaDelta: 8, nextNode: "n9_rama4" }
             }
         },
         n8_rama2: {
@@ -513,10 +576,44 @@ const campaigns = {
                 { id: "n8_24", text: "🏃 Tomar suministros rápidos y seguir" }
             ],
             outcomes: {
-                bad: { log: "💥 ¡Pifia! Trampa en un cofre de armas (-3 HP).", hpDelta: -3, nextNode: "n9_rama2" },
-                regular: { log: "🪵 ¡Tranki! Equipo revisado.", nextNode: "n9_rama3" },
-                good: { log: "✨ ¡Bueno! Armamento mejorado (+5 HP).", hpDelta: 5, nextNode: "n9_rama4" },
-                perfect: { log: "⚡ ¡Perfecto! Bendición de armería (+10 HP).", hpDelta: 10, nextNode: "n9_rama1" }
+                bad: { log: "Trampa en un cofre de armas (-3 HP).", hpDelta: -3, nextNode: "n9_rama2" },
+                regular: { log: "Equipo revisado.", nextNode: "n9_rama3" },
+                good: { log: "Armamento mejorado (+5 HP).", hpDelta: 5, nextNode: "n9_rama4" },
+                perfect: { log: "Bendición de armería (+10 HP).", hpDelta: 10, nextNode: "n9_rama1" }
+            }
+        },
+        n8_rama3: {
+            title: "Nivel 8 (Fase III) - Torreón de los Susurros Celestiales",
+            text: "Una torre abandonada que toca el techo abovedado de la caverna.",
+            type: "d20_branch",
+            options: [
+                { id: "n8_31", text: "🔭 Escalar al punto más alto" },
+                { id: "n8_32", text: "🚪 Registrar la planta baja" },
+                { id: "n8_33", text: "🔮 Lanzar hechizo de escaneo" },
+                { id: "n8_34", text: "🚶 Descansar en los bancos de piedra" }
+            ],
+            outcomes: {
+                bad: { log: "Resbalón en la torre (-3 HP).", hpDelta: -3, nextNode: "n9_rama2" },
+                regular: { log: "Torre superada.", nextNode: "n9_rama3" },
+                good: { log: "Vistas y hallazgos útiles (+5 HP).", hpDelta: 5, nextNode: "n9_rama4" },
+                perfect: { log: "Inspiración divina (+10 Maná).", manaDelta: 10, nextNode: "n9_rama1" }
+            }
+        },
+        n8_rama4: {
+            title: "Nivel 8 (Fase IV) - Desfiladero de las Sombras",
+            text: "Sombras danzantes intentan desestabilizar el avance del grupo.",
+            type: "d20_branch",
+            options: [
+                { id: "n8_41", text: "✨ Usar luz mágica para disiparlas" },
+                { id: "n8_42", text: "🛡️ Avanzar con escudos protectores" },
+                { id: "n8_43", text: "🏃 Correr atravesando la penumbra" },
+                { id: "n8_44", text: "🗣️ Gritar con fuerza para ahuyentarlas" }
+            ],
+            outcomes: {
+                bad: { log: "Ataque de sombras (-3 HP).", hpDelta: -3, nextNode: "n9_rama3" },
+                regular: { log: "Paso seguro entre tinieblas.", nextNode: "n9_rama4" },
+                good: { log: "Fragmento de sombra útil (+5 HP).", hpDelta: 5, nextNode: "n9_rama1" },
+                perfect: { log: "Dominio umbrío (+8 HP / +8 Maná).", hpDelta: 8, manaDelta: 8, nextNode: "n9_rama2" }
             }
         },
 
@@ -532,10 +629,10 @@ const campaigns = {
                 { id: "n9_14", text: "👁️ Inspeccionar las entradas al gran salón" }
             ],
             outcomes: {
-                bad: { log: "⚠️ ¡Pifia! Descuido en la concentración (-2 HP).", hpDelta: -2, nextNode: "nivel10_climax" },
-                regular: { log: "🛡️ ¡Tranki! Listos para el juicio final.", nextNode: "nivel10_climax" },
-                good: { log: "🔥 ¡Bueno! Espíritu de combate elevado (+5 Maná).", manaDelta: 5, nextNode: "nivel10_climax" },
-                perfect: { log: "⚡ ¡Perfecto! Poder interior desatado (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "nivel10_climax" }
+                bad: { log: "Descuido en la concentración (-2 HP).", hpDelta: -2, nextNode: "nivel10_climax" },
+                regular: { log: "Listos para el juicio final.", nextNode: "nivel10_climax" },
+                good: { log: "Espíritu de combate elevado (+5 Maná).", manaDelta: 5, nextNode: "nivel10_climax" },
+                perfect: { log: "Poder interior desatado (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "nivel10_climax" }
             }
         },
         n9_rama2: {
@@ -549,10 +646,44 @@ const campaigns = {
                 { id: "n9_24", text: "🚶 Avanzar firmes y concentrados" }
             ],
             outcomes: {
-                bad: { log: "🌀 ¡Pifia! Inestabilidad energética (-3 HP).", hpDelta: -3, nextNode: "nivel10_climax" },
-                regular: { log: "✨ ¡Tranki! Cruce completado.", nextNode: "nivel10_climax" },
-                good: { log: "🌟 ¡Bueno! Aura protectora obtenida (+5 HP).", hpDelta: 5, nextNode: "nivel10_climax" },
-                perfect: { log: "👑 ¡Perfecto! Bendición estelar máxima (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "nivel10_climax" }
+                bad: { log: "Inestabilidad energética (-3 HP).", hpDelta: -3, nextNode: "nivel10_climax" },
+                regular: { log: "Cruce completado.", nextNode: "nivel10_climax" },
+                good: { log: "Aura protectora obtenida (+5 HP).", hpDelta: 5, nextNode: "nivel10_climax" },
+                perfect: { log: "Bendición estelar máxima (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "nivel10_climax" }
+            }
+        },
+        n9_rama3: {
+            title: "Nivel 9 (Fase III) - Último Bastión",
+            text: "El umbral definitivo al sancta sanctorum del abismo.",
+            type: "d20_branch",
+            options: [
+                { id: "n9_31", text: "🛡️ Oración de protección" },
+                { id: "n9_32", text: "⚔️ Preparar golpe contundente" },
+                { id: "n9_33", text: "🔮 Concentrar maná al límite" },
+                { id: "n9_34", text: "🏃 Avanzar sin vacilar" }
+            ],
+            outcomes: {
+                bad: { log: "Tensión acumulada (-2 HP).", hpDelta: -2, nextNode: "nivel10_climax" },
+                regular: { log: "Umbral cruzado.", nextNode: "nivel10_climax" },
+                good: { log: "Vigor renovado (+5 HP).", hpDelta: 5, nextNode: "nivel10_climax" },
+                perfect: { log: "Poderío supremo (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "nivel10_climax" }
+            }
+        },
+        n9_rama4: {
+            title: "Nivel 9 (Fase IV) - Portales de Resonancia",
+            text: "Círculos mágicos que potencian las habilidades del grupo.",
+            type: "d20_branch",
+            options: [
+                { id: "n9_41", text: "✨ Sintonizar círculo de fuerza" },
+                { id: "n9_42", text: "🔮 Sintonizar círculo de maná" },
+                { id: "n9_43", text: "🛡️ Sintonizar círculo de defensa" },
+                { id: "n9_44", text: "⚡ Absorber todo el flujo" }
+            ],
+            outcomes: {
+                bad: { log: "Sobrecarga mágica (-3 HP).", hpDelta: -3, nextNode: "nivel10_climax" },
+                regular: { log: "Sintonización estable.", nextNode: "nivel10_climax" },
+                good: { log: "Canalización exitosa (+6 Maná).", manaDelta: 6, nextNode: "nivel10_climax" },
+                perfect: { log: "Armonía total (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "nivel10_climax" }
             }
         },
 
@@ -572,6 +703,8 @@ const campaigns = {
         ending_survivor: { title: "🩹 FINAL 2: Supervivientes al Límite", text: "Lograron salir a la superficie con vida, aunque maltrechos y marcados por los horrores superados.", type: "ending", badge: "Final Agridulce (2/4)" },
         ending_heroic: { title: "⚔️ FINAL 3: Libertadores del Abismo", text: "Derrotaron al tirano final y restauraron la paz en todas las tierras subterráneas.", type: "ending", badge: "Final Heroico (3/4)" },
         ending_legendary: { title: "👑 FINAL 4: Leyendas Inmortales", text: "Maestría absoluta. Superaron los 10 niveles de prueba con perfección y son recordados como héroes míticos.", type: "ending", badge: "Final Legendario (4/4)" }
+    }
+};
 
 let activeRoomCode = "", activeCharacter = {}, currentSelectedAction = null, selectedStoryOptionId = null, unsubscribeSnapshot = null;
 
@@ -617,7 +750,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-if (data.gameStarted) {
+            if (data.gameStarted) {
                 document.getElementById("waitingRoomBox").style.display = "none";
                 document.getElementById("activePlayBox").style.display = "flex";
                 
@@ -642,7 +775,6 @@ if (data.gameStarted) {
                 
                 renderStoryNode(data.currentNodeId || "start", data);
             } else {
-                // Esto se ejecuta SOLO cuando la partida todavía NO empezó (Sala de espera)
                 document.getElementById("waitingRoomBox").style.display = "block";
                 document.getElementById("activePlayBox").style.display = "none";
                 if (data.players && data.players[0].characterName === activeCharacter.characterName) {
@@ -701,7 +833,7 @@ function renderActionChoices() {
         activeCharacter.abilities.forEach((ab, index) => {
             const abCd = ab.currentCd || 0, abCard = document.createElement("div"); abCard.className = "ability-card-game";
             if (abCd > 0) {
-                abCd.style.opacity = "0.5";
+                abCard.style.opacity = "0.5";
                 abCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚡ ${ab.name}</strong><div style="font-size:11px; color:#ff6b6b;">⏳ En CD: ${abCd} turnos</div>`;
             } else {
                 abCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚡ ${ab.name}</strong><div style="font-size:11px; color:var(--muted);">🎲 ${ab.dice} | 🔮 ${ab.mana}M | CD: ${ab.cdMax}</div>`;
@@ -742,7 +874,7 @@ function updateGameLobbyList(players) {
 
 async function startAdventure() {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
-    await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0 });
+    await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0, currentShooterIndex: 0 });
     logSystemMessage(`🚀 ¡La campaña masiva ha comenzado!`);
 }
 
@@ -753,7 +885,6 @@ function renderStoryNode(nodeId, roomData) {
     const choicesArea = document.getElementById("choicesArea"); choicesArea.innerHTML = "";
 
     if (node.type === "d20_branch") {
-        // Ocultamos totalmente los carteles de Malo, Tranki, Bueno, Perfecto
         html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación y Decisión Grupal en Curso...</strong></div>`;
         node.options.forEach(opt => {
             const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
@@ -768,6 +899,16 @@ function renderStoryNode(nodeId, roomData) {
     document.getElementById("storyText").innerHTML = html;
 }
 
+async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
+    const nextNode = campaign[nextNodeId];
+    let updateObj = { currentNodeId: nextNodeId, turnIndex: 0, combatTurnCounter: 0 };
+    if (nextNode && nextNode.type === "combat") {
+        const scaledHp = nextNode.isBoss ? (nextNode.baseHp || 120) + (playerCount - 1) * 20 : (nextNode.baseHp + (playerCount - 1) * 5);
+        updateObj.monsterHp = scaledHp; updateObj.monsterMaxHp = scaledHp; updateObj.monsterName = nextNode.monsterName;
+    }
+    return updateObj;
+}
+
 async function rollD20Action() {
     if (activeCharacter.hp <= 0) return;
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
@@ -775,7 +916,6 @@ async function rollD20Action() {
     const roomData = snap.data();
     const players = roomData.players || [];
     
-    // Asignación aleatoria de quién debe tirar el D20 si no está definido en la sala
     let currentShooterIndex = roomData.currentShooterIndex;
     if (currentShooterIndex === undefined || currentShooterIndex === null) {
         currentShooterIndex = Math.floor(Math.random() * players.length);
@@ -797,7 +937,6 @@ async function rollD20Action() {
     if (node.type === "d20_branch") {
         if (!selectedStoryOptionId) { alert("Elegí una opción de camino para la votación."); return; }
         let outcome;
-        // Procesamiento interno invisible de los resultados según el D20
         if (d20 <= 5) { outcome = node.outcomes.bad; }
         else if (d20 <= 10) { outcome = node.outcomes.regular; }
         else if (d20 <= 15) { outcome = node.outcomes.good; }
@@ -814,7 +953,7 @@ async function rollD20Action() {
         const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
         nextUpdates.players = updatedPlayers; 
         nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
-        nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length); // Siguiente tirador al azar
+        nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length);
         await window.updateDoc(roomRef, nextUpdates);
 
     } else if (node.type === "combat") {
@@ -861,7 +1000,6 @@ async function rollD20Action() {
             }
         }
 
-        // Ataque de la criatura informando exactamente a qué jugador atacó
         let target = updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)];
         let mDmg = Math.floor(Math.random() * 6) + 3;
         target.hp = Math.max(0, target.hp - mDmg);
