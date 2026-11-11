@@ -748,28 +748,19 @@ function renderStoryNode(nodeId, roomData) {
     const choicesArea = document.getElementById("choicesArea"); choicesArea.innerHTML = "";
 
     if (node.type === "d20_branch") {
-        html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>D20:</strong> <span class="tier-badge tier-bad">1-5 Malo</span> <span class="tier-badge tier-regular">6-10 Tranki</span> <span class="tier-badge tier-good">11-15 Bueno</span> <span class="tier-badge tier-perfect">16-20 Perfecto</span></div>`;
+        // Ocultamos totalmente los carteles de Malo, Tranki, Bueno, Perfecto
+        html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación y Decisión Grupal en Curso...</strong></div>`;
         node.options.forEach(opt => {
             const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
             btn.textContent = opt.text; btn.onclick = () => selectStoryOption(opt.id, btn); choicesArea.appendChild(btn);
         });
     } else if (node.type === "combat") {
         html += `<br><br><div style="background:#2b1515; border:1px solid #a83232; padding:10px; border-radius:5px;"><strong style="color:#ff6b6b;">👹 Enemigo: ${roomData.monsterName || node.monsterName}</strong><br>Vida: ${roomData.monsterHp} / ${roomData.monsterMaxHp} HP</div>`;
-        choicesArea.innerHTML = `<p style="color:var(--gold);">¡Combate táctico por turnos y cooldowns!</p>`;
+        choicesArea.innerHTML = `<p style="color:var(--gold);">¡Combate táctico por turnos y cooldowns activos!</p>`;
     } else if (node.type === "ending") {
         html = `<div style="text-align:center; padding:15px;"><span class="tier-badge tier-perfect">${node.badge}</span><h2 style="color:var(--gold);">${node.title}</h2><p>${node.text}</p><a href="sala.html" class="btn-gold" style="text-decoration:none; display:inline-block; padding:10px;">🔄 Volver a Salas</a></div>`;
     }
     document.getElementById("storyText").innerHTML = html;
-}
-
-async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
-    const nextNode = campaign[nextNodeId];
-    let updateObj = { currentNodeId: nextNodeId, turnIndex: 0, combatTurnCounter: 0 };
-    if (nextNode && nextNode.type === "combat") {
-        const scaledHp = nextNode.isBoss ? (nextNode.baseHp || 85) + (playerCount - 1) * 20 : (nextNode.baseHp + (playerCount - 1) * 5);
-        updateObj.monsterHp = scaledHp; updateObj.monsterMaxHp = scaledHp; updateObj.monsterName = nextNode.monsterName;
-    }
-    return updateObj;
 }
 
 async function rollD20Action() {
@@ -777,10 +768,19 @@ async function rollD20Action() {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
     const snap = await window.getDoc(roomRef); if (!snap.exists()) return;
     const roomData = snap.data();
-    const players = roomData.players || [], tIndex = roomData.turnIndex || 0;
-    const activePlayer = players[tIndex % players.length];
+    const players = roomData.players || [];
+    
+    // Asignación aleatoria de quién debe tirar el D20 si no está definido en la sala
+    let currentShooterIndex = roomData.currentShooterIndex;
+    if (currentShooterIndex === undefined || currentShooterIndex === null) {
+        currentShooterIndex = Math.floor(Math.random() * players.length);
+    }
+    const designatedPlayer = players[currentShooterIndex];
 
-    if (!activePlayer || activePlayer.characterName !== activeCharacter.characterName) return;
+    if (!designatedPlayer || designatedPlayer.characterName !== activeCharacter.characterName) {
+        alert(`¡Le toca tirar el D20 a ${designatedPlayer ? designatedPlayer.characterName : 'otro aventurero'} al azar!`);
+        return;
+    }
 
     const campaign = campaigns[roomData.campaignId || "story1"];
     const node = campaign[roomData.currentNodeId || "start"]; if (!node || node.type === "ending") return;
@@ -790,31 +790,34 @@ async function rollD20Action() {
     if (activeCharacter.abilities) activeCharacter.abilities.forEach(ab => { if (ab.currentCd > 0) ab.currentCd--; });
 
     if (node.type === "d20_branch") {
-        if (!selectedStoryOptionId) { alert("Elegí una opción de camino."); return; }
-        let outcome, tier = "";
-        if (d20 <= 5) { outcome = node.outcomes.bad; tier = "MALO"; }
-        else if (d20 <= 10) { outcome = node.outcomes.regular; tier = "TRANKI"; }
-        else if (d20 <= 15) { outcome = node.outcomes.good; tier = "BUENO"; }
-        else { outcome = node.outcomes.perfect; tier = "PERFECTO"; }
+        if (!selectedStoryOptionId) { alert("Elegí una opción de camino para la votación."); return; }
+        let outcome;
+        // Procesamiento interno invisible de los resultados según el D20
+        if (d20 <= 5) { outcome = node.outcomes.bad; }
+        else if (d20 <= 10) { outcome = node.outcomes.regular; }
+        else if (d20 <= 15) { outcome = node.outcomes.good; }
+        else { outcome = node.outcomes.perfect; }
 
         if (outcome.hpDelta) activeCharacter.hp = Math.max(0, Math.min(activeCharacter.maxHp, activeCharacter.hp + outcome.hpDelta));
         if (outcome.manaDelta) activeCharacter.mana = Math.max(0, Math.min(activeCharacter.maxMana, activeCharacter.mana + outcome.manaDelta));
 
         let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-        logMessage = `🎲 ${activeCharacter.characterName} tiró <strong>${d20} [${tier}]</strong>: ${outcome.log}`;
+        logMessage = `🎲 ${activeCharacter.characterName} tiró el D20 (${d20}) asignado al azar: ${outcome.log}`;
         logSystemMessage(logMessage);
 
         selectedStoryOptionId = null;
         const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
-        nextUpdates.players = updatedPlayers; nextUpdates.turnIndex = tIndex + 1;
+        nextUpdates.players = updatedPlayers; 
+        nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
+        nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length); // Siguiente tirador al azar
         await window.updateDoc(roomRef, nextUpdates);
+
     } else if (node.type === "combat") {
-        if (!currentSelectedAction) { alert("Elegí un ataque."); return; }
+        if (!currentSelectedAction) { alert("Elegí un ataque o acción."); return; }
         if (currentSelectedAction.type === "weapon" && activeCharacter.weapon.currentCd > 0) { alert("Arma en Cooldown."); return; }
         if (currentSelectedAction.type === "ability" && activeCharacter.abilities[currentSelectedAction.index].currentCd > 0) { alert("Habilidad en Cooldown."); return; }
 
         let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-        let pCount = updatedPlayers.length;
 
         if (currentSelectedAction.type === "rest") {
             activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 5);
@@ -833,7 +836,7 @@ async function rollD20Action() {
             let dmg = (d20 + statMod >= 12 ? 12 + statMod : 5) + (manaCost > 0 ? 6 : 0);
             let newMonsterHp = Math.max(0, (roomData.monsterHp || 50) - dmg);
 
-            logMessage = `⚔ ${activeCharacter.characterName} usó ${currentSelectedAction.name}. D20(${d20}) ➡ ${dmg} daño.`;
+            logMessage = `⚔ ${activeCharacter.characterName} atacó con ${currentSelectedAction.name}. D20(${d20}) ➡ ${dmg} de daño a la criatura.`;
             updatedPlayers = updatedPlayers.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
 
             if (newMonsterHp <= 0) {
@@ -841,9 +844,11 @@ async function rollD20Action() {
                 activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + mRec);
                 activeCharacter.inventory.push({name:"Poción de vida", description:"Recupera +10 HP."});
                 updatedPlayers = updatedPlayers.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-                logSystemMessage(`🎉 ¡Victoria! Enemigo derrotado.`);
+                logSystemMessage(`🎉 ¡Victoria! La criatura ha sido derrotada.`);
                 const nextUpdates = await prepareNextNodeData(campaign, node.nextNode, updatedPlayers.length);
-                nextUpdates.players = updatedPlayers; nextUpdates.turnIndex = tIndex + 1;
+                nextUpdates.players = updatedPlayers; 
+                nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
+                nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length);
                 await window.updateDoc(roomRef, nextUpdates);
                 updateSidebarUI(); renderActionChoices(); return;
             } else {
@@ -851,21 +856,21 @@ async function rollD20Action() {
             }
         }
 
-        let combatCounter = (roomData.combatTurnCounter || 0) + 1;
-        let threshold = (pCount === 1 || pCount === 5) ? 1 : 2;
-
-        if (combatCounter >= threshold) {
-            combatCounter = 0;
-            let target = updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)];
-            let mDmg = Math.floor(Math.random() * 6) + 3;
-            target.hp = Math.max(0, target.hp - mDmg);
-            if (target.characterName === activeCharacter.characterName) activeCharacter.hp = target.hp;
-            updatedPlayers = updatedPlayers.map(p => p.characterName === target.characterName ? target : p);
-            logMessage += ` | 👹 ¡Monstruo atacó a ${target.characterName} (-${mDmg} HP)!`;
-        }
+        // Ataque de la criatura informando exactamente a qué jugador atacó
+        let target = updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)];
+        let mDmg = Math.floor(Math.random() * 6) + 3;
+        target.hp = Math.max(0, target.hp - mDmg);
+        if (target.characterName === activeCharacter.characterName) activeCharacter.hp = target.hp;
+        updatedPlayers = updatedPlayers.map(p => p.characterName === target.characterName ? target : p);
+        logMessage += ` | 👹 ¡La criatura ha atacado a ${target.characterName} infligiendo -${mDmg} HP!`;
 
         logSystemMessage(logMessage);
-        await window.updateDoc(roomRef, { monsterHp: roomData.monsterHp, players: updatedPlayers, turnIndex: tIndex + 1, combatTurnCounter: combatCounter });
+        await window.updateDoc(roomRef, { 
+            monsterHp: roomData.monsterHp, 
+            players: updatedPlayers, 
+            turnIndex: (roomData.turnIndex || 0) + 1,
+            currentShooterIndex: Math.floor(Math.random() * updatedPlayers.length)
+        });
     }
     updateSidebarUI(); renderActionChoices();
 }
