@@ -755,8 +755,6 @@ window.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("activePlayBox").style.display = "flex";
                 
                 const players = data.players || [];
-                const tIndex = data.turnIndex || 0;
-                const activePlayer = players[tIndex % players.length];
                 const shooterIndex = data.currentShooterIndex !== undefined ? data.currentShooterIndex : 0;
                 const shooterPlayer = players[shooterIndex % players.length];
 
@@ -860,7 +858,6 @@ async function selectStoryOption(optId, btnElement) {
     btnElement.classList.add('selected'); 
     selectedStoryOptionId = optId;
     
-    // Guardamos el voto del jugador actual en la base de datos para que el grupo decida
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
     const snap = await window.getDoc(roomRef);
     if (!snap.exists()) return;
@@ -872,6 +869,7 @@ async function selectStoryOption(optId, btnElement) {
     await window.updateDoc(roomRef, { votes: votes });
     document.getElementById("rollLog").innerHTML = `✔ Voto registrado por <strong>${optId}</strong>. Esperando al resto del grupo...`;
 }
+
 function updateGameLobbyList(players) {
     const lobbyList = document.getElementById("lobbyPlayersList"), activeList = document.getElementById("activePlayersList");
     lobbyList.innerHTML = ""; activeList.innerHTML = "";
@@ -929,7 +927,23 @@ async function rollD20Action() {
     const campaign = campaigns[roomData.campaignId || "story1"];
     const node = campaign[roomData.currentNodeId || "start"]; if (!node || node.type === "ending") return;
 
-    // SI ES NODO DE HISTORIA (DECISIÓN / VOTACIÓN)
+    let currentShooterIndex = roomData.currentShooterIndex;
+    if (currentShooterIndex === undefined || currentShooterIndex === null) {
+        currentShooterIndex = Math.floor(Math.random() * players.length);
+    }
+    const designatedPlayer = players[currentShooterIndex];
+
+    if (!designatedPlayer || designatedPlayer.characterName !== activeCharacter.characterName) {
+        alert(`🎲 ¡Le toca tirar el D20 a ${designatedPlayer ? designatedPlayer.characterName : 'otro aventurero'} al azar!`);
+        return;
+    }
+
+    const d20 = Math.floor(Math.random() * 20) + 1; 
+    let logMessage = "";
+
+    if (activeCharacter.weapon.currentCd > 0) activeCharacter.weapon.currentCd--;
+    if (activeCharacter.abilities) activeCharacter.abilities.forEach(ab => { if (ab.currentCd > 0) ab.currentCd--; });
+
     if (node.type === "d20_branch") {
         const votes = roomData.votes || {};
         const voteValues = Object.values(votes);
@@ -939,11 +953,9 @@ async function rollD20Action() {
             return;
         }
 
-        // Conteo de votos de la sala
         let voteCounts = {};
         voteValues.forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
         
-        // Encontrar la opción ganadora o desempatar al azar
         let maxVotes = 0;
         let winningOptions = [];
         for (let opt in voteCounts) {
@@ -955,23 +967,9 @@ async function rollD20Action() {
             }
         }
         
-        // Si hay empate, se elige una opción al azar entre las ganadoras
         let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
         const chosenOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
-        // Sorteo aleatorio de quién tira el D20 para esta decisión grupal
-        let currentShooterIndex = roomData.currentShooterIndex;
-        if (currentShooterIndex === undefined || currentShooterIndex === null || roomData.needsShooterRoll) {
-            currentShooterIndex = Math.floor(Math.random() * players.length);
-        }
-        const designatedPlayer = players[currentShooterIndex];
-
-        if (!designatedPlayer || designatedPlayer.characterName !== activeCharacter.characterName) {
-            alert(`¡El grupo eligió el camino, pero al azar le toca tirar el D20 a ${designatedPlayer ? designatedPlayer.characterName : 'otro compañero'}!`);
-            return;
-        }
-
-        const d20 = Math.floor(Math.random() * 20) + 1; 
         let outcome;
         if (d20 <= 5) { outcome = node.outcomes.bad; }
         else if (d20 <= 10) { outcome = node.outcomes.regular; }
@@ -982,35 +980,23 @@ async function rollD20Action() {
         if (outcome.manaDelta) activeCharacter.mana = Math.max(0, Math.min(activeCharacter.maxMana, activeCharacter.mana + outcome.manaDelta));
 
         let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-        let logMessage = `🗳️ Camino votado: "${chosenOptObj.text}". 🎲 ${activeCharacter.characterName} tiró el D20 (${d20}): ${outcome.log}`;
+        logMessage = `🗳️ Camino votado: "${chosenOptObj.text}". 🎲 ${activeCharacter.characterName} tiró el D20 (${d20}): ${outcome.log}`;
         logSystemMessage(logMessage);
 
         selectedStoryOptionId = null;
         const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
         nextUpdates.players = updatedPlayers; 
         nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
-        nextUpdates.votes = {}; // Limpiamos los votos para el siguiente nivel
-        nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length); // Nuevo tirador al azar para el siguiente nodo
+        nextUpdates.votes = {}; 
+        nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length);
         await window.updateDoc(roomRef, nextUpdates);
 
     } else if (node.type === "combat") {
-        // LÓGICA DE COMBATE POR TURNOS (Igual que antes)
-        let currentShooterIndex = roomData.currentShooterIndex ?? 0;
-        const designatedPlayer = players[currentShooterIndex];
-        if (!designatedPlayer || designatedPlayer.characterName !== activeCharacter.characterName) {
-            alert(`¡Es turno de combate de ${designatedPlayer ? designatedPlayer.characterName : 'otro aventurero'}!`);
-            return;
-        }
-
         if (!currentSelectedAction) { alert("Elegí un ataque o acción."); return; }
         if (currentSelectedAction.type === "weapon" && activeCharacter.weapon.currentCd > 0) { alert("Arma en Cooldown."); return; }
         if (currentSelectedAction.type === "ability" && activeCharacter.abilities[currentSelectedAction.index].currentCd > 0) { alert("Habilidad en Cooldown."); return; }
 
         let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-        const d20 = Math.floor(Math.random() * 20) + 1; let logMessage = "";
-
-        if (activeCharacter.weapon.currentCd > 0) activeCharacter.weapon.currentCd--;
-        if (activeCharacter.abilities) activeCharacter.abilities.forEach(ab => { if (ab.currentCd > 0) ab.currentCd--; });
 
         if (currentSelectedAction.type === "rest") {
             activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 5);
@@ -1066,108 +1052,12 @@ async function rollD20Action() {
     }
     updateSidebarUI(); renderActionChoices();
 }
-    const designatedPlayer = players[currentShooterIndex];
-
-    if (!designatedPlayer || designatedPlayer.characterName !== activeCharacter.characterName) {
-        alert(`¡Le toca tirar el D20 a ${designatedPlayer ? designatedPlayer.characterName : 'otro aventurero'} al azar!`);
-        return;
-    }
-
-    const campaign = campaigns[roomData.campaignId || "story1"];
-    const node = campaign[roomData.currentNodeId || "start"]; if (!node || node.type === "ending") return;
-
-    const d20 = Math.floor(Math.random() * 20) + 1; let logMessage = "";
-    if (activeCharacter.weapon.currentCd > 0) activeCharacter.weapon.currentCd--;
-    if (activeCharacter.abilities) activeCharacter.abilities.forEach(ab => { if (ab.currentCd > 0) ab.currentCd--; });
-
-    if (node.type === "d20_branch") {
-        if (!selectedStoryOptionId) { alert("Elegí una opción de camino para la votación."); return; }
-        let outcome;
-        if (d20 <= 5) { outcome = node.outcomes.bad; }
-        else if (d20 <= 10) { outcome = node.outcomes.regular; }
-        else if (d20 <= 15) { outcome = node.outcomes.good; }
-        else { outcome = node.outcomes.perfect; }
-
-        if (outcome.hpDelta) activeCharacter.hp = Math.max(0, Math.min(activeCharacter.maxHp, activeCharacter.hp + outcome.hpDelta));
-        if (outcome.manaDelta) activeCharacter.mana = Math.max(0, Math.min(activeCharacter.maxMana, activeCharacter.mana + outcome.manaDelta));
-
-        let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-        logMessage = `🎲 ${activeCharacter.characterName} tiró el D20 (${d20}) asignado al azar: ${outcome.log}`;
-        logSystemMessage(logMessage);
-
-        selectedStoryOptionId = null;
-        const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
-        nextUpdates.players = updatedPlayers; 
-        nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
-        nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length);
-        await window.updateDoc(roomRef, nextUpdates);
-
-    } else if (node.type === "combat") {
-        if (!currentSelectedAction) { alert("Elegí un ataque o acción."); return; }
-        if (currentSelectedAction.type === "weapon" && activeCharacter.weapon.currentCd > 0) { alert("Arma en Cooldown."); return; }
-        if (currentSelectedAction.type === "ability" && activeCharacter.abilities[currentSelectedAction.index].currentCd > 0) { alert("Habilidad en Cooldown."); return; }
-
-        let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-
-        if (currentSelectedAction.type === "rest") {
-            activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 5);
-            activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + 5);
-            logMessage = `🏕 ${activeCharacter.characterName} descansó (+5 HP/+5M).`;
-            updatedPlayers = updatedPlayers.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-        } else {
-            const manaCost = currentSelectedAction.manaCost || 0;
-            if (activeCharacter.mana < manaCost) { alert("Falta maná."); return; }
-            activeCharacter.mana -= manaCost;
-
-            if (currentSelectedAction.type === "weapon") activeCharacter.weapon.currentCd = currentSelectedAction.cdMax;
-            if (currentSelectedAction.type === "ability") activeCharacter.abilities[currentSelectedAction.index].currentCd = currentSelectedAction.cdMax;
-
-            const statMod = Math.floor((activeCharacter.stats.Fuerza - 10) / 2);
-            let dmg = (d20 + statMod >= 12 ? 12 + statMod : 5) + (manaCost > 0 ? 6 : 0);
-            let newMonsterHp = Math.max(0, (roomData.monsterHp || 50) - dmg);
-
-            logMessage = `⚔ ${activeCharacter.characterName} atacó con ${currentSelectedAction.name}. D20(${d20}) ➡ ${dmg} de daño a la criatura.`;
-            updatedPlayers = updatedPlayers.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-
-            if (newMonsterHp <= 0) {
-                let mRec = Math.round((activeCharacter.maxMana - activeCharacter.mana) * 0.4) + 5;
-                activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + mRec);
-                activeCharacter.inventory.push({name:"Poción de vida", description:"Recupera +10 HP."});
-                updatedPlayers = updatedPlayers.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-                logSystemMessage(`🎉 ¡Victoria! La criatura ha sido derrotada.`);
-                const nextUpdates = await prepareNextNodeData(campaign, node.nextNode, updatedPlayers.length);
-                nextUpdates.players = updatedPlayers; 
-                nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
-                nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length);
-                await window.updateDoc(roomRef, nextUpdates);
-                updateSidebarUI(); renderActionChoices(); return;
-            } else {
-                roomData.monsterHp = newMonsterHp;
-            }
-        }
-
-        let target = updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)];
-        let mDmg = Math.floor(Math.random() * 6) + 3;
-        target.hp = Math.max(0, target.hp - mDmg);
-        if (target.characterName === activeCharacter.characterName) activeCharacter.hp = target.hp;
-        updatedPlayers = updatedPlayers.map(p => p.characterName === target.characterName ? target : p);
-        logMessage += ` | 👹 ¡La criatura ha atacado a ${target.characterName} infligiendo -${mDmg} HP!`;
-
-        logSystemMessage(logMessage);
-        await window.updateDoc(roomRef, { 
-            monsterHp: roomData.monsterHp, 
-            players: updatedPlayers, 
-            turnIndex: (roomData.turnIndex || 0) + 1,
-            currentShooterIndex: Math.floor(Math.random() * updatedPlayers.length)
-        });
-    }
-    updateSidebarUI(); renderActionChoices();
-}
 
 async function copyRoomCode() {
     navigator.clipboard.writeText(activeRoomCode);
     logSystemMessage(`📋 Código copiado.`);
 }
+
 async function sendChatMessage() {
     const input = document.getElementById("chatInput"), text = input.value.trim(); if (!text) return;
     const roomRef = window.doc(window.db, "rooms", activeRoomCode), snap = await window.getDoc(roomRef);
@@ -1178,7 +1068,9 @@ async function sendChatMessage() {
         await window.updateDoc(roomRef, { chat }); input.value = "";
     }
 }
+
 function handleChatKey(e) { if (e.key === "Enter") sendChatMessage(); }
+
 async function logSystemMessage(text) {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode), snap = await window.getDoc(roomRef);
     if (snap.exists()) {
@@ -1187,6 +1079,7 @@ async function logSystemMessage(text) {
         await window.updateDoc(roomRef, { chat });
     }
 }
+
 function renderChat(chatArray) {
     const container = document.getElementById("chatMessages"); container.innerHTML = "";
     chatArray.forEach(m => {
