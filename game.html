@@ -42,7 +42,8 @@ header p { color: var(--muted); font-style: italic; }
 .chat-input-area input { flex: 1; padding: 8px; background: #151316; border: 1px solid #625344; color: var(--text); border-radius: 4px; font-size: 13px; }
 .dice-bar { display: flex; justify-content: space-around; background: var(--panel-light); border: 1px solid var(--gold-dark); border-radius: 6px; padding: 8px; flex-wrap: wrap; gap: 5px; }
 .dice-btn { background: #171518; border: 1px solid var(--gold); color: var(--gold); font-weight: bold; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 13px; }
-.dice-btn:hover { background: var(--gold); color: #121114; }
+.dice-btn:hover:not(:disabled) { background: var(--gold); color: #121114; }
+.dice-btn:disabled { opacity: 0.5; cursor: not-allowed; border-color: #555; color: #888; background: #1a1a1a; }
 .screen-display { background: #110f11; border: 2px solid var(--gold-dark); border-radius: 8px; padding: 15px; min-height: 220px; box-shadow: inset 0 0 10px #000; }
 .story-text { font-size: 15px; line-height: 1.6; color: #f3efe6; margin-bottom: 12px; }
 .choice-btn { background: #1c191a; border: 1px solid #725536; color: var(--text); text-align: left; padding: 10px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 6px; width: 100%; font-size: 13px; }
@@ -55,6 +56,18 @@ header p { color: var(--muted); font-style: italic; }
 .tier-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-bottom: 6px; }
 .tier-perfect { background: #1e5c2f; color: #a5d6a7; }
 .btn-gold { background: linear-gradient(135deg, #c99c55, #8c642f); color: #17120d; font-weight: bold; border: none; padding: 12px 18px; border-radius: 5px; cursor: pointer; font-size: 15px; width: 100%; }
+
+/* Estilos de Insignias de Raza (Fondo) y Clase (Borde) */
+.player-badge {
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    border-width: 3px;
+    border-style: solid;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -75,7 +88,7 @@ header p { color: var(--muted); font-style: italic; }
                 <button class="dice-btn" onclick="sendChatMessage()">Enviar</button>
             </div>
             <h4 style="color:var(--gold); margin:15px 0 5px 0; font-size:13px;">Aventureros en línea:</h4>
-            <ul id="activePlayersList" style="margin:0; padding-left:15px; font-size:12px; color:var(--muted);"></ul>
+            <div id="activePlayersList" style="margin-top:5px; display:flex; flex-direction:column; gap:4px;"></div>
         </div>
 
         <!-- CENTRO: DADOS Y HISTORIA -->
@@ -87,7 +100,7 @@ header p { color: var(--muted); font-style: italic; }
                     <span id="roomCodeDisplay" style="color:var(--gold); font-size:28px; font-weight:bold; letter-spacing: 3px;">----</span>
                 </div>
                 <div><button onclick="copyRoomCode()" style="background:#56845c; color:#fff; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">📋 Copiar Código</button></div>
-                <ul id="lobbyPlayersList" style="list-style:none; padding:0; color:var(--muted); margin:15px 0;"></ul>
+                <div id="lobbyPlayersList" style="margin:15px 0; display:flex; flex-direction:column; gap:6px; align-items:center;"></div>
                 <div id="hostControls" style="display:none;">
                     <button class="btn-gold" onclick="startAdventure()">🚀 Comenzar Partida Épica</button>
                 </div>
@@ -98,7 +111,7 @@ header p { color: var(--muted); font-style: italic; }
             <div id="activePlayBox" style="display:none; flex-direction:column; gap:15px;">
                 <div class="dice-bar">
                     <span id="turnIndicator" style="color:var(--gold); align-self:center; font-size:13px; font-weight:bold;">Turno: Cargando...</span>
-                    <button class="dice-btn" id="rollDiceMainBtn" onclick="rollD20Action()" style="background:#56845c; color:#fff; border-color:#79b782; padding:8px 15px;">🎲 ¡Tirar D20!</button>
+                    <button class="dice-btn" id="rollDiceMainBtn" onclick="rollD20Action()" style="background:#56845c; color:#fff; border-color:#79b782; padding:8px 15px;" disabled>🎲 ¡Tirar D20!</button>
                 </div>
                 <div class="panel">
                     <div class="screen-display">
@@ -132,6 +145,31 @@ header p { color: var(--muted); font-style: italic; }
 </main>
 
 <script>
+// MAPAS DE COLORES PARA RAZAS (Fondo) Y CLASES (Bordes)
+const raceBgColors = {
+    "Humano": "#1a365d",   // Azul
+    "Elfo": "#1c4532",     // Verde
+    "Enano": "#5a1e1e",    // Rojo
+    "Mediano": "#5c531e",  // Amarillo
+    "Tiefling": "#3d1e5c"  // Morado
+};
+
+const classBorderColors = {
+    "Guerrero": "#e53e3e", // Rojo
+    "Mago": "#3182ce",     // Azul
+    "Pícaro": "#d69e2e",   // Amarillo
+    "Clérigo": "#9f7aea",  // Morado
+    "Druida": "#38a169"    // Verde
+};
+
+function getPlayerBadgeStyle(player) {
+    const race = player.selectedRace || "Humano";
+    const pClass = player.selectedClass || "Guerrero";
+    const bg = raceBgColors[race] || "#201d20";
+    const border = classBorderColors[pClass] || "#d5aa61";
+    return `background-color: ${bg}; border-color: ${border}; color: #fff;`;
+}
+
 const campaigns = {
     story1: {
         start: {
@@ -732,7 +770,7 @@ window.addEventListener("DOMContentLoaded", () => {
     unsubscribeSnapshot = window.onSnapshot(roomRef, (docSnap) => {
         if (docSnap.exists()) {
             const data = docSnap.data();
-            updateGameLobbyList(data.players);
+            updateGameLobbyList(data.players || []);
 
             const syncedMe = data.players.find(p => p.characterName === activeCharacter.characterName);
             if (syncedMe) {
@@ -755,18 +793,25 @@ window.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("activePlayBox").style.display = "flex";
                 
                 const players = data.players || [];
+                const votes = data.votes || {};
+                const allVoted = players.every(p => votes[p.characterName]);
+                
                 const shooterIndex = data.currentShooterIndex !== undefined ? data.currentShooterIndex : 0;
                 const shooterPlayer = players[shooterIndex % players.length];
 
                 const turnIndicator = document.getElementById("turnIndicator");
                 const rollBtn = document.getElementById("rollDiceMainBtn");
 
-                if (shooterPlayer && shooterPlayer.characterName === activeCharacter.characterName) {
-                    turnIndicator.innerHTML = `🎲 ¡Te tocó tirar el D20 al azar, ${activeCharacter.characterName}!`;
+                if (!allVoted) {
+                    turnIndicator.innerHTML = `⏳ Esperando votos de todos los aventureros... (${Object.keys(votes).length}/${players.length})`;
+                    turnIndicator.style.color = "var(--gold)";
+                    rollBtn.disabled = true;
+                } else if (shooterPlayer && shooterPlayer.characterName === activeCharacter.characterName) {
+                    turnIndicator.innerHTML = `🎲 ¡Votación completa! <strong>¡Te tocó tirar el D20, ${activeCharacter.characterName}!</strong>`;
                     turnIndicator.style.color = "lightgreen";
                     rollBtn.disabled = false;
                 } else {
-                    turnIndicator.innerHTML = `⏳ Turno de acción | Tirador D20 asignado: <strong>${shooterPlayer ? shooterPlayer.characterName : 'Compañero'}</strong>`;
+                    turnIndicator.innerHTML = `⏳ Votación lista | Tirador D20 asignado: <strong>${shooterPlayer ? shooterPlayer.characterName : 'Compañero'}</strong>`;
                     turnIndicator.style.color = "var(--gold)";
                     rollBtn.disabled = true;
                 }
@@ -867,7 +912,7 @@ async function selectStoryOption(optId, btnElement) {
     votes[activeCharacter.characterName] = optId;
     
     await window.updateDoc(roomRef, { votes: votes });
-    document.getElementById("rollLog").innerHTML = `✔ Voto registrado por <strong>${optId}</strong>. Esperando al resto del grupo...`;
+    document.getElementById("rollLog").innerHTML = `✔ Voto registrado. Esperando a que todos los compañeros voten...`;
 }
 
 function updateGameLobbyList(players) {
@@ -875,15 +920,17 @@ function updateGameLobbyList(players) {
     lobbyList.innerHTML = ""; activeList.innerHTML = "";
     if (players) {
         players.forEach(p => {
-            lobbyList.innerHTML += `<li>⚔ ${p.characterName} (${p.selectedClass})</li>`;
-            activeList.innerHTML += `<li>${p.characterName} [HP: ${p.hp}|M: ${p.mana}]</li>`;
+            const badgeStyle = getPlayerBadgeStyle(p);
+            const badgeHtml = `<div class="player-badge" style="${badgeStyle}">⚔ ${p.characterName} (${p.selectedRace || 'Humano'} ${p.selectedClass || 'Guerrero'})</div>`;
+            lobbyList.innerHTML += badgeHtml;
+            activeList.innerHTML += `<div class="player-badge" style="${badgeStyle}; padding: 4px 8px; font-size: 11px;">${p.characterName} [HP: ${p.hp}|M: ${p.mana}]</div>`;
         });
     }
 }
 
 async function startAdventure() {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
-    await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0, currentShooterIndex: 0 });
+    await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0, currentShooterIndex: 0, votes: {} });
     logSystemMessage(`🚀 ¡La campaña masiva ha comenzado!`);
 }
 
@@ -894,7 +941,9 @@ function renderStoryNode(nodeId, roomData) {
     const choicesArea = document.getElementById("choicesArea"); choicesArea.innerHTML = "";
 
     if (node.type === "d20_branch") {
-        html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación y Decisión Grupal en Curso...</strong></div>`;
+        const votes = roomData.votes || {};
+        const players = roomData.players || [];
+        html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
         node.options.forEach(opt => {
             const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
             btn.textContent = opt.text; btn.onclick = () => selectStoryOption(opt.id, btn); choicesArea.appendChild(btn);
@@ -910,7 +959,7 @@ function renderStoryNode(nodeId, roomData) {
 
 async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
     const nextNode = campaign[nextNodeId];
-    let updateObj = { currentNodeId: nextNodeId, turnIndex: 0, combatTurnCounter: 0 };
+    let updateObj = { currentNodeId: nextNodeId, turnIndex: 0, combatTurnCounter: 0, votes: {} };
     if (nextNode && nextNode.type === "combat") {
         const scaledHp = nextNode.isBoss ? (nextNode.baseHp || 120) + (playerCount - 1) * 20 : (nextNode.baseHp + (playerCount - 1) * 5);
         updateObj.monsterHp = scaledHp; updateObj.monsterMaxHp = scaledHp; updateObj.monsterName = nextNode.monsterName;
@@ -927,6 +976,15 @@ async function rollD20Action() {
     const campaign = campaigns[roomData.campaignId || "story1"];
     const node = campaign[roomData.currentNodeId || "start"]; if (!node || node.type === "ending") return;
 
+    if (node.type === "d20_branch") {
+        const votes = roomData.votes || {};
+        const voteValues = Object.values(votes);
+        if (voteValues.length < players.length) {
+            alert("Aún faltan jugadores por votar.");
+            return;
+        }
+    }
+
     let currentShooterIndex = roomData.currentShooterIndex;
     if (currentShooterIndex === undefined || currentShooterIndex === null) {
         currentShooterIndex = Math.floor(Math.random() * players.length);
@@ -934,7 +992,7 @@ async function rollD20Action() {
     const designatedPlayer = players[currentShooterIndex];
 
     if (!designatedPlayer || designatedPlayer.characterName !== activeCharacter.characterName) {
-        alert(`🎲 ¡Le toca tirar el D20 a ${designatedPlayer ? designatedPlayer.characterName : 'otro aventurero'} al azar!`);
+        alert(`🎲 ¡El tirador asignado al azar para este turno es ${designatedPlayer ? designatedPlayer.characterName : 'otro aventurero'}!`);
         return;
     }
 
@@ -946,15 +1004,8 @@ async function rollD20Action() {
 
     if (node.type === "d20_branch") {
         const votes = roomData.votes || {};
-        const voteValues = Object.values(votes);
-        
-        if (voteValues.length === 0) {
-            alert("Alguien debe elegir una opción de camino antes de tirar.");
-            return;
-        }
-
         let voteCounts = {};
-        voteValues.forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
+        Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
         
         let maxVotes = 0;
         let winningOptions = [];
