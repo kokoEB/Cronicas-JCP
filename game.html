@@ -177,13 +177,13 @@ const campaigns = {
             text: "Despiertan en una vasta cámara circular iluminada por cristales titilantes. Cuatro imponentes senderos se extienden ante ustedes en total calma, sin enemigos a la vista. ¿Qué camino deciden tomar?",
             type: "d20_branch",
             options: [
-                { id: "p1_forja", text: "🔥 Camino 1: El Desfiladero de las Forjas Ancestrales" },
-                { id: "p2_agua", text: "🌊 Camino 2: Las Cavernas Subterráneas de los Espejos" },
+                { id: "p1_forja", text: "🔥 Camino 1: El Desfiladero de las Forjas Ancestrales", requiredItem: "Antorcha", bonusLog: "Usaron la antorcha para iluminar la forja y hallar un botín.", penaltyLog: "Sin antorcha, la oscuridad ocultó una trampa (-3 HP)." },
+                { id: "p2_agua", text: "🌊 Camino 2: Las Cavernas Subterráneas de los Espejos", requiredItem: "Cuerda", bonusLog: "La cuerda aseguró el paso resbaladizo con éxito.", penaltyLog: "Resbalaron en la humedad (-2 HP)." },
                 { id: "p3_ruinas", text: "🏛️ Camino 3: Las Columnas del Templo de los Ecos" },
                 { id: "p4_bosque", text: "🌿 Camino 4: Las Raíces Profundas y Lumínicas" }
             ],
             outcomes: {
-                bad: { log: "Una trampa menor oculta en el suelo se activa (-2 HP).", hpDelta: -2, nextNode: "n2_ramaA" },
+                bad: { log: "Una emboscada surge de la oscuridad por mala suerte en el dado.", nextNode: "combate_aleatorio_1" },
                 regular: { log: "Avanzan con cautela por el sendero elegido.", nextNode: "n2_ramaB" },
                 good: { log: "Hallan rastros y mapas útiles sobre el terreno.", nextNode: "n2_ramaC" },
                 perfect: { log: "Energía pura del entorno les otorga +5 Maná.", manaDelta: 5, nextNode: "n2_ramaD" }
@@ -214,7 +214,7 @@ const campaigns = {
             type: "d20_branch",
             options: [
                 { id: "n2b_1", text: "🧗 Saltar con precisión de roca en roca" },
-                { id: "n2b_2", text: "🪢 Lanzar una cuerda de seguridad" },
+                { id: "n2b_2", text: "🪢 Lanzar una cuerda de seguridad", requiredItem: "Cuerda" },
                 { id: "n2b_3", text: "🔮 Usar levitación menor con maná" },
                 { id: "n2b_4", text: "🚶 Caminar despacio probando cada piedra" }
             ],
@@ -260,6 +260,7 @@ const campaigns = {
             }
         },
 
+        combate_aleatorio_1: { title: "Combate Sorpresa - Acechador de las Sombras", text: "¡Una mala tirada alertó a una bestia errante!", type: "combat", monsterName: "Acechador Errante", baseHp: 30, nextNode: "n2_ramaA" },
         combate_n2_1: { title: "Combate - Guardianes de Piedra", text: "¡Las estatuas cobran vida hostil!", type: "combat", monsterName: "Guardianes de Piedra", baseHp: 35, nextNode: "n3_rama1" },
         combate_n2_2: { title: "Combate - Acechador de los Abismos", text: "¡Una criatura alada emerge!", type: "combat", monsterName: "Acechador Alado", baseHp: 40, nextNode: "n3_rama2" },
         combate_n2_3: { title: "Combate - Reflejo Maligno", text: "¡Su propia oscuridad cobra forma!", type: "combat", monsterName: "Reflejo Maligno", baseHp: 40, nextNode: "n3_rama3" },
@@ -277,7 +278,7 @@ const campaigns = {
                 { id: "n3_4", text: "🌑 Tomar el túnel oeste (corriente estática)" }
             ],
             outcomes: {
-                bad: { log: "Ráfaga cortante (-3 HP).", hpDelta: -3, nextNode: "n4_rama1" },
+                bad: { log: "Ráfaga cortante y emboscada (-3 HP).", hpDelta: -3, nextNode: "combate_n3_1" },
                 regular: { log: "Superan el cruce sin contratiempos.", nextNode: "n4_rama2" },
                 good: { log: "Impulso favorable (+5 Maná).", manaDelta: 5, nextNode: "n4_rama3" },
                 perfect: { log: "Armonía elemental (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
@@ -307,7 +308,7 @@ const campaigns = {
             options: [
                 { id: "n3_31", text: "📜 Leer las inscripciones de las lápidas" },
                 { id: "n3_32", text: "🏺 Inspeccionar las ofrendas funerarias" },
-                { id: "n3_33", text: "🕯️ Encender una luz en memoria de los caídos" },
+                { id: "n3_33", text: "🕯️ Encender una luz en memoria de los caídos", requiredItem: "Antorcha" },
                 { id: "n3_34", text: "🚪 Abrir el portón blindado del fondo" }
             ],
             outcomes: {
@@ -397,7 +398,7 @@ const campaigns = {
             type: "d20_branch",
             options: [
                 { id: "n4_41", text: "⚔️ Afilar armas y revisar armaduras" },
-                { id: "n4_42", text: "🧪 Beber pociones preparatorias" },
+                { id: "n4_42", text: "🧪 Beber pociones preparatorias", requiredItem: "Poción de vida" },
                 { id: "n4_43", text: "🗣️ Dar un discurso motivacional al grupo" },
                 { id: "n4_44", text: "👁️ Vigilar los flancos en silencio" }
             ],
@@ -521,13 +522,13 @@ const campaigns = {
             text: "Un puente colgante destruido sobre un abismo vertical interminable.",
             type: "d20_branch",
             options: [
-                { id: "n7_11", text: "🪢 Reparar el puente con cuerdas y pernos" },
+                { id: "n7_11", text: "🪢 Reparar el puente con cuerdas y pernos", requiredItem: "Cuerda" },
                 { id: "n7_12", text: "🧗 Descender por la pared y escalar al otro lado" },
                 { id: "n7_13", text: "🔮 Usar levitación grupal" },
                 { id: "n7_14", text: "🏃 Tomar impulso y saltar al saliente" }
             ],
             outcomes: {
-                bad: { log: "Caída dolorosa (-4 HP).", hpDelta: -4, nextNode: "n8_rama1" },
+                bad: { log: "Caída dolorosa (-4 HP).", hpDelta: -4, nextNode: "combate_aleatorio_2" },
                 regular: { log: "Cruce con gran esfuerzo.", nextNode: "n8_rama2" },
                 good: { log: "Maniobra impecable.", nextNode: "n8_rama3" },
                 perfect: { log: "Viento favorable (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n8_rama4" }
@@ -584,6 +585,8 @@ const campaigns = {
                 perfect: { log: "Dominio eólico (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "n8_rama1" }
             }
         },
+
+        combate_aleatorio_2: { title: "Combate Sorpresa - Bestia de la Sima", text: "¡Una criatura emergió tras la caída!", type: "combat", monsterName: "Bestia de la Sima", baseHp: 45, nextNode: "n8_rama2" },
 
         // ================= NIVEL 8 =================
         n8_rama1: {
@@ -642,7 +645,7 @@ const campaigns = {
             text: "Sombras danzantes intentan desestabilizar el avance del grupo.",
             type: "d20_branch",
             options: [
-                { id: "n8_41", text: "✨ Usar luz mágica para disiparlas" },
+                { id: "n8_41", text: "✨ Usar luz mágica para disiparlas", requiredItem: "Antorcha" },
                 { id: "n8_42", text: "🛡️ Avanzar con escudos protectores" },
                 { id: "n8_43", text: "🏃 Correr atravesando la penumbra" },
                 { id: "n8_44", text: "🗣️ Gritar con fuerza para ahuyentarlas" }
@@ -662,7 +665,7 @@ const campaigns = {
             type: "d20_branch",
             options: [
                 { id: "n9_11", text: "⚔️ Afilar armas y preparar técnicas definitivas" },
-                { id: "n9_12", text: "🧪 Consumir pociones y elixires restantes" },
+                { id: "n9_12", text: "🧪 Consumir pociones y elixires restantes", requiredItem: "Poción de vida" },
                 { id: "n9_13", text: "🗣️ Juramento final de hermandad grupal" },
                 { id: "n9_14", text: "👁️ Inspeccionar las entradas al gran salón" }
             ],
@@ -762,6 +765,13 @@ window.addEventListener("DOMContentLoaded", () => {
     if (!activeCharacter.maxHp) activeCharacter.maxHp = activeCharacter.hp;
     if (!activeCharacter.maxMana) activeCharacter.maxMana = activeCharacter.mana;
 
+    // Inicializar propiedades de usos para habilidades D12, D10 y D8 si no existen
+    if (activeCharacter.abilities) {
+        activeCharacter.abilities.forEach(ab => {
+            if (ab.dice === "D10" && ab.d10UsesLeft === undefined) ab.d10UsesLeft = 2; // Primeras 2 de regalo
+        });
+    }
+
     document.getElementById("roomCodeDisplay").textContent = code;
     updateSidebarUI();
     renderActionChoices();
@@ -802,18 +812,29 @@ window.addEventListener("DOMContentLoaded", () => {
                 const turnIndicator = document.getElementById("turnIndicator");
                 const rollBtn = document.getElementById("rollDiceMainBtn");
 
-                if (!allVoted) {
+                const campaign = campaigns[data.campaignId || "story1"];
+                const currentNode = campaign[data.currentNodeId || "start"];
+
+                if (currentNode && currentNode.type === "combat") {
+                    turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE TÁCTICO!</strong> | Turno de iniciativa / ataques`;
+                    turnIndicator.style.color = "#ff6b6b";
+                    rollBtn.disabled = false;
+                    rollBtn.textContent = "🎲 ¡Tirar Iniciativa / Atacar!";
+                } else if (!allVoted) {
                     turnIndicator.innerHTML = `⏳ Esperando votos de todos los aventureros... (${Object.keys(votes).length}/${players.length})`;
                     turnIndicator.style.color = "var(--gold)";
                     rollBtn.disabled = true;
+                    rollBtn.textContent = "🎲 ¡Tirar D20!";
                 } else if (shooterPlayer && shooterPlayer.characterName === activeCharacter.characterName) {
                     turnIndicator.innerHTML = `🎲 ¡Votación completa! <strong>¡Te tocó tirar el D20, ${activeCharacter.characterName}!</strong>`;
                     turnIndicator.style.color = "lightgreen";
                     rollBtn.disabled = false;
+                    rollBtn.textContent = "🎲 ¡Tirar D20!";
                 } else {
                     turnIndicator.innerHTML = `⏳ Votación lista | Tirador D20 asignado: <strong>${shooterPlayer ? shooterPlayer.characterName : 'Compañero'}</strong>`;
                     turnIndicator.style.color = "var(--gold)";
                     rollBtn.disabled = true;
+                    rollBtn.textContent = "🎲 ¡Tirar D20!";
                 }
                 
                 renderStoryNode(data.currentNodeId || "start", data);
@@ -867,19 +888,31 @@ function renderActionChoices() {
         weaponCard.style.opacity = "0.5";
         weaponCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚔ Arma: ${w.name}</strong><div style="font-size:11px; color:#ff6b6b;">⏳ En CD: ${wCd} turnos</div>`;
     } else {
-        weaponCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚔ Arma: ${w.name}</strong><div style="font-size:11px; color:var(--muted);">Daño: ${w.damage} | CD: ${w.cdMax}</div>`;
+        weaponCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚔ Arma: ${w.name}</strong><div style="font-size:11px; color:var(--muted);">Daño: ${w.damage} | Ilimitado</div>`;
         weaponCard.onclick = () => selectAction({type: "weapon", name: w.name, damage: w.damage, manaCost: 0, cdMax: w.cdMax}, weaponCard);
     }
     container.appendChild(weaponCard);
 
     if (activeCharacter.abilities) {
         activeCharacter.abilities.forEach((ab, index) => {
-            const abCd = ab.currentCd || 0, abCard = document.createElement("div"); abCard.className = "ability-card-game";
+            const abCd = ab.currentCd || 0;
+            const abCard = document.createElement("div"); abCard.className = "ability-card-game";
+
+            let locked = false;
+            let infoText = `🎲 ${ab.dice} | 🔮 ${ab.mana}M`;
+
             if (abCd > 0) {
+                locked = true;
+                infoText = `<span style="color:#ff6b6b;">⏳ En CD: ${abCd} turnos</span>`;
+            } else if (ab.dice === "D10" && ab.d10UsesLeft > 0) {
+                infoText += ` | Quedan ${ab.d10UsesLeft} usos extra`;
+            }
+
+            if (locked) {
                 abCard.style.opacity = "0.5";
-                abCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚡ ${ab.name}</strong><div style="font-size:11px; color:#ff6b6b;">⏳ En CD: ${abCd} turnos</div>`;
+                abCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚡ ${ab.name}</strong><div style="font-size:11px;">${infoText}</div>`;
             } else {
-                abCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚡ ${ab.name}</strong><div style="font-size:11px; color:var(--muted);">🎲 ${ab.dice} | 🔮 ${ab.mana}M | CD: ${ab.cdMax}</div>`;
+                abCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">⚡ ${ab.name}</strong><div style="font-size:11px; color:var(--muted);">${infoText}</div>`;
                 abCard.onclick = () => selectAction({type: "ability", index, name: ab.name, dice: ab.dice, manaCost: ab.mana, cdMax: ab.cdMax}, abCard);
             }
             container.appendChild(abCard);
@@ -895,7 +928,7 @@ function renderActionChoices() {
 function selectAction(actionObj, element) {
     document.querySelectorAll('.ability-card-game').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected'); currentSelectedAction = actionObj;
-    document.getElementById("rollLog").innerHTML = `✔ Acción lista: <strong>${actionObj.name}</strong>. ¡Tirá el D20!`;
+    document.getElementById("rollLog").innerHTML = `✔ Acción lista: <strong>${actionObj.name}</strong>. ¡Tirá el D20 para atacar!`;
 }
 
 async function selectStoryOption(optId, btnElement) {
@@ -943,19 +976,18 @@ function renderStoryNode(nodeId, roomData) {
     if (node.type === "d20_branch") {
         const votes = roomData.votes || {};
         const players = roomData.players || [];
-        
-        // Verificamos si todos los jugadores votaron en ESTE nodo actual
         const allVoted = players.length > 0 && players.every(p => votes[p.characterName]);
 
         if (!allVoted) {
-            // Aún falta que voten
             html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
             node.options.forEach(opt => {
                 const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
-                btn.textContent = opt.text; btn.onclick = () => selectStoryOption(opt.id, btn); choicesArea.appendChild(btn);
+                let badgeItem = opt.requiredItem ? ` <span style="color:var(--gold); font-size:11px;">[Requiere: ${opt.requiredItem}]</span>` : "";
+                btn.innerHTML = opt.text + badgeItem; 
+                btn.onclick = () => selectStoryOption(opt.id, btn); 
+                choicesArea.appendChild(btn);
             });
         } else {
-            // Todos ya votaron: calculamos la opción ganadora
             let voteCounts = {};
             Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
             let maxVotes = 0, winningOptions = [];
@@ -967,7 +999,6 @@ function renderStoryNode(nodeId, roomData) {
             let winningOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
             if (!roomData.lastRollResult) {
-                // Muestra la opción ganadora resaltada en pantalla durante unos segundos antes de habilitar el dado
                 html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>¡Votación completada! El grupo eligió su camino...</strong></div>`;
                 
                 const winBtn = document.createElement("div");
@@ -977,18 +1008,15 @@ function renderStoryNode(nodeId, roomData) {
                 winBtn.textContent = winningOptObj.text;
                 choicesArea.appendChild(winBtn);
 
-                // Si sos el host o cualquier cliente, dejamos que el sistema limpie los votos viejos y pase al estado de tirada tras 3.5 segundos
                 setTimeout(async () => {
                     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
                     const snap = await window.getDoc(roomRef);
                     if (snap.exists() && !snap.data().lastRollResult && snap.data().currentNodeId === nodeId) {
-                        // Marcamos un estado intermedio en la base de datos para que renderice el espacio del D20
                         await window.updateDoc(roomRef, { readyForRoll: true });
                     }
                 }, 3500);
 
             } else {
-                // Una vez que ya se tiró el dado, se muestra la opción ganadora arriba y el resultado del D20 abajo
                 html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>Camino seleccionado por el grupo:</strong></div>`;
                 
                 const winBtn = document.createElement("div");
@@ -1006,28 +1034,34 @@ function renderStoryNode(nodeId, roomData) {
         }
     } else if (node.type === "combat") {
         html += `<br><br><div style="background:#2b1515; border:1px solid #a83232; padding:10px; border-radius:5px;"><strong style="color:#ff6b6b;">👹 Enemigo: ${roomData.monsterName || node.monsterName}</strong><br>Vida: ${roomData.monsterHp} / ${roomData.monsterMaxHp} HP</div>`;
-        choicesArea.innerHTML = `<p style="color:var(--gold);">¡Combate táctico por turnos y cooldowns activos!</p>`;
+        choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ ¡Combate táctico por turnos y iniciativa activa!</p>`;
     } else if (node.type === "ending") {
         html = `<div style="text-align:center; padding:15px;"><span class="tier-badge tier-perfect">${node.badge}</span><h2 style="color:var(--gold);">${node.title}</h2><p>${node.text}</p><a href="sala.html" class="btn-gold" style="text-decoration:none; display:inline-block; padding:10px;">🔄 Volver a Salas</a></div>`;
     }
     document.getElementById("storyText").innerHTML = html;
 }
+
 async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
     const nextNode = campaign[nextNodeId];
     let updateObj = { 
         currentNodeId: nextNodeId, 
         turnIndex: 0, 
         combatTurnCounter: 0, 
-        votes: {},          // Limpia los votos anteriores por completo
-        lastRollResult: null, // Limpia el resultado del dado anterior
-        readyForRoll: false
+        votes: {},          
+        lastRollResult: null, 
+        readyForRoll: false,
+        combatInitiativeDetermined: false,
+        enemyTurnNext: false
     };
     if (nextNode && nextNode.type === "combat") {
         const scaledHp = nextNode.isBoss ? (nextNode.baseHp || 120) + (playerCount - 1) * 20 : (nextNode.baseHp + (playerCount - 1) * 5);
-        updateObj.monsterHp = scaledHp; updateObj.monsterMaxHp = scaledHp; updateObj.monsterName = nextNode.monsterName;
+        updateObj.monsterHp = scaledHp; 
+        updateObj.monsterMaxHp = scaledHp; 
+        updateObj.monsterName = nextNode.monsterName;
     }
     return updateObj;
 }
+
 async function rollD20Action() {
     if (activeCharacter.hp <= 0) return;
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
@@ -1039,50 +1073,62 @@ async function rollD20Action() {
 
     if (node.type === "d20_branch") {
         const votes = roomData.votes || {};
-        const voteValues = Object.values(votes);
-        if (voteValues.length < players.length) {
+        if (Object.values(votes).length < players.length) {
             alert("Aún faltan jugadores por votar.");
             return;
         }
     }
 
-    let currentShooterIndex = roomData.currentShooterIndex;
-    if (currentShooterIndex === undefined || currentShooterIndex === null) {
-        currentShooterIndex = Math.floor(Math.random() * players.length);
-    }
-    const designatedPlayer = players[currentShooterIndex];
+    let currentShooterIndex = roomData.currentShooterIndex !== undefined ? roomData.currentShooterIndex : 0;
+    const designatedPlayer = players[currentShooterIndex % players.length];
 
-    if (!designatedPlayer || designatedPlayer.characterName !== activeCharacter.characterName) {
-        alert(`🎲 ¡El tirador asignado al azar para este turno es ${designatedPlayer ? designatedPlayer.characterName : 'otro aventurero'}!`);
+    if (node.type === "d20_branch" && (!designatedPlayer || designatedPlayer.characterName !== activeCharacter.characterName)) {
+        alert(`🎲 ¡El tirador asignado para este turno es ${designatedPlayer ? designatedPlayer.characterName : 'otro aventurero'}!`);
         return;
     }
 
     const d20 = Math.floor(Math.random() * 20) + 1; 
     let logMessage = "";
 
+    // Reducir Cooldowns de armas y habilidades generales
     if (activeCharacter.weapon.currentCd > 0) activeCharacter.weapon.currentCd--;
-    if (activeCharacter.abilities) activeCharacter.abilities.forEach(ab => { if (ab.currentCd > 0) ab.currentCd--; });
+    if (activeCharacter.abilities) {
+        activeCharacter.abilities.forEach(ab => { 
+            if (ab.currentCd > 0) ab.currentCd--; 
+        });
+    }
 
     if (node.type === "d20_branch") {
         const votes = roomData.votes || {};
         let voteCounts = {};
         Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
         
-        let maxVotes = 0;
-        let winningOptions = [];
+        let maxVotes = 0, winningOptions = [];
         for (let opt in voteCounts) {
-            if (voteCounts[opt] > maxVotes) {
-                maxVotes = voteCounts[opt];
-                winningOptions = [opt];
-            } else if (voteCounts[opt] === maxVotes) {
-                winningOptions.push(opt);
-            }
+            if (voteCounts[opt] > maxVotes) { maxVotes = voteCounts[opt]; winningOptions = [opt]; }
+            else if (voteCounts[opt] === maxVotes) { winningOptions.push(opt); }
         }
         
         let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
         const chosenOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
-let outcome;
+        // Lógica de inventario (mochila) para caminos
+        let outcome;
+        if (chosenOptObj.requiredItem) {
+            const hasItem = activeCharacter.inventory && activeCharacter.inventory.some(i => i.name === chosenOptObj.requiredItem);
+            if (hasItem) {
+                // Consumimos el objeto y damos beneficio
+                const idx = activeCharacter.inventory.findIndex(i => i.name === chosenOptObj.requiredItem);
+                activeCharacter.inventory.splice(idx, 1);
+                d20 += 3; // Bonus por usar objeto
+                logSystemMessage(`🎒 ${activeCharacter.characterName} usó ${chosenOptObj.requiredItem} requerido: ¡Bonificación aplicada!`);
+            } else {
+                // Castigo por no tener el objeto
+                activeCharacter.hp = Math.max(0, activeCharacter.hp - 3);
+                logSystemMessage(`⚠️ ${activeCharacter.characterName} no tenía ${chosenOptObj.requiredItem}: ¡Sufrió castigo (-3 HP)!`);
+            }
+        }
+
         if (d20 <= 5) { outcome = node.outcomes.bad; }
         else if (d20 <= 10) { outcome = node.outcomes.regular; }
         else if (d20 <= 15) { outcome = node.outcomes.good; }
@@ -1097,24 +1143,36 @@ let outcome;
 
         selectedStoryOptionId = null;
         
-const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
+        const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
         nextUpdates.players = updatedPlayers; 
         nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
         nextUpdates.votes = {}; 
-        
-        // Rotación justa de tirador basada en el índice de turno
-        let nextShooter = ((roomData.currentShooterIndex || 0) + 1) % updatedPlayers.length;
-        nextUpdates.currentShooterIndex = nextShooter;
-        nextUpdates.lastRollResult = null; // Limpiamos el dado viejo para que no se arrastre al nuevo nivel
+        nextUpdates.currentShooterIndex = (currentShooterIndex + 1) % updatedPlayers.length;
+        nextUpdates.lastRollResult = { roller: activeCharacter.characterName, d20: d20, log: outcome.log };
         
         await window.updateDoc(roomRef, nextUpdates);
 
     } else if (node.type === "combat") {
         if (!currentSelectedAction) { alert("Elegí un ataque o acción."); return; }
         if (currentSelectedAction.type === "weapon" && activeCharacter.weapon.currentCd > 0) { alert("Arma en Cooldown."); return; }
-        if (currentSelectedAction.type === "ability" && activeCharacter.abilities[currentSelectedAction.index].currentCd > 0) { alert("Habilidad en Cooldown."); return; }
+        if (currentSelectedAction.type === "ability") {
+            const ab = activeCharacter.abilities[currentSelectedAction.index];
+            if (ab.currentCd > 0) { alert("Habilidad en Cooldown."); return; }
+            if (ab.dice === "D10" && ab.d10UsesLeft <= 0 && ab.currentCd === 0) {
+                // Ya gastó los usos extra, requiere espera de 3 turnos
+            }
+        }
 
         let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
+
+        // Determinación de iniciativa al empezar el combate si no está definida
+        if (!roomData.combatInitiativeDetermined) {
+            let enemyInit = Math.floor(Math.random() * 20) + 1;
+            let groupBeatEnemy = d20 >= enemyInit;
+            logSystemMessage(`⚔️ INICIATIVA DE COMBATE: ${activeCharacter.characterName} sacó un D20(${d20}) vs Enemigo(${enemyInit}). ${groupBeatEnemy ? '¡El Grupo ataca primero!' : '¡El Enemigo toma la iniciativa!'}`);
+            await window.updateDoc(roomRef, { combatInitiativeDetermined: true, enemyTurnNext: !groupBeatEnemy });
+            return;
+        }
 
         if (currentSelectedAction.type === "rest") {
             activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 5);
@@ -1126,8 +1184,25 @@ const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, update
             if (activeCharacter.mana < manaCost) { alert("Falta maná."); return; }
             activeCharacter.mana -= manaCost;
 
-            if (currentSelectedAction.type === "weapon") activeCharacter.weapon.currentCd = currentSelectedAction.cdMax;
-            if (currentSelectedAction.type === "ability") activeCharacter.abilities[currentSelectedAction.index].currentCd = currentSelectedAction.cdMax;
+            // Gestión de reglas de dados (D12, D10, D8)
+            if (currentSelectedAction.type === "weapon") {
+                activeCharacter.weapon.currentCd = activeCharacter.weapon.cdMax;
+            } else if (currentSelectedAction.type === "ability") {
+                let ab = activeCharacter.abilities[currentSelectedAction.index];
+                if (ab.dice === "D12") {
+                    ab.currentCd = 3; // 1 uso, 3 turnos de espera
+                } else if (ab.dice === "D10") {
+                    if (ab.d10UsesLeft > 0) {
+                        ab.d10UsesLeft--;
+                        if (ab.d10UsesLeft === 0) ab.currentCd = 3; // Tras gastar las 2, exige 3 turnos
+                    } else {
+                        ab.currentCd = 2; // Después de esperar, 1 vez cada 2 turnos
+                        ab.d10UsesLeft = 1; 
+                    }
+                } else if (ab.dice === "D8") {
+                    ab.currentCd = 1; // 1 uso, 1 turno de descanso
+                }
+            }
 
             const statMod = Math.floor((activeCharacter.stats?.Fuerza || 10 - 10) / 2);
             let dmg = (d20 + statMod >= 12 ? 12 + statMod : 5) + (manaCost > 0 ? 6 : 0);
@@ -1153,19 +1228,33 @@ const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, update
             }
         }
 
-        let target = updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)];
-        let mDmg = Math.floor(Math.random() * 6) + 3;
-        target.hp = Math.max(0, target.hp - mDmg);
-        if (target.characterName === activeCharacter.characterName) activeCharacter.hp = target.hp;
-        updatedPlayers = updatedPlayers.map(p => p.characterName === target.characterName ? target : p);
-        logMessage += ` | 👹 ¡La criatura ha atacado a ${target.characterName} infligiendo -${mDmg} HP!`;
+        // Frecuencia de turnos según cantidad de jugadores (1 o 5 = alternado 1 a 1; 2, 3 o 4 = cada 2 turnos)
+        let playerCount = updatedPlayers.length;
+        let enemyShouldAttack = roomData.enemyTurnNext || false;
+        let combatCounter = (roomData.combatTurnCounter || 0) + 1;
+        let switchThreshold = (playerCount === 1 || playerCount === 5) ? 1 : 2;
+
+        if (combatCounter >= switchThreshold) {
+            enemyShouldAttack = !enemyShouldAttack;
+            combatCounter = 0;
+        }
+
+        if (enemyShouldAttack) {
+            let target = updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)];
+            let mDmg = Math.floor(Math.random() * 6) + 3;
+            target.hp = Math.max(0, target.hp - mDmg);
+            if (target.characterName === activeCharacter.characterName) activeCharacter.hp = target.hp;
+            updatedPlayers = updatedPlayers.map(p => p.characterName === target.characterName ? target : p);
+            logMessage += ` | 👹 ¡El enemigo contraatacó a ${target.characterName} infligiendo -${mDmg} HP!`;
+        }
 
         logSystemMessage(logMessage);
         await window.updateDoc(roomRef, { 
             monsterHp: roomData.monsterHp, 
             players: updatedPlayers, 
             turnIndex: (roomData.turnIndex || 0) + 1,
-            currentShooterIndex: Math.floor(Math.random() * updatedPlayers.length)
+            combatTurnCounter: combatCounter,
+            enemyTurnNext: enemyShouldAttack
         });
     }
     updateSidebarUI(); renderActionChoices();
