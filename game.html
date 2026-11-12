@@ -57,7 +57,6 @@ header p { color: var(--muted); font-style: italic; }
 .tier-perfect { background: #1e5c2f; color: #a5d6a7; }
 .btn-gold { background: linear-gradient(135deg, #c99c55, #8c642f); color: #17120d; font-weight: bold; border: none; padding: 12px 18px; border-radius: 5px; cursor: pointer; font-size: 15px; width: 100%; }
 
-/* Estilos de Insignias de Raza (Fondo) y Clase (Borde) */
 .player-badge {
     padding: 6px 10px;
     border-radius: 6px;
@@ -134,7 +133,7 @@ header p { color: var(--muted); font-style: italic; }
                 <strong style="color:var(--gold);">Arma:</strong>
                 <p id="charWeaponDisplay" style="margin:4px 0; color:var(--text);">-</p>
             </div>
-            <h4 style="color:var(--gold); margin:10px 0 5px 0; font-size:13px;">Inventario:</h4>
+            <h4 style="color:var(--gold); margin:10px 0 5px 0; font-size:13px;">Inventario (Clic para marcar como activo):</h4>
             <ul id="inventoryList" style="list-style:none; padding:0; margin:0;"></ul>
             <div style="margin-top:15px; background:#151316; padding:10px; border-radius:5px; border:1px solid #625344; font-size:12px;">
                 <strong style="color:var(--gold);">Estado Vital y Maná:</strong>
@@ -145,29 +144,13 @@ header p { color: var(--muted); font-style: italic; }
 </main>
 
 <script>
-// MAPAS DE COLORES PARA RAZAS (Fondo) Y CLASES (Bordes)
-const raceBgColors = {
-    "Humano": "#1a365d",   // Azul
-    "Elfo": "#1c4532",     // Verde
-    "Enano": "#5a1e1e",    // Rojo
-    "Mediano": "#5c531e",  // Amarillo
-    "Tiefling": "#3d1e5c"  // Morado
-};
-
-const classBorderColors = {
-    "Guerrero": "#e53e3e", // Rojo
-    "Mago": "#3182ce",     // Azul
-    "Pícaro": "#d69e2e",   // Amarillo
-    "Clérigo": "#9f7aea",  // Morado
-    "Druida": "#38a169"    // Verde
-};
+const raceBgColors = { "Humano": "#1a365d", "Elfo": "#1c4532", "Enano": "#5a1e1e", "Mediano": "#5c531e", "Tiefling": "#3d1e5c" };
+const classBorderColors = { "Guerrero": "#e53e3e", "Mago": "#3182ce", "Pícaro": "#d69e2e", "Clérigo": "#9f7aea", "Druida": "#38a169" };
 
 function getPlayerBadgeStyle(player) {
     const race = player.selectedRace || "Humano";
     const pClass = player.selectedClass || "Guerrero";
-    const bg = raceBgColors[race] || "#201d20";
-    const border = classBorderColors[pClass] || "#d5aa61";
-    return `background-color: ${bg}; border-color: ${border}; color: #fff;`;
+    return `background-color: ${raceBgColors[race] || "#201d20"}; border-color: ${classBorderColors[pClass] || "#d5aa61"}; color: #fff;`;
 }
 
 const campaigns = {
@@ -190,7 +173,6 @@ const campaigns = {
             }
         },
 
-        // ================= NIVEL 2 =================
         n2_ramaA: {
             title: "Nivel 2 (Sector A) - El Salón de las Estatuas Gemelas",
             text: "Filas de estatuas antiguas flanquean el paso. Sus ojos parecen seguirlos. ¿Cómo proceden?",
@@ -260,13 +242,12 @@ const campaigns = {
             }
         },
 
-        combate_aleatorio_1: { title: "Combate Sorpresa - Acechador de las Sombras", text: "¡Una mala tirada alertó a una bestia errante!", type: "combat", monsterName: "Acechador Errante", baseHp: 30, nextNode: "n2_ramaA" },
-        combate_n2_1: { title: "Combate - Guardianes de Piedra", text: "¡Las estatuas cobran vida hostil!", type: "combat", monsterName: "Guardianes de Piedra", baseHp: 35, nextNode: "n3_rama1" },
-        combate_n2_2: { title: "Combate - Acechador de los Abismos", text: "¡Una criatura alada emerge!", type: "combat", monsterName: "Acechador Alado", baseHp: 40, nextNode: "n3_rama2" },
-        combate_n2_3: { title: "Combate - Reflejo Maligno", text: "¡Su propia oscuridad cobra forma!", type: "combat", monsterName: "Reflejo Maligno", baseHp: 40, nextNode: "n3_rama3" },
-        combate_n2_4: { title: "Combate - Espectro Errante", text: "¡Un alma en pena los ataca!", type: "combat", monsterName: "Espectro Errante", baseHp: 45, nextNode: "n3_rama4" },
+        combate_aleatorio_1: { title: "Combate Sorpresa - Acechador de las Sombras", text: "¡Una mala tirada alertó a una bestia errante en la oscuridad!", type: "combat", monsterName: "Acechador Errante", baseHp: 30, nextNode: "n2_ramaA" },
+        combate_n2_1: { title: "Combate - Guardianes de Piedra", text: "Las estatuas cobran vida bloqueando el camino. ¡Prepárense para el combate!", type: "combat", monsterName: "Guardianes de Piedra", baseHp: 35, nextNode: "n3_rama1" },
+        combate_n2_2: { title: "Combate - Acechador de los Abismos", text: "Una criatura alada emerge de la sima. ¡Defiéndanse!", type: "combat", monsterName: "Acechador Alado", baseHp: 40, nextNode: "n3_rama2" },
+        combate_n2_3: { title: "Combate - Reflejo Maligno", text: "Su propia oscuridad cobra forma corpórea frente a ustedes.", type: "combat", monsterName: "Reflejo Maligno", baseHp: 40, nextNode: "n3_rama3" },
+        combate_n2_4: { title: "Combate - Espectro Errante", text: "Un alma en pena aulla furiosa en el pasaje.", type: "combat", monsterName: "Espectro Errante", baseHp: 45, nextNode: "n3_rama4" },
 
-        // ================= NIVEL 3 =================
         n3_rama1: {
             title: "Nivel 3 (Fase I) - La Encrucijada de los Cuatro Vientos",
             text: "Llegan a una explanada donde convergen corrientes de aire de cuatro túneles distintos.",
@@ -336,11 +317,10 @@ const campaigns = {
             }
         },
 
-        combate_n3_1: { title: "Combate - Golem de Cristal", text: "¡El ruido despertó al golem!", type: "combat", monsterName: "Golem de Cristal", baseHp: 50, nextNode: "n4_rama2" },
-        combate_n3_2: { title: "Combate - Guardián de la Cripta", text: "¡Un protector ancestral ataca!", type: "combat", monsterName: "Guardián de la Cripta", baseHp: 50, nextNode: "n4_rama3" },
-        combate_n3_3: { title: "Combate - Bestia de la Sima", text: "¡Una criatura emerge de la bruma!", type: "combat", monsterName: "Bestia de la Sima", baseHp: 55, nextNode: "n4_rama4" },
+        combate_n3_1: { title: "Combate - Golem de Cristal", text: "¡El ruido despertó a un Golem de Cristal guardian!", type: "combat", monsterName: "Golem de Cristal", baseHp: 50, nextNode: "n4_rama2" },
+        combate_n3_2: { title: "Combate - Guardián de la Cripta", text: "Un protector ancestral se levanta del sarcófago.", type: "combat", monsterName: "Guardián de la Cripta", baseHp: 50, nextNode: "n4_rama3" },
+        combate_n3_3: { title: "Combate - Bestia de la Sima", text: "Una criatura emerge rugiendo desde la bruma.", type: "combat", monsterName: "Bestia de la Sima", baseHp: 55, nextNode: "n4_rama4" },
 
-        // ================= NIVEL 4 =================
         n4_rama1: {
             title: "Nivel 4 (Paso I) - El Portón de Obsidiana",
             text: "Una puerta ciclópea con runas que brillan con fuego interno. ¿Cómo la abren?",
@@ -410,7 +390,6 @@ const campaigns = {
             }
         },
 
-        // ================= NIVEL 5 =================
         n5_rama1: {
             title: "Nivel 5 (Fase I) - La Caverna de los Ecos Espejados",
             text: "Las paredes multiplican cada sonido, creando una sinfonía de ecos confusos. ¿Cómo avanzan?",
@@ -422,7 +401,7 @@ const campaigns = {
                 { id: "n5_14", text: "🕵️‍♂️ Buscar el origen de la resonancia" }
             ],
             outcomes: {
-                bad: { log: "Onda sónica destructiva (-3 HP).", hpDelta: -3, nextNode: "n6_rama1" },
+                bad: { log: "Onda sónica destructiva (-3 HP).", hpDelta: -3, nextNode: "combate_n5_extra" },
                 regular: { log: "Superan el salón con paciencia.", nextNode: "n6_rama2" },
                 good: { log: "Resonancia aprovechada (+5 Maná).", manaDelta: 5, nextNode: "n6_rama3" },
                 perfect: { log: "Armonía perfecta (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n6_rama4" }
@@ -439,14 +418,15 @@ const campaigns = {
                 { id: "n5_24", text: "🛡️ Cubrirse con escudos contra el calor intenso" }
             ],
             outcomes: {
-                bad: { log: "Ola de calor sofocante (-3 HP).", hpDelta: -3, nextNode: "n6_rama2" },
+                bad: { log: "Ola de calor sofocante (-3 HP).", hpDelta: -3, nextNode: "combate_n5_extra" },
                 regular: { log: "Cruce caluroso pero seguro.", nextNode: "n6_rama3" },
                 good: { log: "Materiales volcánicos recolectados (+5 HP).", hpDelta: 5, nextNode: "n6_rama4" },
                 perfect: { log: "Control del fuego (+10 Maná).", manaDelta: 10, nextNode: "n6_rama1" }
             }
         },
 
-        // ================= NIVEL 6 =================
+        combate_n5_extra: { title: "Combate - Merodeador de Magma", text: "¡Una criatura de fuego surge del río subterráneo!", type: "combat", monsterName: "Merodeador de Magma", baseHp: 60, nextNode: "n6_rama2" },
+
         n6_rama1: {
             title: "Nivel 6 (Fase I) - La Biblioteca de los Pergaminos Perdidos",
             text: "Anaqueles infinitos con tomos antiguos que flotan levemente en el aire.",
@@ -516,7 +496,6 @@ const campaigns = {
             }
         },
 
-        // ================= NIVEL 7 =================
         n7_rama1: {
             title: "Nivel 7 (Fase I) - La Sima de los Mil Abismos",
             text: "Un puente colgante destruido sobre un abismo vertical interminable.",
@@ -586,9 +565,8 @@ const campaigns = {
             }
         },
 
-        combate_aleatorio_2: { title: "Combate Sorpresa - Bestia de la Sima", text: "¡Una criatura emergió tras la caída!", type: "combat", monsterName: "Bestia de la Sima", baseHp: 45, nextNode: "n8_rama2" },
+        combate_aleatorio_2: { title: "Combate Sorpresa - Bestia de la Sima", text: "¡Una criatura emergió tras la caída al vacío!", type: "combat", monsterName: "Bestia de la Sima", baseHp: 45, nextNode: "n8_rama2" },
 
-        // ================= NIVEL 8 =================
         n8_rama1: {
             title: "Nivel 8 (Fase I) - La Galería de los Espejos Temporales",
             text: "Reflejos del pasado y el futuro parpadean en los espejos de las paredes.",
@@ -600,7 +578,7 @@ const campaigns = {
                 { id: "n8_14", text: "🏃 Avanzar sin mirar los reflejos" }
             ],
             outcomes: {
-                bad: { log: "Confusión mental (-3 HP).", hpDelta: -3, nextNode: "n9_rama1" },
+                bad: { log: "Confusión mental (-3 HP).", hpDelta: -3, nextNode: "combate_n8_extra" },
                 regular: { log: "Visión templada.", nextNode: "n9_rama2" },
                 good: { log: "Ventaja estratégica (+5 Maná).", manaDelta: 5, nextNode: "n9_rama3" },
                 perfect: { log: "Claridad absoluta (+8 HP / +8 Maná).", hpDelta: 8, manaDelta: 8, nextNode: "n9_rama4" }
@@ -617,7 +595,7 @@ const campaigns = {
                 { id: "n8_24", text: "🏃 Tomar suministros rápidos y seguir" }
             ],
             outcomes: {
-                bad: { log: "Trampa en un cofre de armas (-3 HP).", hpDelta: -3, nextNode: "n9_rama2" },
+                bad: { log: "Trampa en un cofre de armas (-3 HP).", hpDelta: -3, nextNode: "combate_n8_extra" },
                 regular: { log: "Equipo revisado.", nextNode: "n9_rama3" },
                 good: { log: "Armamento mejorado (+5 HP).", hpDelta: 5, nextNode: "n9_rama4" },
                 perfect: { log: "Bendición de armería (+10 HP).", hpDelta: 10, nextNode: "n9_rama1" }
@@ -634,7 +612,7 @@ const campaigns = {
                 { id: "n8_34", text: "🚶 Descansar en los bancos de piedra" }
             ],
             outcomes: {
-                bad: { log: "Resbalón en la torre (-3 HP).", hpDelta: -3, nextNode: "n9_rama2" },
+                bad: { log: "Resbalón en la torre (-3 HP).", hpDelta: -3, nextNode: "combate_n8_extra" },
                 regular: { log: "Torre superada.", nextNode: "n9_rama3" },
                 good: { log: "Vistas y hallazgos útiles (+5 HP).", hpDelta: 5, nextNode: "n9_rama4" },
                 perfect: { log: "Inspiración divina (+10 Maná).", manaDelta: 10, nextNode: "n9_rama1" }
@@ -651,14 +629,15 @@ const campaigns = {
                 { id: "n8_44", text: "🗣️ Gritar con fuerza para ahuyentarlas" }
             ],
             outcomes: {
-                bad: { log: "Ataque de sombras (-3 HP).", hpDelta: -3, nextNode: "n9_rama3" },
+                bad: { log: "Ataque de sombras (-3 HP).", hpDelta: -3, nextNode: "combate_n8_extra" },
                 regular: { log: "Paso seguro entre tinieblas.", nextNode: "n9_rama4" },
                 good: { log: "Fragmento de sombra útil (+5 HP).", hpDelta: 5, nextNode: "n9_rama1" },
                 perfect: { log: "Dominio umbrío (+8 HP / +8 Maná).", hpDelta: 8, manaDelta: 8, nextNode: "n9_rama2" }
             }
         },
 
-        // ================= NIVEL 9 =================
+        combate_n8_extra: { title: "Combate - Centinela Corrupto", text: "¡Un autómata corrompido defiende la galería!", type: "combat", monsterName: "Centinela Corrupto", baseHp: 70, nextNode: "n9_rama1" },
+
         n9_rama1: {
             title: "Nivel 9 (Fase I) - La Antesala del Núcleo",
             text: "El suelo vibra violentamente. El aire huele a energía pura y ozono. Se acercan al final.",
@@ -728,7 +707,6 @@ const campaigns = {
             }
         },
 
-        // ================= NIVEL 10: CLÍMAX FINAL Y 4 FINALES =================
         nivel10_climax: {
             title: "Nivel 10 (CLÍMAX FINAL) - La Cámara del Creador del Abismo",
             text: "Han llegado al corazón de todo el complejo subterráneo. El guardián supremo y gobernante del abismo se alza imponente ante ustedes para el combate definitivo.",
@@ -739,7 +717,6 @@ const campaigns = {
             nextNode: "ending_legendary"
         },
 
-        // 4 FINALES EXACTOS
         ending_tragic: { title: "💀 FINAL 1: Caídos en el Abismo", text: "Las heridas y el agotamiento sellaron el destino del grupo en la oscuridad eterna.", type: "ending", badge: "Final Trágico (1/4)" },
         ending_survivor: { title: "🩹 FINAL 2: Supervivientes al Límite", text: "Lograron salir a la superficie con vida, aunque maltrechos y marcados por los horrores superados.", type: "ending", badge: "Final Agridulce (2/4)" },
         ending_heroic: { title: "⚔️ FINAL 3: Libertadores del Abismo", text: "Derrotaron al tirano final y restauraron la paz en todas las tierras subterráneas.", type: "ending", badge: "Final Heroico (3/4)" },
@@ -747,7 +724,7 @@ const campaigns = {
     }
 };
 
-let activeRoomCode = "", activeCharacter = {}, currentSelectedAction = null, selectedStoryOptionId = null, unsubscribeSnapshot = null;
+let activeRoomCode = "", activeCharacter = {}, currentSelectedAction = null, selectedStoryOptionId = null, unsubscribeSnapshot = null, selectedActiveItem = null;
 
 window.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -816,15 +793,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
                 if (currentNode && currentNode.type === "combat") {
                     if (!data.combatInitiativeDetermined) {
-                        turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE TÁCTICO!</strong> | Tirar iniciativa para ver quién arranca`;
+                        turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE INMINENTE!</strong> | Tirar dado de iniciativa`;
                         turnIndicator.style.color = "#ff6b6b";
                         rollBtn.disabled = false;
-                        rollBtn.textContent = "🎲 ¡Tirar Iniciativa!";
+                        rollBtn.textContent = "🎲 ¡Tirar Dado de Iniciativa!";
                     } else {
-                        turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE EN CURSO!</strong> | Turno de ataques tácticos`;
+                        let currentTurnName = data.enemyTurnNext ? "Turno del Enemigo" : `Turno de ${data.currentCombatAttacker || players[0].characterName}`;
+                        turnIndicator.innerHTML = `⚔️ <strong>COMBATE TÁCTICO</strong> | ${currentTurnName}`;
                         turnIndicator.style.color = "#ff6b6b";
                         rollBtn.disabled = false;
-                        rollBtn.textContent = "⚔️ ¡Atacar / Acción!";
+                        rollBtn.textContent = "🎲 ¡Tirar D20 para ver si mi ataque hizo efecto!";
                     }
                 } else if (!allVoted) {
                     turnIndicator.innerHTML = `⏳ Esperando votos de todos los aventureros... (${Object.keys(votes).length}/${players.length})`;
@@ -864,9 +842,23 @@ function updateSidebarUI() {
         activeCharacter.inventory.forEach(i => { counts[i.name] = (counts[i.name] || 0) + 1; });
     }
     Object.keys(counts).forEach(name => {
-        invList.innerHTML += `<li style="background:#151316; border:1px solid #625344; padding:6px; border-radius:4px; margin-bottom:5px; font-size:12px; cursor:pointer;" onclick="useInventoryItemByName('${name}')"><strong>📦 ${name} (x${counts[name]})</strong></li>`;
+        let isSelected = selectedActiveItem === name;
+        let borderStyle = isSelected ? "border:2px solid lightgreen; background:#223525;" : "border:1px solid #625344; background:#151316;";
+        invList.innerHTML += `<li style="${borderStyle} padding:6px; border-radius:4px; margin-bottom:5px; font-size:12px; cursor:pointer;" onclick="toggleActiveItem('${name}')"><strong>📦 ${name} (x${counts[name]})</strong> ${isSelected ? '✔ [Marcado]' : ''}</li>`;
     });
     document.getElementById("charStatsDisplay").innerHTML = `❤️ HP: <strong style="color:#e85d5d;">${activeCharacter.hp} / ${activeCharacter.maxHp}</strong><br>🔮 Maná: <strong style="color:#5dc1e8;">${activeCharacter.mana} / ${activeCharacter.maxMana}</strong>`;
+}
+
+function toggleActiveItem(itemName) {
+    if (selectedActiveItem === itemName) {
+        selectedActiveItem = null;
+        logSystemMessage(`🎒 ${activeCharacter.characterName} desmarcó el ítem ${itemName}.`);
+    } else {
+        selectedActiveItem = itemName;
+        logSystemMessage(`🎒 ${activeCharacter.characterName} marcó ${itemName} como objeto activo para la elección.`);
+    }
+    updateSidebarUI();
+    renderActionChoices();
 }
 
 function useInventoryItemByName(itemName) {
@@ -876,13 +868,17 @@ function useInventoryItemByName(itemName) {
     if (item.name === "Poción de vida") {
         activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 10);
         logSystemMessage(`✨ ${activeCharacter.characterName} usó una Poción (+10 HP).`);
+        activeCharacter.inventory.splice(index, 1);
+        if (selectedActiveItem === itemName) selectedActiveItem = null;
     } else if (item.name === "Ración") {
         activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + 15);
         logSystemMessage(`🍞 ${activeCharacter.characterName} consumió ración (+15 Maná).`);
+        activeCharacter.inventory.splice(index, 1);
+        if (selectedActiveItem === itemName) selectedActiveItem = null;
     } else {
-        logSystemMessage(`🔦 ${activeCharacter.characterName} usó ${item.name}.`);
+        toggleActiveItem(itemName);
+        return;
     }
-    activeCharacter.inventory.splice(index, 1);
     updateSidebarUI();
 }
 
@@ -934,7 +930,7 @@ function renderActionChoices() {
 function selectAction(actionObj, element) {
     document.querySelectorAll('.ability-card-game').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected'); currentSelectedAction = actionObj;
-    document.getElementById("rollLog").innerHTML = `✔ Acción lista: <strong>${actionObj.name}</strong>. ¡Tiralo en tu turno!`;
+    document.getElementById("rollLog").innerHTML = `✔ Acción lista: <strong>${actionObj.name}</strong>. ¡Tirá el D20 para ver si tu ataque hizo efecto!`;
 }
 
 async function selectStoryOption(optId, btnElement) {
@@ -948,10 +944,10 @@ async function selectStoryOption(optId, btnElement) {
     const roomData = snap.data();
     
     let votes = roomData.votes || {};
-    votes[activeCharacter.characterName] = optId;
+    votes[activeCharacter.characterName] = { optId: optId, activeItem: selectedActiveItem };
     
     await window.updateDoc(roomRef, { votes: votes });
-    document.getElementById("rollLog").innerHTML = `✔ Voto registrado. Esperando a que todos los compañeros voten...`;
+    document.getElementById("rollLog").innerHTML = `✔ Voto registrado con ítem (${selectedActiveItem || 'Ninguno'}). Esperando al grupo...`;
 }
 
 function updateGameLobbyList(players) {
@@ -987,15 +983,34 @@ function renderStoryNode(nodeId, roomData) {
         if (!allVoted) {
             html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
             node.options.forEach(opt => {
-                const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
-                let badgeItem = opt.requiredItem ? ` <span style="color:var(--gold); font-size:11px;">[Requiere: ${opt.requiredItem}]</span>` : "";
-                btn.innerHTML = opt.text + badgeItem; 
-                btn.onclick = () => selectStoryOption(opt.id, btn); 
+                let canChoose = true;
+                if (opt.requiredItem) {
+                    // Validar si el usuario actual marcó el ítem requerido
+                    canChoose = selectedActiveItem === opt.requiredItem;
+                }
+                const btn = document.createElement("button"); 
+                btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
+                
+                let lockText = "";
+                if (opt.requiredItem && !canChoose) {
+                    btn.style.opacity = "0.5";
+                    lockText = ` <span style="color:#ff6b6b; font-size:11px;">[Marcá "${opt.requiredItem}" en tu mochila para habilitar]</span>`;
+                }
+
+                btn.innerHTML = opt.text + lockText; 
+                if (opt.requiredItem && !canChoose) {
+                    btn.onclick = () => alert(`Para elegir esta opción, debés marcar '${opt.requiredItem}' como activo en tu mochila (clic sobre el ítem).`);
+                } else {
+                    btn.onclick = () => selectStoryOption(opt.id, btn); 
+                }
                 choicesArea.appendChild(btn);
             });
         } else {
             let voteCounts = {};
-            Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
+            Object.values(votes).forEach(v => { 
+                let oId = typeof v === 'object' ? v.optId : v;
+                voteCounts[oId] = (voteCounts[oId] || 0) + 1; 
+            });
             let maxVotes = 0, winningOptions = [];
             for (let opt in voteCounts) {
                 if (voteCounts[opt] > maxVotes) { maxVotes = voteCounts[opt]; winningOptions = [opt]; }
@@ -1041,9 +1056,9 @@ function renderStoryNode(nodeId, roomData) {
     } else if (node.type === "combat") {
         html += `<br><br><div style="background:#2b1515; border:1px solid #a83232; padding:10px; border-radius:5px;"><strong style="color:#ff6b6b;">👹 Enemigo: ${roomData.monsterName || node.monsterName}</strong><br>Vida: ${roomData.monsterHp} / ${roomData.monsterMaxHp} HP</div>`;
         if (!roomData.combatInitiativeDetermined) {
-            choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ <strong>¡Momento épico! Preparate para pelear...</strong> Tira el D20 para definir la iniciativa.</p>`;
+            choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ <strong>¡Atención! Enemigo detectado.</strong> Tirá el dado de iniciativa; si superas o igualas al enemigo, el grupo toma la delantera en el combate.</p>`;
         } else {
-            choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ ¡Combate activo por turnos! Elegí tu acción abajo y atacá.</p>`;
+            choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ ¡Combate activo por turnos! Elegí tu acción abajo y tirá el D20.</p>`;
         }
     } else if (node.type === "ending") {
         html = `<div style="text-align:center; padding:15px;"><span class="tier-badge tier-perfect">${node.badge}</span><h2 style="color:var(--gold);">${node.title}</h2><p>${node.text}</p><a href="sala.html" class="btn-gold" style="text-decoration:none; display:inline-block; padding:10px;">🔄 Volver a Salas</a></div>`;
@@ -1061,7 +1076,8 @@ async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
         lastRollResult: null, 
         readyForRoll: false,
         combatInitiativeDetermined: false,
-        enemyTurnNext: false
+        enemyTurnNext: false,
+        currentCombatAttacker: null
     };
     if (nextNode && nextNode.type === "combat") {
         const scaledHp = nextNode.isBoss ? (nextNode.baseHp || 120) + (playerCount - 1) * 20 : (nextNode.baseHp + (playerCount - 1) * 5);
@@ -1108,7 +1124,10 @@ async function rollD20Action() {
 
         const votes = roomData.votes || {};
         let voteCounts = {};
-        Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
+        Object.values(votes).forEach(v => { 
+            let oId = typeof v === 'object' ? v.optId : v;
+            voteCounts[oId] = (voteCounts[oId] || 0) + 1; 
+        });
         
         let maxVotes = 0, winningOptions = [];
         for (let opt in voteCounts) {
@@ -1119,17 +1138,32 @@ async function rollD20Action() {
         let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
         const chosenOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
+        // Validar si algún jugador usó el ítem requerido marcado
+        let itemUsedSuccessfully = false;
+        if (chosenOptObj.requiredItem) {
+            for (let pName in votes) {
+                let vObj = votes[pName];
+                if (typeof vObj === 'object' && vObj.activeItem === chosenOptObj.requiredItem) {
+                    itemUsedSuccessfully = true;
+                    // Consumir el ítem de ese jugador en la BD si corresponde
+                    let targetP = players.find(p => p.characterName === pName);
+                    if (targetP && targetP.inventory) {
+                        let iIdx = targetP.inventory.findIndex(i => i.name === chosenOptObj.requiredItem);
+                        if (iIdx !== -1) targetP.inventory.splice(iIdx, 1);
+                    }
+                    break;
+                }
+            }
+        }
+
         let finalD20 = d20;
         if (chosenOptObj.requiredItem) {
-            const hasItem = activeCharacter.inventory && activeCharacter.inventory.some(i => i.name === chosenOptObj.requiredItem);
-            if (hasItem) {
-                const idx = activeCharacter.inventory.findIndex(i => i.name === chosenOptObj.requiredItem);
-                activeCharacter.inventory.splice(idx, 1);
+            if (itemUsedSuccessfully) {
                 finalD20 += 3;
-                logSystemMessage(`🎒 ${activeCharacter.characterName} usó ${chosenOptObj.requiredItem} requerido: ¡Bonificación aplicada!`);
+                logSystemMessage(`🎒 ¡Un miembro del grupo usó el ítem requerido (${chosenOptObj.requiredItem}) con éxito! Bonificación aplicada.`);
             } else {
                 activeCharacter.hp = Math.max(0, activeCharacter.hp - 3);
-                logSystemMessage(`⚠️ ${activeCharacter.characterName} no tenía ${chosenOptObj.requiredItem}: ¡Sufrió castigo (-3 HP)!`);
+                logSystemMessage(`⚠️ El grupo no marcó el ítem requerido (${chosenOptObj.requiredItem}): ¡Sufrieron castigo (-3 HP)!`);
             }
         }
 
@@ -1147,6 +1181,7 @@ async function rollD20Action() {
         logSystemMessage(logMessage);
 
         selectedStoryOptionId = null;
+        selectedActiveItem = null;
         
         const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
         nextUpdates.players = updatedPlayers; 
@@ -1160,17 +1195,23 @@ async function rollD20Action() {
     } else if (node.type === "combat") {
         let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
 
-        // FASE 1: Tirar Iniciativa antes de atacar
+        // FASE 1: Tirar Dado de Iniciativa
         if (!roomData.combatInitiativeDetermined) {
             let enemyInit = Math.floor(Math.random() * 20) + 1;
             let groupBeatEnemy = d20 >= enemyInit;
-            logSystemMessage(`⚔️ INICIATIVA: ${activeCharacter.characterName} sacó un D20(${d20}) vs Enemigo(${enemyInit}). ${groupBeatEnemy ? '¡El Grupo ataca primero!' : '¡El Enemigo toma la iniciativa!'}`);
-            await window.updateDoc(roomRef, { combatInitiativeDetermined: true, enemyTurnNext: !groupBeatEnemy });
+            let firstAttacker = groupBeatEnemy ? activeCharacter.characterName : "Enemigo";
+            logSystemMessage(`🎲 DADO DE INICIATIVA: ${activeCharacter.characterName} sacó un D20(${d20}) vs Enemigo(${enemyInit}). ${groupBeatEnemy ? '¡El Grupo toma la iniciativa!' : '¡El Enemigo toma la iniciativa!'}`);
+            
+            await window.updateDoc(roomRef, { 
+                combatInitiativeDetermined: true, 
+                enemyTurnNext: !groupBeatEnemy,
+                currentCombatAttacker: firstAttacker
+            });
             updateSidebarUI(); renderActionChoices();
             return;
         }
 
-        // FASE 2: Ataques y Acciones ya iniciados los turnos
+        // FASE 2: Combate Táctico por turnos
         if (!currentSelectedAction) { alert("Elegí un ataque o acción de la lista inferior antes de tirar."); return; }
         if (currentSelectedAction.type === "weapon" && activeCharacter.weapon.currentCd > 0) { alert("Arma en Cooldown."); return; }
         if (currentSelectedAction.type === "ability") {
@@ -1246,6 +1287,8 @@ async function rollD20Action() {
             combatCounter = 0;
         }
 
+        let nextAttackerName = enemyShouldAttack ? "Enemigo" : updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)].characterName;
+
         if (enemyShouldAttack) {
             let target = updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)];
             let mDmg = Math.floor(Math.random() * 6) + 3;
@@ -1261,7 +1304,8 @@ async function rollD20Action() {
             players: updatedPlayers, 
             turnIndex: (roomData.turnIndex || 0) + 1,
             combatTurnCounter: combatCounter,
-            enemyTurnNext: enemyShouldAttack
+            enemyTurnNext: enemyShouldAttack,
+            currentCombatAttacker: nextAttackerName
         });
     }
     updateSidebarUI(); renderActionChoices();
