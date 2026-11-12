@@ -793,32 +793,35 @@ window.addEventListener("DOMContentLoaded", () => {
 
                 if (currentNode && currentNode.type === "combat") {
                     if (!data.combatInitiativeDetermined) {
-                        turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE INMINENTE!</strong> | Tirar dado de iniciativa`;
+                        turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE EN CURSO!</strong> | Turno de ataques tácticos`;
                         turnIndicator.style.color = "#ff6b6b";
-                        rollBtn.disabled = false;
-                        rollBtn.textContent = "🎲 ¡Tirar Dado de Iniciativa!";
+                        rollBtn.disabled = true; // Se tira en la pantalla principal
+                        rollBtn.textContent = "🎲 ¡Tirar D20 para ver si mi ataque hizo efecto!";
                     } else {
-                        let currentTurnName = data.enemyTurnNext ? "Turno del Enemigo" : `Turno de ${data.currentCombatAttacker || players[0].characterName}`;
-                        turnIndicator.innerHTML = `⚔️ <strong>COMBATE TÁCTICO</strong> | ${currentTurnName}`;
+                        let activeTurnName = data.enemyTurnNext ? "Turno del Enemigo" : `Turno del jugador ${data.currentCombatAttacker || players[0].characterName}`;
+                        turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE EN CURSO!</strong> | ${activeTurnName}`;
                         turnIndicator.style.color = "#ff6b6b";
-                        rollBtn.disabled = false;
+                        
+                        // BLOQUEO ESTRICTO: Solo el jugador en turno puede presionar el botón de ataque
+                        let isMyTurn = !data.enemyTurnNext && data.currentCombatAttacker === activeCharacter.characterName;
+                        rollBtn.disabled = !isMyTurn;
                         rollBtn.textContent = "🎲 ¡Tirar D20 para ver si mi ataque hizo efecto!";
                     }
                 } else if (!allVoted) {
                     turnIndicator.innerHTML = `⏳ Esperando votos de todos los aventureros... (${Object.keys(votes).length}/${players.length})`;
                     turnIndicator.style.color = "var(--gold)";
                     rollBtn.disabled = true;
-                    rollBtn.textContent = "🎲 ¡Tirar D20!";
+                    rollBtn.textContent = "🎲 ¡Tirar D20 para ver si mi ataque hizo efecto!";
                 } else if (shooterPlayer && shooterPlayer.characterName === activeCharacter.characterName) {
                     turnIndicator.innerHTML = `🎲 ¡Votación completa! <strong>¡Te tocó tirar el D20, ${activeCharacter.characterName}!</strong>`;
                     turnIndicator.style.color = "lightgreen";
                     rollBtn.disabled = false;
-                    rollBtn.textContent = "🎲 ¡Tirar D20!";
+                    rollBtn.textContent = "🎲 ¡Tirar D20 para ver si mi ataque hizo efecto!";
                 } else {
                     turnIndicator.innerHTML = `⏳ Votación lista | Tirador D20 asignado: <strong>${shooterPlayer ? shooterPlayer.characterName : 'Compañero'}</strong>`;
                     turnIndicator.style.color = "var(--gold)";
                     rollBtn.disabled = true;
-                    rollBtn.textContent = "🎲 ¡Tirar D20!";
+                    rollBtn.textContent = "🎲 ¡Tirar D20 para ver si mi ataque hizo efecto!";
                 }
                 
                 renderStoryNode(data.currentNodeId || "start", data);
@@ -985,7 +988,6 @@ function renderStoryNode(nodeId, roomData) {
             node.options.forEach(opt => {
                 let canChoose = true;
                 if (opt.requiredItem) {
-                    // Validar si el usuario actual marcó el ítem requerido
                     canChoose = selectedActiveItem === opt.requiredItem;
                 }
                 const btn = document.createElement("button"); 
@@ -1055,10 +1057,21 @@ function renderStoryNode(nodeId, roomData) {
         }
     } else if (node.type === "combat") {
         html += `<br><br><div style="background:#2b1515; border:1px solid #a83232; padding:10px; border-radius:5px;"><strong style="color:#ff6b6b;">👹 Enemigo: ${roomData.monsterName || node.monsterName}</strong><br>Vida: ${roomData.monsterHp} / ${roomData.monsterMaxHp} HP</div>`;
+        
         if (!roomData.combatInitiativeDetermined) {
-            choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ <strong>¡Atención! Enemigo detectado.</strong> Tirá el dado de iniciativa; si superas o igualas al enemigo, el grupo toma la delantera en el combate.</p>`;
+            // Fase previa de iniciativa con el D20 antes de entrar al combate formal por turnos
+            const initBox = document.createElement("div");
+            initBox.style.cssText = "margin-top: 15px; background: #1d1717; border: 1px solid var(--gold-dark); padding: 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;";
+            initBox.innerHTML = `
+                <span style="color: #ff6b6b; font-size: 13px; font-weight: bold;">⚔️ ¡Momento épico! Preparate para pelear... Tira el D20 para definir la iniciativa.</span>
+                <button class="dice-btn" onclick="rollD20Action()" style="background:#56845c; color:#fff; border-color:#79b782; padding:8px 15px;">🎲 ¡Tirar D20 para ver si mi ataque hizo efecto!</button>
+            `;
+            choicesArea.appendChild(initBox);
         } else {
-            choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ ¡Combate activo por turnos! Elegí tu acción abajo y tirá el D20.</p>`;
+            // Pantalla formal de combate activo por turnos
+            let isMyTurn = !roomData.enemyTurnNext && roomData.currentCombatAttacker === activeCharacter.characterName;
+            let statusText = isMyTurn ? `🟢 ¡Es tu turno de atacar, ${activeCharacter.characterName}!` : `⏳ Turno actual: ${roomData.enemyTurnNext ? 'Enemigo' : 'Jugador ' + roomData.currentCombatAttacker}. Esperá tu turno...`;
+            choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ ¡Combate activo por turnos! Elegí tu acción abajo y atacá.</p><div style="font-size:13px; color:${isMyTurn ? 'lightgreen' : '#ff6b6b'}; margin-top:8px;">${statusText}</div>`;
         }
     } else if (node.type === "ending") {
         html = `<div style="text-align:center; padding:15px;"><span class="tier-badge tier-perfect">${node.badge}</span><h2 style="color:var(--gold);">${node.title}</h2><p>${node.text}</p><a href="sala.html" class="btn-gold" style="text-decoration:none; display:inline-block; padding:10px;">🔄 Volver a Salas</a></div>`;
@@ -1136,16 +1149,14 @@ async function rollD20Action() {
         }
         
         let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
-        const chosenOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
+        let chosenOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
-        // Validar si algún jugador usó el ítem requerido marcado
         let itemUsedSuccessfully = false;
         if (chosenOptObj.requiredItem) {
             for (let pName in votes) {
                 let vObj = votes[pName];
                 if (typeof vObj === 'object' && vObj.activeItem === chosenOptObj.requiredItem) {
                     itemUsedSuccessfully = true;
-                    // Consumir el ítem de ese jugador en la BD si corresponde
                     let targetP = players.find(p => p.characterName === pName);
                     if (targetP && targetP.inventory) {
                         let iIdx = targetP.inventory.findIndex(i => i.name === chosenOptObj.requiredItem);
@@ -1195,11 +1206,11 @@ async function rollD20Action() {
     } else if (node.type === "combat") {
         let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
 
-        // FASE 1: Tirar Dado de Iniciativa
+        // FASE 1: Tirar D20 de Iniciativa Previa
         if (!roomData.combatInitiativeDetermined) {
             let enemyInit = Math.floor(Math.random() * 20) + 1;
             let groupBeatEnemy = d20 >= enemyInit;
-            let firstAttacker = groupBeatEnemy ? activeCharacter.characterName : "Enemigo";
+            let firstAttacker = groupBeatEnemy ? activeCharacter.characterName : players[0].characterName;
             logSystemMessage(`🎲 DADO DE INICIATIVA: ${activeCharacter.characterName} sacó un D20(${d20}) vs Enemigo(${enemyInit}). ${groupBeatEnemy ? '¡El Grupo toma la iniciativa!' : '¡El Enemigo toma la iniciativa!'}`);
             
             await window.updateDoc(roomRef, { 
@@ -1211,7 +1222,12 @@ async function rollD20Action() {
             return;
         }
 
-        // FASE 2: Combate Táctico por turnos
+        // FASE 2: Combate Táctico por turnos estrictos
+        if (!roomData.enemyTurnNext && roomData.currentCombatAttacker !== activeCharacter.characterName) {
+            alert(`⏳ No es tu turno. Le toca actuar a ${roomData.currentCombatAttacker}.`);
+            return;
+        }
+
         if (!currentSelectedAction) { alert("Elegí un ataque o acción de la lista inferior antes de tirar."); return; }
         if (currentSelectedAction.type === "weapon" && activeCharacter.weapon.currentCd > 0) { alert("Arma en Cooldown."); return; }
         if (currentSelectedAction.type === "ability") {
@@ -1277,17 +1293,18 @@ async function rollD20Action() {
             }
         }
 
-        let playerCount = updatedPlayers.length;
-        let enemyShouldAttack = roomData.enemyTurnNext || false;
+        // Rotación secuencial estricta entre jugadores y el enemigo
+        let currentIndex = players.findIndex(p => p.characterName === activeCharacter.characterName);
+        let nextPlayerIndex = (currentIndex + 1) % players.length;
+        let nextAttackerName = players[nextPlayerIndex].characterName;
+        
+        let enemyShouldAttack = false;
         let combatCounter = (roomData.combatTurnCounter || 0) + 1;
-        let switchThreshold = (playerCount === 1 || playerCount === 5) ? 1 : 2;
-
-        if (combatCounter >= switchThreshold) {
-            enemyShouldAttack = !enemyShouldAttack;
+        
+        if (combatCounter >= players.length) {
+            enemyShouldAttack = true;
             combatCounter = 0;
         }
-
-        let nextAttackerName = enemyShouldAttack ? "Enemigo" : updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)].characterName;
 
         if (enemyShouldAttack) {
             let target = updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)];
@@ -1295,7 +1312,7 @@ async function rollD20Action() {
             target.hp = Math.max(0, target.hp - mDmg);
             if (target.characterName === activeCharacter.characterName) activeCharacter.hp = target.hp;
             updatedPlayers = updatedPlayers.map(p => p.characterName === target.characterName ? target : p);
-            logMessage += ` | 👹 ¡El enemigo contraatacó a ${target.characterName} infligiendo -${mDmg} HP!`;
+            logMessage += ` | 👹 ¡El enemigo atacó al azar a ${target.characterName} infligiendo -${mDmg} HP!`;
         }
 
         logSystemMessage(logMessage);
