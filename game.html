@@ -946,14 +946,14 @@ function renderStoryNode(nodeId, roomData) {
         const allVoted = players.length > 0 && players.every(p => votes[p.characterName]);
 
         if (!allVoted) {
-            // Si todavía falta gente por votar, mostramos todas las opciones para elegir
+            // Mientras falta gente por votar, mostramos todas las opciones normalmente
             html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
             node.options.forEach(opt => {
                 const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
                 btn.textContent = opt.text; btn.onclick = () => selectStoryOption(opt.id, btn); choicesArea.appendChild(btn);
             });
         } else {
-            // Si TODOS ya votaron, calculamos cuál ganó y dejamos únicamente esa opción visible
+            // Si TODOS ya votaron, determinamos la opción ganadora
             let voteCounts = {};
             Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
             let maxVotes = 0, winningOptions = [];
@@ -964,18 +964,28 @@ function renderStoryNode(nodeId, roomData) {
             let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
             let winningOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
-            html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>¡Votación completada con éxito! Camino seleccionado:</strong></div>`;
-            
-            // Creamos el botón fijo ganador arriba
-            const winBtn = document.createElement("div");
-            winBtn.className = "choice-btn selected";
-            winBtn.style.cursor = "default";
-            winBtn.style.borderColor = "lightgreen";
-            winBtn.textContent = winningOptObj.text;
-            choicesArea.appendChild(winBtn);
+            // Si todavía NO hay un resultado de D20 registrado en la sala, mostramos las opciones con un temporizador de 4 segundos
+            if (!roomData.lastRollResult) {
+                html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>¡Votación completada! Mostrando opción elegida en 4 segundos...</strong></div>`;
+                node.options.forEach(opt => {
+                    const btn = document.createElement("div");
+                    btn.className = "choice-btn" + (opt.id === chosenOptionId ? " selected" : "");
+                    btn.style.opacity = (opt.id === chosenOptionId ? "1" : "0.3");
+                    btn.style.cursor = "default";
+                    btn.textContent = opt.text;
+                    choicesArea.appendChild(btn);
+                });
+            } else {
+                // Si ya se tiró el dado, mostramos limpiamente SOLO la opción ganadora arriba y el D20 abajo
+                html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>Camino seleccionado por el grupo:</strong></div>`;
+                
+                const winBtn = document.createElement("div");
+                winBtn.className = "choice-btn selected";
+                winBtn.style.cursor = "default";
+                winBtn.style.borderColor = "lightgreen";
+                winBtn.textContent = winningOptObj.text;
+                choicesArea.appendChild(winBtn);
 
-            // Si el dado ya se tiró y hay un registro en el log o podemos mostrar el resultado del D20 debajo:
-            if (roomData.lastRollResult) {
                 const rollBox = document.createElement("div");
                 rollBox.style.cssText = "margin-top: 10px; background: #151316; border: 1px solid var(--gold); padding: 10px; border-radius: 5px; font-size: 13px; color: var(--gold); text-align: center;";
                 rollBox.innerHTML = `🎲 <strong>Resultado del D20 (${roomData.lastRollResult.roller}):</strong> Salió un <strong>${roomData.lastRollResult.d20}</strong><br><span style="color:var(--text);">${roomData.lastRollResult.log}</span>`;
