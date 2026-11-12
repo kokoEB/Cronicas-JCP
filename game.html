@@ -943,17 +943,19 @@ function renderStoryNode(nodeId, roomData) {
     if (node.type === "d20_branch") {
         const votes = roomData.votes || {};
         const players = roomData.players || [];
+        
+        // Verificamos si todos los jugadores votaron en ESTE nodo actual
         const allVoted = players.length > 0 && players.every(p => votes[p.characterName]);
 
         if (!allVoted) {
-            // Si falta gente por votar, mostramos las opciones normales
+            // Aún falta que voten
             html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
             node.options.forEach(opt => {
                 const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
                 btn.textContent = opt.text; btn.onclick = () => selectStoryOption(opt.id, btn); choicesArea.appendChild(btn);
             });
         } else {
-            // Si todos votaron, calculamos la opción ganadora
+            // Todos ya votaron: calculamos la opción ganadora
             let voteCounts = {};
             Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
             let maxVotes = 0, winningOptions = [];
@@ -965,18 +967,28 @@ function renderStoryNode(nodeId, roomData) {
             let winningOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
             if (!roomData.lastRollResult) {
-                // Instante en que todos votaron: mostramos las opciones con la ganadora resaltada por 4 segundos
+                // Muestra la opción ganadora resaltada en pantalla durante unos segundos antes de habilitar el dado
                 html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>¡Votación completada! El grupo eligió su camino...</strong></div>`;
-                node.options.forEach(opt => {
-                    const btn = document.createElement("div");
-                    btn.className = "choice-btn" + (opt.id === chosenOptionId ? " selected" : "");
-                    btn.style.opacity = (opt.id === chosenOptionId ? "1" : "0.3");
-                    btn.style.cursor = "default";
-                    btn.textContent = opt.text;
-                    choicesArea.appendChild(btn);
-                });
+                
+                const winBtn = document.createElement("div");
+                winBtn.className = "choice-btn selected";
+                winBtn.style.cursor = "default";
+                winBtn.style.borderColor = "lightgreen";
+                winBtn.textContent = winningOptObj.text;
+                choicesArea.appendChild(winBtn);
+
+                // Si sos el host o cualquier cliente, dejamos que el sistema limpie los votos viejos y pase al estado de tirada tras 3.5 segundos
+                setTimeout(async () => {
+                    const roomRef = window.doc(window.db, "rooms", activeRoomCode);
+                    const snap = await window.getDoc(roomRef);
+                    if (snap.exists() && !snap.data().lastRollResult && snap.data().currentNodeId === nodeId) {
+                        // Marcamos un estado intermedio en la base de datos para que renderice el espacio del D20
+                        await window.updateDoc(roomRef, { readyForRoll: true });
+                    }
+                }, 3500);
+
             } else {
-                // Una vez tirado el dado, mostramos SOLO la opción ganadora arriba y el resultado del dado abajo, sin basura vieja
+                // Una vez que ya se tiró el dado, se muestra la opción ganadora arriba y el resultado del D20 abajo
                 html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>Camino seleccionado por el grupo:</strong></div>`;
                 
                 const winBtn = document.createElement("div");
@@ -1006,8 +1018,9 @@ async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
         currentNodeId: nextNodeId, 
         turnIndex: 0, 
         combatTurnCounter: 0, 
-        votes: {}, 
-        lastRollResult: null // Fuerza a limpiar el resultado del nivel anterior
+        votes: {},          // Limpia los votos anteriores por completo
+        lastRollResult: null, // Limpia el resultado del dado anterior
+        readyForRoll: false
     };
     if (nextNode && nextNode.type === "combat") {
         const scaledHp = nextNode.isBoss ? (nextNode.baseHp || 120) + (playerCount - 1) * 20 : (nextNode.baseHp + (playerCount - 1) * 5);
@@ -1015,7 +1028,6 @@ async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
     }
     return updateObj;
 }
-
 async function rollD20Action() {
     if (activeCharacter.hp <= 0) return;
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
