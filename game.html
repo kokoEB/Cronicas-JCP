@@ -162,8 +162,8 @@ const campaigns = {
             options: [
                 { id: "p1_forja", text: "🔥 Camino 1: El Desfiladero de las Forjas Ancestrales", requiredItem: "Antorcha" },
                 { id: "p2_agua", text: "🌊 Camino 2: Las Cavernas Subterráneas de los Espejos", requiredItem: "Cuerda" },
-                { id: "p3_ruinas", text: "🏛️ Camino 3: Las Columnas del Templo de los Ecos" },
-                { id: "p4_bosque", text: "🌿 Camino 4: Las Raíces Profundas y Lumínicas" }
+                { id: "p3_ruinas", text: "🏛️ Camino 3: Las Columnas del Templo de los Ecos", requiredItem: "Ración" },
+                { id: "p4_bosque", text: "🌿 Camino 4: Las Raíces Profundas y Lumínicas (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Una emboscada surge de la oscuridad por mala suerte en el dado.", nextNode: "combate_aleatorio_1" },
@@ -178,10 +178,10 @@ const campaigns = {
             text: "Filas de estatuas antiguas flanquean el paso. Sus ojos parecen seguirlos. ¿Cómo proceden?",
             type: "d20_branch",
             options: [
-                { id: "n2a_1", text: "🛡️ Avanzar con escudos en formación defensiva" },
-                { id: "n2a_2", text: "🏃 Correr rápidamente para evitar sorpresas" },
-                { id: "n2a_3", text: "🗣️ Hablar en voz alta para tantear el ambiente" },
-                { id: "n2a_4", text: "🕵️‍♂️ Inspeccionar la base de las estatuas" }
+                { id: "n2a_1", text: "🛡️ Avanzar con escudos en formación defensiva", requiredItem: "Poción de vida" },
+                { id: "n2a_2", text: "🏃 Correr rápidamente para evitar sorpresas", requiredItem: "Antorcha" },
+                { id: "n2a_3", text: "🗣️ Hablar en voz alta para tantear el ambiente", requiredItem: "Ración" },
+                { id: "n2a_4", text: "🕵️‍♂️ Inspeccionar la base de las estatuas (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Las estatuas cobran vida y los atacan.", nextNode: "combate_n2_1" },
@@ -195,10 +195,10 @@ const campaigns = {
             text: "Rocas suspendidas sobre un abismo humeante conectan ambos lados. ¿Cómo cruzan?",
             type: "d20_branch",
             options: [
-                { id: "n2b_1", text: "🧗 Saltar con precisión de roca en roca" },
-                { id: "n2b_2", text: "🪢 Lanzar una cuerda de seguridad", requiredItem: "Cuerda" },
-                { id: "n2b_3", text: "🔮 Usar levitación menor con maná" },
-                { id: "n2b_4", text: "🚶 Caminar despacio probando cada piedra" }
+                { id: "n2b_1", text: "🧗 Saltar con precisión de roca en roca", requiredItem: "Cuerda" },
+                { id: "n2b_2", text: "🪢 Lanzar una cuerda de seguridad", requiredItem: "Antorcha" },
+                { id: "n2b_3", text: "🔮 Usar levitación menor con maná", requiredItem: "Poción de vida" },
+                { id: "n2b_4", text: "🚶 Caminar despacio probando cada piedra (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Una roca se desploma y casi caen (-3 HP).", hpDelta: -3, nextNode: "combate_n2_2" },
@@ -212,10 +212,10 @@ const campaigns = {
             text: "Paredes de cristal oscuro multiplican sus reflejos hasta desorientarlos. ¿Cómo se guían?",
             type: "d20_branch",
             options: [
-                { id: "n2c_1", text: "🔨 Romper un espejo para abrir paso" },
-                { id: "n2c_2", text: "🧭 Guiarse tocando la pared izquierda" },
-                { id: "n2c_3", text: "✨ Emitir destellos de luz mágica" },
-                { id: "n2c_4", text: "👥 Avanzar tomados de las manos" }
+                { id: "n2c_1", text: "🔨 Romper un espejo para abrir paso", requiredItem: "Antorcha" },
+                { id: "n2c_2", text: "🧭 Guiarse tocando la pared izquierda", requiredItem: "Cuerda" },
+                { id: "n2c_3", text: "✨ Emitir destellos de luz mágica", requiredItem: "Ración" },
+                { id: "n2c_4", text: "👥 Avanzar tomados de las manos (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Una sombra emerge de los espejos.", nextNode: "combate_n2_3" },
@@ -229,10 +229,10 @@ const campaigns = {
             text: "Voces lejanas resuenan en las paredes contando historias del pasado. ¿Qué hacen?",
             type: "d20_branch",
             options: [
-                { id: "n2d_1", text: "👂 Escuchar con atención los mensajes" },
-                { id: "n2d_2", text: "🔇 Taponarse los oídos y avanzar rápido" },
-                { id: "n2d_3", text: "🕯️ Dejar una ofrenda en honor a los caídos" },
-                { id: "n2d_4", text: "⚡ Canales de energía para silenciar el lugar" }
+                { id: "n2d_1", text: "👂 Escuchar con atención los mensajes", requiredItem: "Ración" },
+                { id: "n2d_2", text: "🔇 Taponarse los oídos y avanzar rápido", requiredItem: "Cuerda" },
+                { id: "n2d_3", text: "🕯️ Dejar una ofrenda en honor a los caídos", requiredItem: "Antorcha" },
+                { id: "n2d_4", text: "⚡ Canales de energía para silenciar el lugar (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Los susurros nublan su mente (-2 HP).", hpDelta: -2, nextNode: "combate_n2_4" },
@@ -253,10 +253,10 @@ const campaigns = {
             text: "Llegan a una explanada donde convergen corrientes de aire de cuatro túneles distintos.",
             type: "d20_branch",
             options: [
-                { id: "n3_1", text: "🌪️ Tomar el túnel norte (corriente helada)" },
-                { id: "n3_2", text: "🔥 Tomar el túnel sur (corriente cálida)" },
-                { id: "n3_3", text: "💧 Tomar el túnel este (brisa húmeda)" },
-                { id: "n3_4", text: "🌑 Tomar el túnel oeste (corriente estática)" }
+                { id: "n3_1", text: "🌪️ Tomar el túnel norte (corriente helada)", requiredItem: "Antorcha" },
+                { id: "n3_2", text: "🔥 Tomar el túnel sur (corriente cálida)", requiredItem: "Cuerda" },
+                { id: "n3_3", text: "💧 Tomar el túnel este (brisa húmeda)", requiredItem: "Ración" },
+                { id: "n3_4", text: "🌑 Tomar el túnel oeste (corriente estática) (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Ráfaga cortante y emboscada (-3 HP).", hpDelta: -3, nextNode: "combate_n3_1" },
@@ -270,10 +270,10 @@ const campaigns = {
             text: "Un jardín subterráneo de formaciones cristalinas que vibran al tacto.",
             type: "d20_branch",
             options: [
-                { id: "n3_21", text: "🎵 Tocar los cristales para crear resonancia" },
-                { id: "n3_22", text: "⛏️ Recolectar fragmentos puros" },
-                { id: "n3_23", text: "🤫 Cruzar en absoluto silencio" },
-                { id: "n3_24", text: "🔮 Canalizar energía a través de ellos" }
+                { id: "n3_21", text: "🎵 Tocar los cristales para crear resonancia", requiredItem: "Ración" },
+                { id: "n3_22", text: "⛏️ Recolectar fragmentos puros", requiredItem: "Cuerda" },
+                { id: "n3_23", text: "🤫 Cruzar en absoluto silencio", requiredItem: "Poción de vida" },
+                { id: "n3_24", text: "🔮 Canalizar energía a través de ellos (Libre)" }
             ],
             outcomes: {
                 bad: { log: "La vibración atrae bestias.", nextNode: "combate_n3_1" },
@@ -287,10 +287,10 @@ const campaigns = {
             text: "Antiguos sarcófagos de piedra cubiertos de musgo luminoso.",
             type: "d20_branch",
             options: [
-                { id: "n3_31", text: "📜 Leer las inscripciones de las lápidas" },
-                { id: "n3_32", text: "🏺 Inspeccionar las ofrendas funerarias" },
+                { id: "n3_31", text: "📜 Leer las inscripciones de las lápidas", requiredItem: "Ración" },
+                { id: "n3_32", text: "🏺 Inspeccionar las ofrendas funerarias", requiredItem: "Cuerda" },
                 { id: "n3_33", text: "🕯️ Encender una luz en memoria de los caídos", requiredItem: "Antorcha" },
-                { id: "n3_34", text: "🚪 Abrir el portón blindado del fondo" }
+                { id: "n3_34", text: "🚪 Abrir el portón blindado del fondo (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Guardián de la cripta alertado.", nextNode: "combate_n3_2" },
@@ -304,10 +304,10 @@ const campaigns = {
             text: "Un puente natural de roca que cruza una profunda sima brumosa.",
             type: "d20_branch",
             options: [
-                { id: "n3_41", text: "🏃 Cruzar a paso ligero" },
-                { id: "n3_42", text: "🛡️ Avanzar con extrema precaución" },
-                { id: "n3_43", text: "🦉 Enviar un explorador adelante" },
-                { id: "n3_44", text: "⚡ Lanzar un hechizo de estabilidad" }
+                { id: "n3_41", text: "🏃 Cruzar a paso ligero", requiredItem: "Antorcha" },
+                { id: "n3_42", text: "🛡️ Avanzar con extrema precaución", requiredItem: "Cuerda" },
+                { id: "n3_43", text: "🦉 Enviar un explorador adelante", requiredItem: "Ración" },
+                { id: "n3_44", text: "⚡ Lanzar un hechizo de estabilidad (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Tropiezo y caída leve (-3 HP).", hpDelta: -3, nextNode: "combate_n3_3" },
@@ -326,10 +326,10 @@ const campaigns = {
             text: "Una puerta ciclópea con runas que brillan con fuego interno. ¿Cómo la abren?",
             type: "d20_branch",
             options: [
-                { id: "n4_11", text: "🔨 Forzar la cerradura con fuerza bruta" },
-                { id: "n4_12", text: "🗝️ Resolver el acertijo rúnico grabado" },
-                { id: "n4_13", text: "🔮 Disipar las runas con maná puro" },
-                { id: "n4_14", text: "🕵️‍♂️ Buscar una entrada alternativa" }
+                { id: "n4_11", text: "🔨 Forzar la cerradura con fuerza bruta", requiredItem: "Cuerda" },
+                { id: "n4_12", text: "🗝️ Resolver el acertijo rúnico grabado", requiredItem: "Ración" },
+                { id: "n4_13", text: "🔮 Disipar las runas con maná puro", requiredItem: "Antorcha" },
+                { id: "n4_14", text: "🕵️‍♂️ Buscar una entrada alternativa (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Descarga rúnica defensiva (-3 HP).", hpDelta: -3, nextNode: "n5_rama1" },
@@ -343,10 +343,10 @@ const campaigns = {
             text: "Un salón regio cubierto de estandartes destrozados. ¿Qué inspeccionan?",
             type: "d20_branch",
             options: [
-                { id: "n4_21", text: "👑 Examinar el trono real" },
-                { id: "n4_22", text: "📜 Leer los registros reales en los atriles" },
-                { id: "n4_23", text: "🪙 Buscar tesoros en las esquinas" },
-                { id: "n4_24", text: "🚪 Cruzar directamente hacia el fondo" }
+                { id: "n4_21", text: "👑 Examinar el trono real", requiredItem: "Antorcha" },
+                { id: "n4_22", text: "📜 Leer los registros reales en los atriles", requiredItem: "Ración" },
+                { id: "n4_23", text: "🪙 Buscar tesoros en las esquinas", requiredItem: "Cuerda" },
+                { id: "n4_24", text: "🚪 Cruzar directamente hacia el fondo (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Maldición del monarca (-3 HP).", hpDelta: -3, nextNode: "n5_rama1" },
@@ -360,10 +360,10 @@ const campaigns = {
             text: "Un brasero gigante arde con fuego místico en el centro de la sala.",
             type: "d20_branch",
             options: [
-                { id: "n4_31", text: "🔥 Calentar armas en la llama sagrada" },
-                { id: "n4_32", text: "💧 Apagar parte del fuego con prudencia" },
-                { id: "n4_33", text: "🕯️ Meditar frente al brasero" },
-                { id: "n4_34", text: "🏃 Rodear la llama con rapidez" }
+                { id: "n4_31", text: "🔥 Calentar armas en la llama sagrada", requiredItem: "Antorcha" },
+                { id: "n4_32", text: "💧 Apagar parte del fuego con prudencia", requiredItem: "Cuerda" },
+                { id: "n4_33", text: "🕯️ Meditar frente al brasero", requiredItem: "Ración" },
+                { id: "n4_34", text: "🏃 Rodear la llama con rapidez (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Quemadura mística (-3 HP).", hpDelta: -3, nextNode: "n5_rama1" },
@@ -377,10 +377,10 @@ const campaigns = {
             text: "El suelo vibra intensamente. El camino continúa hacia las profundidades.",
             type: "d20_branch",
             options: [
-                { id: "n4_41", text: "⚔️ Afilar armas y revisar armaduras" },
+                { id: "n4_41", text: "⚔️ Afilar armas y revisar armaduras", requiredItem: "Cuerda" },
                 { id: "n4_42", text: "🧪 Beber pociones preparatorias", requiredItem: "Poción de vida" },
-                { id: "n4_43", text: "🗣️ Dar un discurso motivacional al grupo" },
-                { id: "n4_44", text: "👁️ Vigilar los flancos en silencio" }
+                { id: "n4_43", text: "🗣️ Dar un discurso motivacional al grupo", requiredItem: "Ración" },
+                { id: "n4_44", text: "👁️ Vigilar los flancos en silencio (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Descuido en la preparación (-2 HP).", hpDelta: -2, nextNode: "n5_rama1" },
@@ -395,10 +395,10 @@ const campaigns = {
             text: "Las paredes multiplican cada sonido, creando una sinfonía de ecos confusos. ¿Cómo avanzan?",
             type: "d20_branch",
             options: [
-                { id: "n5_11", text: "🗣️ Cantar en armonía para calmar los ecos" },
-                { id: "n5_12", text: "🤫 Avanzar en absoluto silencio" },
-                { id: "n5_13", text: "⚡ Emitir una onda sónica para disipar el efecto" },
-                { id: "n5_14", text: "🕵️‍♂️ Buscar el origen de la resonancia" }
+                { id: "n5_11", text: "🗣️ Cantar en armonía para calmar los ecos", requiredItem: "Ración" },
+                { id: "n5_12", text: "🤫 Avanzar en absoluto silencio", requiredItem: "Cuerda" },
+                { id: "n5_13", text: "⚡ Emitir una onda sónica para disipar el efecto", requiredItem: "Antorcha" },
+                { id: "n5_14", text: "🕵️‍♂️ Buscar el origen de la resonancia (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Onda sónica destructiva (-3 HP).", hpDelta: -3, nextNode: "combate_n5_extra" },
@@ -412,10 +412,10 @@ const campaigns = {
             text: "Un caudal de roca fundida bloquea el paso principal. Un puente de cadenas cuelga arriba.",
             type: "d20_branch",
             options: [
-                { id: "n5_21", text: "⛓️ Cruzar corriendo por las cadenas colgantes" },
-                { id: "n5_22", text: "❄️ Usar maná de hielo para enfriar un sector" },
-                { id: "n5_23", text: "🧗 Buscar un vado menos profundo" },
-                { id: "n5_24", text: "🛡️ Cubrirse con escudos contra el calor intenso" }
+                { id: "n5_21", text: "⛓️ Cruzar corriendo por las cadenas colgantes", requiredItem: "Cuerda" },
+                { id: "n5_22", text: "❄️ Usar maná de hielo para enfriar un sector", requiredItem: "Poción de vida" },
+                { id: "n5_23", text: "🧗 Buscar un vado menos profundo", requiredItem: "Ración" },
+                { id: "n5_24", text: "🛡️ Cubrirse con escudos contra el calor intenso (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Ola de calor sofocante (-3 HP).", hpDelta: -3, nextNode: "combate_n5_extra" },
@@ -432,10 +432,10 @@ const campaigns = {
             text: "Anaqueles infinitos con tomos antiguos que flotan levemente en el aire.",
             type: "d20_branch",
             options: [
-                { id: "n6_11", text: "📜 Leer los grimorios de magia arcana" },
-                { id: "n6_12", text: "🔍 Buscar mapas ocultos del calabozo" },
-                { id: "n6_13", text: "🕯️ Ignorar los libros y seguir el pasillo" },
-                { id: "n6_14", text: "🔮 Absorbir la energía de los tomos flotantes" }
+                { id: "n6_11", text: "📜 Leer los grimorios de magia arcana", requiredItem: "Ración" },
+                { id: "n6_12", text: "🔍 Buscar mapas ocultos del calabozo", requiredItem: "Antorcha" },
+                { id: "n6_13", text: "🕯️ Ignorar los libros y seguir el pasillo", requiredItem: "Cuerda" },
+                { id: "n6_14", text: "🔮 Absorbir la energía de los tomos flotantes (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Trampa de maldición escrita (-3 HP).", hpDelta: -3, nextNode: "n7_rama1" },
@@ -449,10 +449,10 @@ const campaigns = {
             text: "Una selva subterránea de esporas luminosas y raíces titánicas.",
             type: "d20_branch",
             options: [
-                { id: "n6_21", text: "🍄 Recolectar esporas medicinales" },
-                { id: "n6_22", text: "🗡️ Abrir camino cortando raíces espesas" },
-                { id: "n6_23", text: "🦉 Escalar una raíz alta para otear el terreno" },
-                { id: "n6_24", text: "⚡ Encender fuego controlado para espilar fauna" }
+                { id: "n6_21", text: "🍄 Recolectar esporas medicinales", requiredItem: "Ración" },
+                { id: "n6_22", text: "🗡️ Abrir camino cortando raíces espesas", requiredItem: "Cuerda" },
+                { id: "n6_23", text: "🦉 Escalar una raíz alta para otear el terreno", requiredItem: "Antorcha" },
+                { id: "n6_24", text: "⚡ Encender fuego controlado para espilar fauna (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Enmarañados y golpeados (-2 HP).", hpDelta: -2, nextNode: "n7_rama2" },
@@ -466,10 +466,10 @@ const campaigns = {
             text: "Un desvío lleno de misteriosas inscripciones luminosas.",
             type: "d20_branch",
             options: [
-                { id: "n6_31", text: "🔍 Investigar las paredes" },
-                { id: "n6_32", text: "🚶 Pasar de largo" },
-                { id: "n6_33", text: "✨ Tocar las marcas" },
-                { id: "n6_34", text: "🛡️ Activar guardia" }
+                { id: "n6_31", text: "🔍 Investigar las paredes", requiredItem: "Antorcha" },
+                { id: "n6_32", text: "🚶 Pasar de largo", requiredItem: "Cuerda" },
+                { id: "n6_33", text: "✨ Tocar las marcas", requiredItem: "Ración" },
+                { id: "n6_34", text: "🛡️ Activar guardia (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Golpe de energía menor (-2 HP).", hpDelta: -2, nextNode: "n7_rama1" },
@@ -483,10 +483,10 @@ const campaigns = {
             text: "Una grieta muy angosta desciende hacia los niveles inferiores.",
             type: "d20_branch",
             options: [
-                { id: "n6_41", text: "🧗 Desender con cuidado" },
-                { id: "n6_42", text: "🏃 Deslizarse rápido" },
-                { id: "n6_43", text: "🔮 Usar magia para ablandar roca" },
-                { id: "n6_44", text: "👥 Ayudarse mutuamente" }
+                { id: "n6_41", text: "🧗 Desender con cuidado", requiredItem: "Cuerda" },
+                { id: "n6_42", text: "🏃 Deslizarse rápido", requiredItem: "Antorcha" },
+                { id: "n6_43", text: "🔮 Usar magia para ablandar roca", requiredItem: "Ración" },
+                { id: "n6_44", text: "👥 Ayudarse mutuamente (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Rasguños en el descenso (-2 HP).", hpDelta: -2, nextNode: "n7_rama2" },
@@ -502,9 +502,9 @@ const campaigns = {
             type: "d20_branch",
             options: [
                 { id: "n7_11", text: "🪢 Reparar el puente con cuerdas y pernos", requiredItem: "Cuerda" },
-                { id: "n7_12", text: "🧗 Descender por la pared y escalar al otro lado" },
-                { id: "n7_13", text: "🔮 Usar levitación grupal" },
-                { id: "n7_14", text: "🏃 Tomar impulso y saltar al saliente" }
+                { id: "n7_12", text: "🧗 Descender por la pared y escalar al otro lado", requiredItem: "Antorcha" },
+                { id: "n7_13", text: "🔮 Usar levitación grupal", requiredItem: "Poción de vida" },
+                { id: "n7_14", text: "🏃 Tomar impulso y saltar al saliente (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Caída dolorosa (-4 HP).", hpDelta: -4, nextNode: "combate_aleatorio_2" },
@@ -518,10 +518,10 @@ const campaigns = {
             text: "Ruinas de un palacio de cristal con miles de fragmentos cortantes en el suelo.",
             type: "d20_branch",
             options: [
-                { id: "n7_21", text: "🛡️ Usar placas de metal para deslizarse" },
-                { id: "n7_22", text: "🧹 Barrer el camino con magia de viento" },
-                { id: "n7_23", text: "🚶 Caminar con extremo cuidado paso a paso" },
-                { id: "n7_24", text: "⚡ Fundir los cristales del suelo con calor" }
+                { id: "n7_21", text: "🛡️ Usar placas de metal para deslizarse", requiredItem: "Cuerda" },
+                { id: "n7_22", text: "🧹 Barrer el camino con magia de viento", requiredItem: "Antorcha" },
+                { id: "n7_23", text: "🚶 Caminar con extremo cuidado paso a paso", requiredItem: "Ración" },
+                { id: "n7_24", text: "⚡ Fundir los cristales del suelo con calor (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Cortes profundos en las piernas (-3 HP).", hpDelta: -3, nextNode: "n8_rama2" },
@@ -535,10 +535,10 @@ const campaigns = {
             text: "Una cámara decorada con metales preciosos que resuenan.",
             type: "d20_branch",
             options: [
-                { id: "n7_31", text: "🪙 Recoger polvo de oro" },
-                { id: "n7_32", text: "🎵 Tocar las placas musicales" },
-                { id: "n7_33", text: "🚪 Abrir la gran puerta oeste" },
-                { id: "n7_34", text: "🕯️ Registrar altares antiguos" }
+                { id: "n7_31", text: "🪙 Recoger polvo de oro", requiredItem: "Ración" },
+                { id: "n7_32", text: "🎵 Tocar las placas musicales", requiredItem: "Antorcha" },
+                { id: "n7_33", text: "🚪 Abrir la gran puerta oeste", requiredItem: "Cuerda" },
+                { id: "n7_34", text: "🕯️ Registrar altares antiguos (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Trampa de presión (-3 HP).", hpDelta: -3, nextNode: "n8_rama1" },
@@ -552,10 +552,10 @@ const campaigns = {
             text: "Corrientes mágicas impulsan el avance pero dificultan el equilibrio.",
             type: "d20_branch",
             options: [
-                { id: "n7_41", text: "🌪️ Usar la corriente a favor" },
-                { id: "n7_42", text: "⚓ Anclarse con ganchos" },
-                { id: "n7_43", text: "🔮 Disipar el viento con magia" },
-                { id: "n7_44", text: "🏃 Cruzar a máxima velocidad" }
+                { id: "n7_41", text: "🌪️ Usar la corriente a favor", requiredItem: "Antorcha" },
+                { id: "n7_42", text: "⚓ Anclarse con ganchos", requiredItem: "Cuerda" },
+                { id: "n7_43", text: "🔮 Disipar el viento con magia", requiredItem: "Ración" },
+                { id: "n7_44", text: "🏃 Cruzar a máxima velocidad (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Golpe contra la pared (-3 HP).", hpDelta: -3, nextNode: "n8_rama2" },
@@ -572,10 +572,10 @@ const campaigns = {
             text: "Reflejos del pasado y el futuro parpadean en los espejos de las paredes.",
             type: "d20_branch",
             options: [
-                { id: "n8_11", text: "🔮 Intentar ver la debilidad del jefe final" },
-                { id: "n8_12", text: "🔨 Romper los espejos para evitar distracciones" },
-                { id: "n8_13", text: "🧘 Meditar en el centro de la sala" },
-                { id: "n8_14", text: "🏃 Avanzar sin mirar los reflejos" }
+                { id: "n8_11", text: "🔮 Intentar ver la debilidad del jefe final", requiredItem: "Ración" },
+                { id: "n8_12", text: "🔨 Romper los espejos para evitar distracciones", requiredItem: "Antorcha" },
+                { id: "n8_13", text: "🧘 Meditar en el centro de la sala", requiredItem: "Cuerda" },
+                { id: "n8_14", text: "🏃 Avanzar sin mirar los reflejos (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Confusión mental (-3 HP).", hpDelta: -3, nextNode: "combate_n8_extra" },
@@ -589,10 +589,10 @@ const campaigns = {
             text: "Un depósito repleto de armas legendarias cubiertas de polvo milenario.",
             type: "d20_branch",
             options: [
-                { id: "n8_21", text: "⚔️ Reemplazar empuñaduras y afilar filos" },
-                { id: "n8_22", text: "🛡️ Buscar escudos y protecciones extra" },
-                { id: "n8_23", text: "🔮 Bendecir el equipo con runas de poder" },
-                { id: "n8_24", text: "🏃 Tomar suministros rápidos y seguir" }
+                { id: "n8_21", text: "⚔️ Reemplazar empuñaduras y afilar filos", requiredItem: "Cuerda" },
+                { id: "n8_22", text: "🛡️ Buscar escudos y protecciones extra", requiredItem: "Antorcha" },
+                { id: "n8_23", text: "🔮 Bendecir el equipo con runas de poder", requiredItem: "Ración" },
+                { id: "n8_24", text: "🏃 Tomar suministros rápidos y seguir (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Trampa en un cofre de armas (-3 HP).", hpDelta: -3, nextNode: "combate_n8_extra" },
@@ -606,10 +606,10 @@ const campaigns = {
             text: "Una torre abandonada que toca el techo abovedado de la caverna.",
             type: "d20_branch",
             options: [
-                { id: "n8_31", text: "🔭 Escalar al punto más alto" },
-                { id: "n8_32", text: "🚪 Registrar la planta baja" },
-                { id: "n8_33", text: "🔮 Lanzar hechizo de escaneo" },
-                { id: "n8_34", text: "🚶 Descansar en los bancos de piedra" }
+                { id: "n8_31", text: "🔭 Escalar al punto más alto", requiredItem: "Cuerda" },
+                { id: "n8_32", text: "🚪 Registrar la planta baja", requiredItem: "Antorcha" },
+                { id: "n8_33", text: "🔮 Lanzar hechizo de escaneo", requiredItem: "Ración" },
+                { id: "n8_34", text: "🚶 Descansar en los bancos de piedra (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Resbalón en la torre (-3 HP).", hpDelta: -3, nextNode: "combate_n8_extra" },
@@ -624,9 +624,9 @@ const campaigns = {
             type: "d20_branch",
             options: [
                 { id: "n8_41", text: "✨ Usar luz mágica para disiparlas", requiredItem: "Antorcha" },
-                { id: "n8_42", text: "🛡️ Avanzar con escudos protectores" },
-                { id: "n8_43", text: "🏃 Correr atravesando la penumbra" },
-                { id: "n8_44", text: "🗣️ Gritar con fuerza para ahuyentarlas" }
+                { id: "n8_42", text: "🛡️ Avanzar con escudos protectores", requiredItem: "Cuerda" },
+                { id: "n8_43", text: "🏃 Correr atravesando la penumbra", requiredItem: "Ración" },
+                { id: "n8_44", text: "🗣️ Gritar con fuerza para ahuyentarlas (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Ataque de sombras (-3 HP).", hpDelta: -3, nextNode: "combate_n8_extra" },
@@ -643,10 +643,10 @@ const campaigns = {
             text: "El suelo vibra violentamente. El aire huele a energía pura y ozono. Se acercan al final.",
             type: "d20_branch",
             options: [
-                { id: "n9_11", text: "⚔️ Afilar armas y preparar técnicas definitivas" },
+                { id: "n9_11", text: "⚔️ Afilar armas y preparar técnicas definitivas", requiredItem: "Cuerda" },
                 { id: "n9_12", text: "🧪 Consumir pociones y elixires restantes", requiredItem: "Poción de vida" },
-                { id: "n9_13", text: "🗣️ Juramento final de hermandad grupal" },
-                { id: "n9_14", text: "👁️ Inspeccionar las entradas al gran salón" }
+                { id: "n9_13", text: "🗣️ Juramento final de hermandad grupal", requiredItem: "Ración" },
+                { id: "n9_14", text: "👁️ Inspeccionar las entradas al gran salón (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Descuido en la concentración (-2 HP).", hpDelta: -2, nextNode: "nivel10_climax" },
@@ -660,10 +660,10 @@ const campaigns = {
             text: "Un puente hecho de energía pura que cruza hacia la cúspide del santuario central.",
             type: "d20_branch",
             options: [
-                { id: "n9_21", text: "✨ Cruzar absorbiendo parte de la luz" },
-                { id: "n9_22", text: "🏃 Correr con velocidad antes de que disipe" },
-                { id: "n9_23", text: "🔮 Sintonizar la energía con el maná propio" },
-                { id: "n9_24", text: "🚶 Avanzar firmes y concentrados" }
+                { id: "n9_21", text: "✨ Cruzar absorbiendo parte de la luz", requiredItem: "Antorcha" },
+                { id: "n9_22", text: "🏃 Correr con velocidad antes de que disipe", requiredItem: "Cuerda" },
+                { id: "n9_23", text: "🔮 Sintonizar la energía con el maná propio", requiredItem: "Ración" },
+                { id: "n9_24", text: "🚶 Avanzar firmes y concentrados (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Inestabilidad energética (-3 HP).", hpDelta: -3, nextNode: "nivel10_climax" },
@@ -677,10 +677,10 @@ const campaigns = {
             text: "El umbral definitivo al sancta sanctorum del abismo.",
             type: "d20_branch",
             options: [
-                { id: "n9_31", text: "🛡️ Oración de protección" },
-                { id: "n9_32", text: "⚔️ Preparar golpe contundente" },
-                { id: "n9_33", text: "🔮 Concentrar maná al límite" },
-                { id: "n9_34", text: "🏃 Avanzar sin vacilar" }
+                { id: "n9_31", text: "🛡️ Oración de protección", requiredItem: "Ración" },
+                { id: "n9_32", text: "⚔️ Preparar golpe contundente", requiredItem: "Cuerda" },
+                { id: "n9_33", text: "🔮 Concentrar maná al límite", requiredItem: "Antorcha" },
+                { id: "n9_34", text: "🏃 Avanzar sin vacilar (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Tensión acumulada (-2 HP).", hpDelta: -2, nextNode: "nivel10_climax" },
@@ -694,10 +694,10 @@ const campaigns = {
             text: "Círculos mágicos que potencian las habilidades del grupo.",
             type: "d20_branch",
             options: [
-                { id: "n9_41", text: "✨ Sintonizar círculo de fuerza" },
-                { id: "n9_42", text: "🔮 Sintonizar círculo de maná" },
-                { id: "n9_43", text: "🛡️ Sintonizar círculo de defensa" },
-                { id: "n9_44", text: "⚡ Absorber todo el flujo" }
+                { id: "n9_41", text: "✨ Sintonizar círculo de fuerza", requiredItem: "Antorcha" },
+                { id: "n9_42", text: "🔮 Sintonizar círculo de maná", requiredItem: "Ración" },
+                { id: "n9_43", text: "🛡️ Sintonizar círculo de defensa", requiredItem: "Cuerda" },
+                { id: "n9_44", text: "⚡ Absorber todo el flujo (Libre)" }
             ],
             outcomes: {
                 bad: { log: "Sobrecarga mágica (-3 HP).", hpDelta: -3, nextNode: "nivel10_climax" },
@@ -743,7 +743,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (!activeCharacter.maxMana) activeCharacter.maxMana = activeCharacter.mana;
 
     if (activeCharacter.weapon && activeCharacter.weapon.cdMax === undefined) {
-        activeCharacter.weapon.cdMax = 2; // Cooldown por defecto para armas
+        activeCharacter.weapon.cdMax = 2;
     }
 
     if (activeCharacter.abilities) {
@@ -786,9 +786,6 @@ window.addEventListener("DOMContentLoaded", () => {
                 const players = data.players || [];
                 const votes = data.votes || {};
                 const allVoted = players.every(p => votes[p.characterName]);
-                
-                const shooterIndex = data.currentShooterIndex !== undefined ? data.currentShooterIndex : 0;
-                const shooterPlayer = players[shooterIndex % players.length];
 
                 const turnIndicator = document.getElementById("turnIndicator");
                 const rollBtn = document.getElementById("rollDiceMainBtn");
@@ -809,15 +806,10 @@ window.addEventListener("DOMContentLoaded", () => {
                     turnIndicator.style.color = "var(--gold)";
                     rollBtn.disabled = true;
                     rollBtn.textContent = "🎲 ¡Tirar D20";
-                } else if (shooterPlayer && shooterPlayer.characterName === activeCharacter.characterName) {
-                    turnIndicator.innerHTML = `🎲 ¡Votación completa! <strong>¡Te tocó tirar el D20, ${activeCharacter.characterName}!</strong>`;
+                } else {
+                    turnIndicator.innerHTML = `🎲 ¡Votación completa! <strong>¡Tirá el D20 para definir el camino!</strong>`;
                     turnIndicator.style.color = "lightgreen";
                     rollBtn.disabled = false;
-                    rollBtn.textContent = "🎲 ¡Tirar D20";
-                } else {
-                    turnIndicator.innerHTML = `⏳ Votación lista | Tirador D20 asignado: <strong>${shooterPlayer ? shooterPlayer.characterName : 'Compañero'}</strong>`;
-                    turnIndicator.style.color = "var(--gold)";
-                    rollBtn.disabled = true;
                     rollBtn.textContent = "🎲 ¡Tirar D20";
                 }
                 
@@ -861,27 +853,6 @@ function toggleActiveItem(itemName) {
     renderActionChoices();
 }
 
-function useInventoryItemByName(itemName) {
-    const index = activeCharacter.inventory.findIndex(i => i.name === itemName);
-    if (index === -1) return;
-    const item = activeCharacter.inventory[index];
-    if (item.name === "Poción de vida") {
-        activeCharacter.hp = Math.min(activeCharacter.maxHp, activeCharacter.hp + 10);
-        logSystemMessage(`✨ ${activeCharacter.characterName} usó una Poción (+10 HP).`);
-        activeCharacter.inventory.splice(index, 1);
-        if (selectedActiveItem === itemName) selectedActiveItem = null;
-    } else if (item.name === "Ración") {
-        activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + 15);
-        logSystemMessage(`🍞 ${activeCharacter.characterName} consumió ración (+15 Maná).`);
-        activeCharacter.inventory.splice(index, 1);
-        if (selectedActiveItem === itemName) selectedActiveItem = null;
-    } else {
-        toggleActiveItem(itemName);
-        return;
-    }
-    updateSidebarUI();
-}
-
 function renderActionChoices() {
     const container = document.getElementById("myAbilitiesContainer"); container.innerHTML = ""; currentSelectedAction = null;
     const w = activeCharacter.weapon, wCd = w.currentCd || 0;
@@ -923,7 +894,6 @@ function renderActionChoices() {
         });
     }
 
-    // OPCIÓN DE PUÑO LIMPIO (D4) POR SI SE QUEDAN SIN MANÁ O ATAQUES
     const punchCard = document.createElement("div"); punchCard.className = "ability-card-game"; punchCard.style.borderColor = "#8c642f";
     punchCard.innerHTML = `<strong style="color:var(--gold); font-size:12px;">👊 Puño Limpio</strong><div style="font-size:11px; color:var(--muted);">🎲 D4 | Sin costo</div>`;
     punchCard.onclick = () => selectAction({type: "punch", name: "Puño Limpio", dice: "D4", manaCost: 0, cdMax: 0}, punchCard);
@@ -973,7 +943,7 @@ function updateGameLobbyList(players) {
 
 async function startAdventure() {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
-    await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0, currentShooterIndex: 0, votes: {}, lastRollResult: null });
+    await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0, votes: {}, lastUnlockedOption: null });
     logSystemMessage(`🚀 ¡La campaña masiva ha comenzado!`);
 }
 
@@ -990,26 +960,50 @@ function renderStoryNode(nodeId, roomData) {
 
         if (!allVoted) {
             html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
+            
+            // Verificar si algún jugador ya desbloqueó alguna opción para todo el grupo
+            let unlockedOptId = roomData.lastUnlockedOption;
+
             node.options.forEach(opt => {
-                let canChoose = true;
-                if (opt.requiredItem) {
-                    canChoose = selectedActiveItem === opt.requiredItem;
+                let isUnlockedByGroup = unlockedOptId === opt.id;
+                let canChoose = isUnlockedByGroup || !opt.requiredItem;
+                
+                if (!canChoose && opt.requiredItem) {
+                    // Ver si el jugador actual tiene el ítem en su inventario para gastarlo y desbloquear para todos
+                    let hasItem = activeCharacter.inventory && activeCharacter.inventory.some(i => i.name === opt.requiredItem);
+                    if (hasItem) canChoose = true;
                 }
+
                 const btn = document.createElement("button"); 
                 btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
                 
                 let lockText = "";
-                if (opt.requiredItem && !canChoose) {
+                if (isUnlockedByGroup) {
+                    lockText = ` <span style="color:lightgreen; font-size:11px;">[🔓 Desbloqueado para el grupo]</span>`;
+                } else if (opt.requiredItem && !canChoose) {
                     btn.style.opacity = "0.5";
-                    lockText = ` <span style="color:#ff6b6b; font-size:11px;">[Marcá "${opt.requiredItem}" en tu mochila para habilitar]</span>`;
+                    lockText = ` <span style="color:#ff6b6b; font-size:11px;">[Requiere "${opt.requiredItem}"]</span>`;
+                } else if (opt.requiredItem && canChoose && !isUnlockedByGroup) {
+                    lockText = ` <span style="color:var(--gold); font-size:11px;">[Gasta "${opt.requiredItem}" para desbloquear]</span>`;
                 }
 
                 btn.innerHTML = opt.text + lockText; 
-                if (opt.requiredItem && !canChoose) {
-                    btn.onclick = () => alert(`Para elegir esta opción, debés marcar '${opt.requiredItem}' como activo en tu mochila (clic sobre el ítem).`);
-                } else {
-                    btn.onclick = () => selectStoryOption(opt.id, btn); 
-                }
+                btn.onclick = async () => {
+                    if (opt.requiredItem && !isUnlockedByGroup) {
+                        // Buscar y consumir el ítem del inventario del jugador actual
+                        let itemIdx = activeCharacter.inventory.findIndex(i => i.name === opt.requiredItem);
+                        if (itemIdx === -1) {
+                            alert(`No tenés '${opt.requiredItem}' en tu inventario para desbloquear este camino.`);
+                            return;
+                        }
+                        activeCharacter.inventory.splice(itemIdx, 1);
+                        logSystemMessage(`🔑 ${activeCharacter.characterName} usó '${opt.requiredItem}' y desbloqueó el camino para todo el grupo.`);
+                        
+                        const roomRef = window.doc(window.db, "rooms", activeRoomCode);
+                        await window.updateDoc(roomRef, { lastUnlockedOption: opt.id, players: players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p) });
+                    }
+                    selectStoryOption(opt.id, btn);
+                };
                 choicesArea.appendChild(btn);
             });
         } else {
@@ -1074,7 +1068,6 @@ function renderStoryNode(nodeId, roomData) {
 
 async function prepareNextNodeData(campaign, nextNodeId, playerCount, playersList) {
     const nextNode = campaign[nextNodeId];
-    // Al arrancar el combate, elige un jugador al azar de forma directa
     let randomFirstPlayer = playersList && playersList.length > 0 ? playersList[Math.floor(Math.random() * playersList.length)].characterName : null;
 
     let updateObj = { 
@@ -1085,7 +1078,8 @@ async function prepareNextNodeData(campaign, nextNodeId, playerCount, playersLis
         lastRollResult: null, 
         readyForRoll: false,
         enemyTurnNext: false,
-        currentCombatAttacker: randomFirstPlayer
+        currentCombatAttacker: randomFirstPlayer,
+        lastUnlockedOption: null
     };
     if (nextNode && nextNode.type === "combat") {
         const scaledHp = nextNode.isBoss ? (nextNode.baseHp || 120) + (playerCount - 1) * 20 : (nextNode.baseHp + (playerCount - 1) * 5);
@@ -1113,23 +1107,13 @@ async function rollD20Action() {
         }
     }
 
-    let currentShooterIndex = roomData.currentShooterIndex !== undefined ? roomData.currentShooterIndex : 0;
-    const designatedPlayer = players[currentShooterIndex % players.length];
-
-    if (node.type === "d20_branch" && (!designatedPlayer || designatedPlayer.characterName !== activeCharacter.characterName)) {
-        alert(`🎲 ¡El tirador asignado para este turno es ${designatedPlayer ? designatedPlayer.characterName : 'otro aventurero'}!`);
-        return;
-    }
-
     const d20 = Math.floor(Math.random() * 20) + 1; 
     let logMessage = "";
 
     if (node.type === "d20_branch") {
         if (activeCharacter.weapon.currentCd > 0) activeCharacter.weapon.currentCd--;
         if (activeCharacter.abilities) {
-            activeCharacter.abilities.forEach(ab => { 
-                if (ab.currentCd > 0) ab.currentCd--; 
-            });
+            activeCharacter.abilities.forEach(ab => { if (ab.currentCd > 0) ab.currentCd--; });
         }
 
         const votes = roomData.votes || {};
@@ -1148,37 +1132,10 @@ async function rollD20Action() {
         let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
         let chosenOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
-        let itemUsedSuccessfully = false;
-        if (chosenOptObj.requiredItem) {
-            for (let pName in votes) {
-                let vObj = votes[pName];
-                if (typeof vObj === 'object' && vObj.activeItem === chosenOptObj.requiredItem) {
-                    itemUsedSuccessfully = true;
-                    let targetP = players.find(p => p.characterName === pName);
-                    if (targetP && targetP.inventory) {
-                        let iIdx = targetP.inventory.findIndex(i => i.name === chosenOptObj.requiredItem);
-                        if (iIdx !== -1) targetP.inventory.splice(iIdx, 1);
-                    }
-                    break;
-                }
-            }
-        }
-
-        let finalD20 = d20;
-        if (chosenOptObj.requiredItem) {
-            if (itemUsedSuccessfully) {
-                finalD20 += 3;
-                logSystemMessage(`🎒 ¡Un miembro del grupo usó el ítem requerido (${chosenOptObj.requiredItem}) con éxito! Bonificación aplicada.`);
-            } else {
-                activeCharacter.hp = Math.max(0, activeCharacter.hp - 3);
-                logSystemMessage(`⚠️ El grupo no marcó el ítem requerido (${chosenOptObj.requiredItem}): ¡Sufrieron castigo (-3 HP)!`);
-            }
-        }
-
         let outcome;
-        if (finalD20 <= 5) { outcome = node.outcomes.bad; }
-        else if (finalD20 <= 10) { outcome = node.outcomes.regular; }
-        else if (finalD20 <= 15) { outcome = node.outcomes.good; }
+        if (d20 <= 5) { outcome = node.outcomes.bad; }
+        else if (d20 <= 10) { outcome = node.outcomes.regular; }
+        else if (d20 <= 15) { outcome = node.outcomes.good; }
         else { outcome = node.outcomes.perfect; }
 
         if (outcome.hpDelta) activeCharacter.hp = Math.max(0, Math.min(activeCharacter.maxHp, activeCharacter.hp + outcome.hpDelta));
@@ -1195,7 +1152,6 @@ async function rollD20Action() {
         nextUpdates.players = updatedPlayers; 
         nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
         nextUpdates.votes = {}; 
-        nextUpdates.currentShooterIndex = (currentShooterIndex + 1) % updatedPlayers.length;
         nextUpdates.lastRollResult = { roller: activeCharacter.characterName, d20: d20, log: outcome.log };
         
         await window.updateDoc(roomRef, nextUpdates);
@@ -1210,14 +1166,12 @@ async function rollD20Action() {
 
         if (!currentSelectedAction) { alert("Elegí un ataque o acción de la lista inferior antes de tirar."); return; }
         
-        // Validar cooldowns
         if (currentSelectedAction.type === "weapon" && activeCharacter.weapon.currentCd > 0) { alert("Arma en Cooldown."); return; }
         if (currentSelectedAction.type === "ability") {
             const ab = activeCharacter.abilities[currentSelectedAction.index];
             if (ab.currentCd > 0) { alert("Habilidad en Cooldown."); return; }
         }
 
-        // Reducir cooldowns globales al actuar
         if (activeCharacter.weapon.currentCd > 0) activeCharacter.weapon.currentCd--;
         if (activeCharacter.abilities) {
             activeCharacter.abilities.forEach(ab => { if (ab.currentCd > 0) ab.currentCd--; });
@@ -1233,11 +1187,10 @@ async function rollD20Action() {
             if (activeCharacter.mana < manaCost) { alert("Falta maná."); return; }
             activeCharacter.mana -= manaCost;
 
-            // Cooldowns específicos por tipo de dado
             if (currentSelectedAction.type === "weapon") {
                 activeCharacter.weapon.currentCd = activeCharacter.weapon.cdMax || 2;
             } else if (currentSelectedAction.type === "punch") {
-                // Puño limpio sin cooldown
+                // Sin cooldown
             } else if (currentSelectedAction.type === "ability") {
                 let ab = activeCharacter.abilities[currentSelectedAction.index];
                 if (ab.dice === "D12") {
@@ -1255,7 +1208,7 @@ async function rollD20Action() {
                 } else if (ab.dice === "D6") {
                     if (ab.d6UsesLeft > 0) {
                         ab.d6UsesLeft--;
-                        if (ab.d6UsesLeft === 0) ab.currentCd = 1; // Esperar 1 turno tras 2 usos
+                        if (ab.d6UsesLeft === 0) ab.currentCd = 1;
                     } else {
                         ab.currentCd = 1;
                         ab.d6UsesLeft = 1;
@@ -1272,11 +1225,25 @@ async function rollD20Action() {
             updatedPlayers = updatedPlayers.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
 
             if (newMonsterHp <= 0) {
-                let mRec = Math.round((activeCharacter.maxMana - activeCharacter.mana) * 0.4) + 5;
-                activeCharacter.mana = Math.min(activeCharacter.maxMana, activeCharacter.mana + mRec);
-                activeCharacter.inventory.push({name:"Poción de vida", description:"Recupera +10 HP."});
-                updatedPlayers = updatedPlayers.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-                logSystemMessage(`🎉 ¡Victoria! La criatura ha sido derrotada.`);
+                // RECOMPENSA AL GANAR: 1 objeto al azar por cada jugador
+                const possibleLoot = [
+                    { name: "Poción de vida", description: "Recupera +10 HP." },
+                    { name: "Ración", description: "Recupera +15 Maná." },
+                    { name: "Antorcha", description: "Útil para iluminar senderos." },
+                    { name: "Cuerda", description: "Útil para cruzar abismos." }
+                ];
+
+                updatedPlayers = updatedPlayers.map(p => {
+                    let randomLoot = possibleLoot[Math.floor(Math.random() * possibleLoot.length)];
+                    if (!p.inventory) p.inventory = [];
+                    p.inventory.push(randomLoot);
+                    return p;
+                });
+
+                // Actualizar mi personaje local con el inventario recibido
+                activeCharacter = updatedPlayers.find(p => p.characterName === activeCharacter.characterName);
+
+                logSystemMessage(`🎉 ¡Victoria! La criatura fue derrotada. Cada aventurero recibió 1 objeto al azar en su mochila.`);
                 const nextUpdates = await prepareNextNodeData(campaign, node.nextNode, updatedPlayers.length, updatedPlayers);
                 nextUpdates.players = updatedPlayers; 
                 nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
@@ -1287,7 +1254,6 @@ async function rollD20Action() {
             }
         }
 
-        // Rotación de turnos: Jugador -> Siguiente Jugador -> Enemigo (elige jugador al azar)
         let currentIndex = players.findIndex(p => p.characterName === activeCharacter.characterName);
         let nextPlayerIndex = (currentIndex + 1) % players.length;
         let nextAttackerName = players[nextPlayerIndex].characterName;
