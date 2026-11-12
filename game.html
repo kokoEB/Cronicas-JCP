@@ -946,14 +946,14 @@ function renderStoryNode(nodeId, roomData) {
         const allVoted = players.length > 0 && players.every(p => votes[p.characterName]);
 
         if (!allVoted) {
-            // Mientras falta gente por votar, mostramos todas las opciones normalmente
+            // Si falta gente por votar, mostramos las opciones normales
             html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
             node.options.forEach(opt => {
                 const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
                 btn.textContent = opt.text; btn.onclick = () => selectStoryOption(opt.id, btn); choicesArea.appendChild(btn);
             });
         } else {
-            // Si TODOS ya votaron, determinamos la opción ganadora
+            // Si todos votaron, calculamos la opción ganadora
             let voteCounts = {};
             Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
             let maxVotes = 0, winningOptions = [];
@@ -964,9 +964,9 @@ function renderStoryNode(nodeId, roomData) {
             let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
             let winningOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
-            // Si todavía NO hay un resultado de D20 registrado en la sala, mostramos las opciones con un temporizador de 4 segundos
             if (!roomData.lastRollResult) {
-                html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>¡Votación completada! Mostrando opción elegida en 4 segundos...</strong></div>`;
+                // Instante en que todos votaron: mostramos las opciones con la ganadora resaltada por 4 segundos
+                html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>¡Votación completada! El grupo eligió su camino...</strong></div>`;
                 node.options.forEach(opt => {
                     const btn = document.createElement("div");
                     btn.className = "choice-btn" + (opt.id === chosenOptionId ? " selected" : "");
@@ -976,7 +976,7 @@ function renderStoryNode(nodeId, roomData) {
                     choicesArea.appendChild(btn);
                 });
             } else {
-                // Si ya se tiró el dado, mostramos limpiamente SOLO la opción ganadora arriba y el D20 abajo
+                // Una vez tirado el dado, mostramos SOLO la opción ganadora arriba y el resultado del dado abajo, sin basura vieja
                 html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>Camino seleccionado por el grupo:</strong></div>`;
                 
                 const winBtn = document.createElement("div");
@@ -1000,10 +1000,15 @@ function renderStoryNode(nodeId, roomData) {
     }
     document.getElementById("storyText").innerHTML = html;
 }
-
 async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
     const nextNode = campaign[nextNodeId];
-    let updateObj = { currentNodeId: nextNodeId, turnIndex: 0, combatTurnCounter: 0, votes: {}, lastRollResult: null };
+    let updateObj = { 
+        currentNodeId: nextNodeId, 
+        turnIndex: 0, 
+        combatTurnCounter: 0, 
+        votes: {}, 
+        lastRollResult: null // Fuerza a limpiar el resultado del nivel anterior
+    };
     if (nextNode && nextNode.type === "combat") {
         const scaledHp = nextNode.isBoss ? (nextNode.baseHp || 120) + (playerCount - 1) * 20 : (nextNode.baseHp + (playerCount - 1) * 5);
         updateObj.monsterHp = scaledHp; updateObj.monsterMaxHp = scaledHp; updateObj.monsterName = nextNode.monsterName;
