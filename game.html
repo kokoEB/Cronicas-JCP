@@ -801,6 +801,16 @@ window.addEventListener("DOMContentLoaded", () => {
                     let isMyTurn = !data.enemyTurnNext && data.currentCombatAttacker === activeCharacter.characterName;
                     rollBtn.disabled = !isMyTurn;
                     rollBtn.textContent = "🎲 ¡Tirar D20";
+
+                    // SI ES EL TURNO DEL ENEMIGO, EL LÍDER O EL PRIMER JUGADOR EJECUTA EL ATAQUE AUTOMÁTICO TRAS 3 SEGUNDOS
+                    if (data.enemyTurnNext && players.length > 0 && players[0].characterName === activeCharacter.characterName && !data.enemyAttackProcessed) {
+                        setTimeout(async () => {
+                            const freshSnap = await window.getDoc(roomRef);
+                            if (freshSnap.exists() && freshSnap.data().enemyTurnNext && !freshSnap.data().enemyAttackProcessed) {
+                                await processEnemyAutomaticTurn(freshSnap.data(), roomRef);
+                            }
+                        }, 3000);
+                    }
                 } else if (!allVoted) {
                     turnIndicator.innerHTML = `⏳ Esperando votos de todos los aventureros... (${Object.keys(votes).length}/${players.length})`;
                     turnIndicator.style.color = "var(--gold)";
@@ -825,6 +835,41 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+async function processEnemyAutomaticTurn(roomData, roomRef) {
+    let players = roomData.players || [];
+    if (players.length === 0) return;
+
+    // Elegir un jugador al azar para atacarlo
+    let target = players[Math.floor(Math.random() * players.length)];
+    let mDmg = Math.floor(Math.random() * 6) + 3;
+    target.hp = Math.max(0, target.hp - mDmg);
+
+    let updatedPlayers = players.map(p => p.characterName === target.characterName ? target : p);
+    
+    // El siguiente en atacar vuelve a ser el primer jugador de la lista o rotativo
+    let nextAttacker = updatedPlayers[0].characterName;
+
+    let logMsg = `👹 ¡El enemigo atacó a ${target.characterName} infligiendo -${mDmg} HP!`;
+    await logSystemMessageInternal(roomRef, logMsg);
+
+    await window.updateDoc(roomRef, {
+        players: updatedPlayers,
+        enemyTurnNext: false,
+        currentCombatAttacker: nextAttacker,
+        enemyAttackProcessed: false
+    });
+}
+
+async function logSystemMessageInternal(roomRef, text) {
+    const snap = await window.getDoc(roomRef);
+    if (snap.exists()) {
+        let chat = snap.data().chat || [];
+        chat.push({ sender: "SISTEMA", text, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+        if (chat.length > 30) chat.shift();
+        await window.updateDoc(roomRef, { chat });
+    }
+}
 
 function updateSidebarUI() {
     document.getElementById("charWeaponDisplay").textContent = `${activeCharacter.weapon.name} (${activeCharacter.weapon.damage}) - CD: ${activeCharacter.weapon.currentCd || 0}`;
@@ -961,7 +1006,6 @@ function renderStoryNode(nodeId, roomData) {
         if (!allVoted) {
             html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
             
-            // Verificar si algún jugador ya desbloqueó alguna opción para todo el grupo
             let unlockedOptId = roomData.lastUnlockedOption;
 
             node.options.forEach(opt => {
@@ -969,7 +1013,6 @@ function renderStoryNode(nodeId, roomData) {
                 let canChoose = isUnlockedByGroup || !opt.requiredItem;
                 
                 if (!canChoose && opt.requiredItem) {
-                    // Ver si el jugador actual tiene el ítem en su inventario para gastarlo y desbloquear para todos
                     let hasItem = activeCharacter.inventory && activeCharacter.inventory.some(i => i.name === opt.requiredItem);
                     if (hasItem) canChoose = true;
                 }
@@ -990,7 +1033,6 @@ function renderStoryNode(nodeId, roomData) {
                 btn.innerHTML = opt.text + lockText; 
                 btn.onclick = async () => {
                     if (opt.requiredItem && !isUnlockedByGroup) {
-                        // Buscar y consumir el ítem del inventario del jugador actual
                         let itemIdx = activeCharacter.inventory.findIndex(i => i.name === opt.requiredItem);
                         if (itemIdx === -1) {
                             alert(`No tenés '${opt.requiredItem}' en tu inventario para desbloquear este camino.`);
@@ -1225,7 +1267,6 @@ async function rollD20Action() {
             updatedPlayers = updatedPlayers.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
 
             if (newMonsterHp <= 0) {
-                // RECOMPENSA AL GANAR: 1 objeto al azar por cada jugador
                 const possibleLoot = [
                     { name: "Poción de vida", description: "Recupera +10 HP." },
                     { name: "Ración", description: "Recupera +15 Maná." },
@@ -1240,7 +1281,6 @@ async function rollD20Action() {
                     return p;
                 });
 
-                // Actualizar mi personaje local con el inventario recibido
                 activeCharacter = updatedPlayers.find(p => p.characterName === activeCharacter.characterName);
 
                 logSystemMessage(`🎉 ¡Victoria! La criatura fue derrotada. Cada aventurero recibió 1 objeto al azar en su mochila.`);
@@ -1264,15 +1304,6 @@ async function rollD20Action() {
         if (combatCounter >= players.length) {
             enemyShouldAttack = true;
             combatCounter = 0;
-        }
-
-        if (enemyShouldAttack) {
-            let target = updatedPlayers[Math.floor(Math.random() * updatedPlayers.length)];
-            let mDmg = Math.floor(Math.random() * 6) + 3;
-            target.hp = Math.max(0, target.hp - mDmg);
-            if (target.characterName === activeCharacter.characterName) activeCharacter.hp = target.hp;
-            updatedPlayers = updatedPlayers.map(p => p.characterName === target.characterName ? target : p);
-            logMessage += ` | 👹 ¡El enemigo eligió al azar y atacó a ${target.characterName} infligiendo -${mDmg} HP!`;
         }
 
         logSystemMessage(logMessage);
