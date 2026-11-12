@@ -172,7 +172,6 @@ const campaigns = {
                 perfect: { log: "Energía pura del entorno les otorga +5 Maná.", manaDelta: 5, nextNode: "n2_ramaD" }
             }
         },
-
         n2_ramaA: {
             title: "Nivel 2 (Sector A) - El Salón de las Estatuas Gemelas",
             text: "Filas de estatuas antiguas flanquean el paso. Sus ojos parecen seguirlos. ¿Cómo proceden?",
@@ -241,13 +240,11 @@ const campaigns = {
                 perfect: { log: "Bendición ancestral (+5 HP).", hpDelta: 5, nextNode: "n3_rama1" }
             }
         },
-
         combate_aleatorio_1: { title: "Combate Sorpresa - Acechador de las Sombras", text: "¡Una mala tirada alertó a una bestia errante en la oscuridad!", type: "combat", monsterName: "Acechador Errante", baseHp: 35, nextNode: "n2_ramaA" },
         combate_n2_1: { title: "Combate - Guardianes de Piedra", text: "Las estatuas cobran vida bloqueando el camino. ¡Prepárense para el combate!", type: "combat", monsterName: "Guardianes de Piedra", baseHp: 35, nextNode: "n3_rama1" },
         combate_n2_2: { title: "Combate - Acechador de los Abismos", text: "Una criatura alada emerge de la sima. ¡Defiéndanse!", type: "combat", monsterName: "Acechador Alado", baseHp: 40, nextNode: "n3_rama2" },
         combate_n2_3: { title: "Combate - Reflejo Maligno", text: "Su propia oscuridad cobra forma corpórea frente a ustedes.", type: "combat", monsterName: "Reflejo Maligno", baseHp: 40, nextNode: "n3_rama3" },
         combate_n2_4: { title: "Combate - Espectro Errante", text: "Un alma en pena aulla furiosa en el pasaje.", type: "combat", monsterName: "Espectro Errante", baseHp: 45, nextNode: "n3_rama4" },
-
         n3_rama1: {
             title: "Nivel 3 (Fase I) - La Encrucijada de los Cuatro Vientos",
             text: "Llegan a una explanada donde convergen corrientes de aire de cuatro túneles distintos.",
@@ -316,11 +313,9 @@ const campaigns = {
                 perfect: { log: "Viento a favor (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "n4_rama4" }
             }
         },
-
         combate_n3_1: { title: "Combate - Golem de Cristal", text: "¡El ruido despertó a un Golem de Cristal guardian!", type: "combat", monsterName: "Golem de Cristal", baseHp: 50, nextNode: "n4_rama2" },
         combate_n3_2: { title: "Combate - Guardián de la Cripta", text: "Un protector ancestral se levanta del sarcófago.", type: "combat", monsterName: "Guardián de la Cripta", baseHp: 55, nextNode: "n4_rama3" },
         combate_n3_3: { title: "Combate - Bestia de la Sima", text: "Una criatura emerge rugiendo desde la bruma.", type: "combat", monsterName: "Bestia de la Sima", baseHp: 55, nextNode: "n4_rama4" },
-
         n4_rama1: {
             title: "Nivel 4 (Paso I) - El Portón de Obsidiana",
             text: "Una puerta ciclópea con runas que brillan con fuego interno. ¿Cómo la abren?",
@@ -389,7 +384,6 @@ const campaigns = {
                 perfect: { log: "Moral al máximo (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "n5_rama2" }
             }
         },
-
         n5_rama1: {
             title: "Nivel 5 (Fase I) - La Caverna de los Ecos Espejados",
             text: "Las paredes multiplican cada sonido, creando una sinfonía de ecos confusos. ¿Cómo avanzan?",
@@ -424,9 +418,7 @@ const campaigns = {
                 perfect: { log: "Control del fuego (+10 Maná).", manaDelta: 10, nextNode: "n6_rama1" }
             }
         },
-
         combate_n5_extra: { title: "Combate - Merodeador de Magma", text: "¡Una criatura de fuego surge del río subterráneo!", type: "combat", monsterName: "Merodeador de Magma", baseHp: 60, nextNode: "n6_rama2" },
-
         n6_rama1: {
             title: "Nivel 6 (Fase I) - La Biblioteca de los Pergaminos Perdidos",
             text: "Anaqueles infinitos con tomos antiguos que flotan levemente en el aire.",
@@ -495,7 +487,6 @@ const campaigns = {
                 perfect: { log: "Manantial oculto (+6 Maná).", manaDelta: 6, nextNode: "n7_rama1" }
             }
         },
-
         n7_rama1: {
             title: "Nivel 7 (Fase I) - La Sima de los Mil Abismos",
             text: "Un puente colgante destruido sobre un abismo vertical interminable.",
@@ -564,9 +555,7 @@ const campaigns = {
                 perfect: { log: "Dominio eólico (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "n8_rama1" }
             }
         },
-
         combate_aleatorio_2: { title: "Combate Sorpresa - Bestia de la Sima", text: "¡Una criatura emergió tras la caída al vacío!", type: "combat", monsterName: "Bestia de la Sima", baseHp: 45, nextNode: "n8_rama2" },
-
         n8_rama1: {
             title: "Nivel 8 (Fase I) - La Galería de los Espejos Temporales",
             text: "Reflejos del pasado y el futuro parpadean en los espejos de las paredes.",
@@ -635,9 +624,7 @@ const campaigns = {
                 perfect: { log: "Dominio umbrío (+8 HP / +8 Maná).", hpDelta: 8, manaDelta: 8, nextNode: "n9_rama2" }
             }
         },
-
         combate_n8_extra: { title: "Combate - Centinela Corrupto", text: "¡Un autómata corrompido defiende la galería!", type: "combat", monsterName: "Centinela Corrupto", baseHp: 70, nextNode: "n9_rama1" },
-
         n9_rama1: {
             title: "Nivel 9 (Fase I) - La Antesala del Núcleo",
             text: "El suelo vibra violentamente. El aire huele a energía pura y ozono. Se acercan al final.",
@@ -706,7 +693,6 @@ const campaigns = {
                 perfect: { log: "Armonía total (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "nivel10_climax" }
             }
         },
-
         nivel10_climax: {
             title: "Nivel 10 (CLÍMAX FINAL) - La Cámara del Creador del Abismo",
             text: "Han llegado al corazón de todo el complejo subterráneo. El guardián supremo y gobernante del abismo se alza imponente ante ustedes para el combate definitivo.",
@@ -716,11 +702,563 @@ const campaigns = {
             baseHp: 120,
             nextNode: "ending_legendary"
         },
-
         ending_tragic: { title: "💀 FINAL 1: Caídos en el Abismo", text: "Las heridas y el agotamiento sellaron el destino del grupo en la oscuridad eterna.", type: "ending", badge: "Final Trágico (1/4)" },
         ending_survivor: { title: "🩹 FINAL 2: Supervivientes al Límite", text: "Lograron salir a la superficie con vida, aunque maltrechos y marcados por los horrores superados.", type: "ending", badge: "Final Agridulce (2/4)" },
         ending_heroic: { title: "⚔️ FINAL 3: Libertadores del Abismo", text: "Derrotaron al tirano final y restauraron la paz en todas las tierras subterráneas.", type: "ending", badge: "Final Heroico (3/4)" },
         ending_legendary: { title: "👑 FINAL 4: Leyendas Inmortales", text: "Maestría absoluta. Superaron los 10 niveles de prueba con perfección y son recordados como héroes míticos.", type: "ending", badge: "Final Legendario (4/4)" }
+    },
+
+    story2: {
+        start: {
+            title: "Nivel 1: El Umbral del Bosque Encantado",
+            text: "Se adentran en la espesura del Bosque de las Bestias Milenarias. Los árboles gigantescos susurran secretos y cuatro senderos se abren paso entre la neblina esmeralda. ¿Qué camino eligen?",
+            type: "d20_branch",
+            options: [
+                { id: "b1_rio", text: "🌊 Camino 1: La Ribera del Río de las Ninfas", requiredItem: "Cuerda" },
+                { id: "b2_espinas", text: "🌿 Camino 2: El Túnel de Zarzas y Rosas Venenosas", requiredItem: "Antorcha" },
+                { id: "b3_ruinas_bosque", text: "🏛️ Camino 3: El Altar Oculto de los Druidas", requiredItem: "Ración" },
+                { id: "b4_claro", text: "🍄 Camino 4: El Claro de los Hongos Lumínicos (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Bestias salvajes acechan entre las sombras por un mal paso en el dado.", nextNode: "combate_bosque_1" },
+                regular: { log: "Avanzan con prudencia esquivando la maleza hostil.", nextNode: "bosque_n2_ramaB" },
+                good: { log: "Encuentran hierbas medicinales silvestres (+5 HP).", hpDelta: 5, nextNode: "bosque_n2_ramaC" },
+                perfect: { log: "La energía vital del bosque bendice al grupo (+5 Maná).", manaDelta: 5, nextNode: "bosque_n2_ramaD" }
+            }
+        },
+        bosque_n2_ramaA: {
+            title: "Nivel 2 (Sector A) - El Senda de las Fieras Ocultas",
+            text: "Crujidos extraños provienen de la vegetación densa. Los ojos brillan en la oscuridad.",
+            type: "d20_branch",
+            options: [
+                { id: "b2a_1", text: "🛡️ Avanzar con escudos y armas en guardia", requiredItem: "Poción de vida" },
+                { id: "b2a_2", text: "🔥 Encender antorchas para espilar depredadores", requiredItem: "Antorcha" },
+                { id: "b2a_3", text: "🍖 Arrojar raciones para distraer a las bestias", requiredItem: "Ración" },
+                { id: "b2a_4", text: "🤫 Avanzar agachados en total silencio (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Una manada de lobos silvestres los ataca.", nextNode: "combate_bosque_2" },
+                regular: { log: "Cruzaron con un leve susto (-1 HP).", hpDelta: -1, nextNode: "bosque_n3_rama1" },
+                good: { log: "Descubrieron un refugio seguro.", nextNode: "bosque_n3_rama2" },
+                perfect: { log: "Manantial sagrado del bosque (+5 HP).", hpDelta: 5, nextNode: "bosque_n3_rama2" }
+            }
+        },
+        bosque_n2_ramaB: {
+            title: "Nivel 2 (Sector B) - El Puente de Lianas Colgantes",
+            text: "Un abismo cubierto de niebla se cruza mediante viejas lianas y maderas podridas.",
+            type: "d20_branch",
+            options: [
+                { id: "b2b_1", text: "🪢 Asegurar el paso con cuerdas firmes", requiredItem: "Cuerda" },
+                { id: "b2b_2", text: "🕯️ Quemar las lianas secas para buscar otro paso", requiredItem: "Antorcha" },
+                { id: "b2b_3", text: "🔮 Usar magia flotante para planear", requiredItem: "Poción de vida" },
+                { id: "b2b_4", text: "🏃 Cruzar corriendo a máxima velocidad (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Una liana cede y caen golpeándose (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_3" },
+                regular: { log: "Cruce superado con esfuerzo.", nextNode: "bosque_n3_rama2" },
+                good: { log: "Hallan suministros de viajeros anteriores.", nextNode: "bosque_n3_rama3" },
+                perfect: { log: "Bendición del viento (+5 Maná).", manaDelta: 5, nextNode: "bosque_n3_rama3" }
+            }
+        },
+        bosque_n2_ramaC: {
+            title: "Nivel 2 (Sector C) - El Laberinto de Zarzas Vivas",
+            text: "Los arbustos espinosos se mueven bloqueando los caminos de regreso.",
+            type: "d20_branch",
+            options: [
+                { id: "b2c_1", text: "🔥 Abrir paso quemando las espinas", requiredItem: "Antorcha" },
+                { id: "b2c_2", text: "🧭 Guiarse usando marcas en los árboles", requiredItem: "Cuerda" },
+                { id: "b2c_3", text: "🌿 Ofrecer frutos y raciones a los espíritus del sitio", requiredItem: "Ración" },
+                { id: "b2c_4", text: "⚔️ Cortar las ramas con fuerza bruta (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Las zarzas atrapan y desgarran (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_4" },
+                regular: { log: "Logran salir tras un buen rato.", nextNode: "bosque_n3_rama3" },
+                good: { log: "Encuentran un atajo cubierto de musgo.", nextNode: "bosque_n3_rama4" },
+                perfect: { log: "Armonía con la naturaleza (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "bosque_n3_rama4" }
+            }
+        },
+        bosque_n2_ramaD: {
+            title: "Nivel 2 (Sector D) - El Valle de las Brumas Densa",
+            text: "Una niebla mágica oculta el horizonte y confunde los sentidos.",
+            type: "d20_branch",
+            options: [
+                { id: "b2d_1", text: "🍞 Compartir raciones para mantener el ánimo", requiredItem: "Ración" },
+                { id: "b2d_2", text: "🪢 Atarse con una cuerda para no perderse", requiredItem: "Cuerda" },
+                { id: "b2d_3", text: "🔥 Mantener antorchas encendidas en alto", requiredItem: "Antorcha" },
+                { id: "b2d_4", text: "⚡ Canales de maná para disipar la bruma (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "La bruma nubla la mente y debilita (-2 HP).", hpDelta: -2, nextNode: "combate_bosque_1" },
+                regular: { log: "Atraviesan la niebla con paciencia.", nextNode: "bosque_n3_rama4" },
+                good: { log: "Hallan runas de guía ancestral.", nextNode: "bosque_n3_rama4" },
+                perfect: { log: "Iluminación espiritual (+5 HP).", hpDelta: 5, nextNode: "bosque_n3_rama1" }
+            }
+        },
+        combate_bosque_1: { title: "Combate - Oso Pardo Salvaje", text: "¡Un enorme oso enfurecido defiende su territorio!", type: "combat", monsterName: "Oso Pardo Salvaje", baseHp: 35, nextNode: "bosque_n2_ramaA" },
+        combate_bosque_2: { title: "Combate - Manada de Lobos Alfa", text: "¡Los lobos rodean al grupo mostrando sus colmillos!", type: "combat", monsterName: "Lobos Alfa", baseHp: 40, nextNode: "bosque_n3_rama1" },
+        combate_bosque_3: { title: "Combate - Serpiente Arbórea Gigante", text: "¡Una serpiente masiva desciende de las copas de los árboles!", type: "combat", monsterName: "Serpiente Arbórea", baseHp: 42, nextNode: "bosque_n3_rama2" },
+        combate_bosque_4: { title: "Combate - Ent de la Maleza", text: "¡Un árbol viviente de madera retorcida cobra vida!", type: "combat", monsterName: "Ent de la Maleza", baseHp: 48, nextNode: "bosque_n3_rama3" },
+        bosque_n3_rama1: {
+            title: "Nivel 3 (Fase I) - La Encrucijada de los Cuatro Vientos del Bosque",
+            text: "Un claro donde convergen corrientes de aire puro cargadas de aromas florales y bestiales.",
+            type: "d20_branch",
+            options: [
+                { id: "b3_1", text: "🌪️ Tomar el sendero del norte (viento frío)", requiredItem: "Antorcha" },
+                { id: "b3_2", text: "🔥 Tomar el sendero del sur (aire templado)", requiredItem: "Cuerda" },
+                { id: "b3_3", text: "💧 Tomar el sendero del este (brisa húmeda)", requiredItem: "Ración" },
+                { id: "b3_4", text: "🌑 Tomar el sendero del oeste (silencio absoluto) (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Ventisca helada y emboscada (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_n3_1" },
+                regular: { log: "Superan el cruce en paz.", nextNode: "bosque_n4_rama2" },
+                good: { log: "Energía silvestre (+5 Maná).", manaDelta: 5, nextNode: "bosque_n4_rama3" },
+                perfect: { log: "Bendición del bosque (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "bosque_n4_rama4" }
+            }
+        },
+        bosque_n3_rama2: {
+            title: "Nivel 3 (Fase II) - El Jardín de las Flores Dormilones",
+            text: "Un campo lleno de flores exóticas que exhalan un perfume soporífero.",
+            type: "d20_branch",
+            options: [
+                { id: "b3_21", text: "🎵 Tocar melodías para mantener la alerta", requiredItem: "Ración" },
+                { id: "b3_22", text: "⛏️ Recolectar néctar puro de pétalos", requiredItem: "Cuerda" },
+                { id: "b3_23", text: "🤫 Cruzar conteniendo la respiración", requiredItem: "Poción de vida" },
+                { id: "b3_24", text: "🔮 Usar magia protectora anti-esporas (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "El perfume los adormece y atrae depredadores.", nextNode: "combate_bosque_n3_1" },
+                regular: { log: "Cruce sin incidentes mayores.", nextNode: "bosque_n4_rama2" },
+                good: { log: "Néctar curativo (+5 HP).", hpDelta: 5, nextNode: "bosque_n4_rama3" },
+                perfect: { log: "Sintonía floral (+10 Maná).", manaDelta: 10, nextNode: "bosque_n4_rama4" }
+            }
+        },
+        bosque_n3_rama3: {
+            title: "Nivel 3 (Fase III) - Las Ruinas del Templo Verde",
+            text: "Columnas de piedra cubiertas por enredaderas milenarias.",
+            type: "d20_branch",
+            options: [
+                { id: "b3_31", text: "📜 Estudiar los grabados de las paredes", requiredItem: "Ración" },
+                { id: "b3_32", text: "🏺 Investigar ofrendas de los antiguos druidas", requiredItem: "Cuerda" },
+                { id: "b3_33", text: "🕯️ Encender una fogata ritual", requiredItem: "Antorcha" },
+                { id: "b3_34", text: "🚪 Cruzar el arco principal (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Guardián silvestre alterado.", nextNode: "combate_bosque_n3_2" },
+                regular: { log: "Ruinas exploradas.", nextNode: "bosque_n4_rama3" },
+                good: { log: "Reliquia druídica (+5 HP).", hpDelta: 5, nextNode: "bosque_n4_rama4" },
+                perfect: { log: "Sabiduría ancestral (+10 HP).", hpDelta: 10, nextNode: "bosque_n4_rama4" }
+            }
+        },
+        bosque_n3_rama4: {
+            title: "Nivel 3 (Fase IV) - La Caverna Oculta del Manantial",
+            text: "Una gruta natural iluminada por musgo brillante y agua cristalina.",
+            type: "d20_branch",
+            options: [
+                { id: "b3_41", text: "🏃 Beber del agua pura con rapidez", requiredItem: "Antorcha" },
+                { id: "b3_42", text: "🛡️ Acampar y reforzar defensas", requiredItem: "Cuerda" },
+                { id: "b3_43", text: "🦉 Racionar provisiones junto al arroyo", requiredItem: "Ración" },
+                { id: "b3_44", text: "⚡ Meditar junto al manantial (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Agua contaminada o trampa natural (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_n3_3" },
+                regular: { log: "Descanso reparador completado.", nextNode: "bosque_n4_rama4" },
+                good: { log: "Provisiones frescas recuperadas.", nextNode: "bosque_n4_rama4" },
+                perfect: { log: "Aguas benditas (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "bosque_n4_rama4" }
+            }
+        },
+        combate_bosque_n3_1: { title: "Combate - Pantera de las Sombras", text: "¡Una pantera sigilosa salta desde los matorrales!", type: "combat", monsterName: "Pantera de las Sombras", baseHp: 50, nextNode: "bosque_n4_rama2" },
+        combate_bosque_n3_2: { title: "Combate - Guardián del Bosque", text: "¡Un espíritu protector enfurecido bloquea el paso!", type: "combat", monsterName: "Espíritu Protector", baseHp: 55, nextNode: "bosque_n4_rama3" },
+        combate_bosque_n3_3: { title: "Combate - Bestia Alfa de la Gruta", text: "¡Una criatura colosal custodiaba el manantial!", type: "combat", monsterName: "Bestia Alfa de la Gruta", baseHp: 55, nextNode: "bosque_n4_rama4" },
+        bosque_n4_rama1: {
+            title: "Nivel 4 (Paso I) - El Gran Árbol Raíz Madre",
+            text: "Un tronco colosal con un portal natural esculpido en su corteza.",
+            type: "d20_branch",
+            options: [
+                { id: "b4_11", text: "🔨 Forzar la entrada con herramientas", requiredItem: "Cuerda" },
+                { id: "b4_12", text: "🗝️ Tocar los patrones naturales rúnicos", requiredItem: "Ración" },
+                { id: "b4_13", text: "🔮 Canalizar energía druídica", requiredItem: "Antorcha" },
+                { id: "b4_14", text: "🕵️‍♂️ Buscar un hueco lateral (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Rechazo vegetal defensivo (-3 HP).", hpDelta: -3, nextNode: "bosque_n5_rama1" },
+                regular: { log: "Portal abierto con éxito.", nextNode: "bosque_n5_rama1" },
+                good: { log: "Acceso limpio y seguro.", nextNode: "bosque_n5_rama2" },
+                perfect: { log: "Esencia de la Raíz Madre (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "bosque_n5_rama2" }
+            }
+        },
+        bosque_n4_rama2: {
+            title: "Nivel 4 (Paso II) - El Trono de Hojas y Espinas",
+            text: "Un claro real donde el Rey de las Bestias suele descansar.",
+            type: "d20_branch",
+            options: [
+                { id: "b4_21", text: "👑 Examinar el trono natural", requiredItem: "Antorcha" },
+                { id: "b4_22", text: "📜 Leer las marcas territoriales", requiredItem: "Ración" },
+                { id: "b4_23", text: "🪙 Buscar tesoros enterrados", requiredItem: "Cuerda" },
+                { id: "b4_24", text: "🚪 Cruzar directamente (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Trampa territorial (-3 HP).", hpDelta: -3, nextNode: "bosque_n5_rama1" },
+                regular: { log: "Zona superada.", nextNode: "bosque_n5_rama1" },
+                good: { log: "Tesoro silvestre hallado (+5 HP).", hpDelta: 5, nextNode: "bosque_n5_rama2" },
+                perfect: { log: "Poder natural latente (+10 Maná).", manaDelta: 10, nextNode: "bosque_n5_rama2" }
+            }
+        },
+        bosque_n4_rama3: {
+            title: "Nivel 4 (Paso III) - El Altar de la Furia Verde",
+            text: "Un altar de piedra cubierto de musgo brillante y ofrendas florales.",
+            type: "d20_branch",
+            options: [
+                { id: "b4_31", text: "🔥 Bendecir armas en el altar", requiredItem: "Antorcha" },
+                { id: "b4_32", text: "💧 Limpiar el altar con agua pura", requiredItem: "Cuerda" },
+                { id: "b4_33", text: "🕯️ Meditar en reverencia", requiredItem: "Ración" },
+                { id: "b4_34", text: "🏃 Rodear el altar con precaución (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Energía salvaje descontrolada (-3 HP).", hpDelta: -3, nextNode: "bosque_n5_rama1" },
+                regular: { log: "Ofrenda aceptada.", nextNode: "bosque_n5_rama2" },
+                good: { log: "Espíritu revitalizado (+5 Maná).", manaDelta: 5, nextNode: "bosque_n5_rama2" },
+                perfect: { log: "Bendición del Altar (+10 HP).", hpDelta: 10, nextNode: "bosque_n5_rama2" }
+            }
+        },
+        bosque_n4_rama4: {
+            title: "Nivel 4 (Paso IV) - La Antesala del Gran Depredador",
+            text: "El suelo tiembla con pisadas pesadas. Se acercan al dominio del líder de las bestias.",
+            type: "d20_branch",
+            options: [
+                { id: "b4_41", text: "⚔️ Afilar filos y revisar armaduras", requiredItem: "Cuerda" },
+                { id: "b4_42", text: "🧪 Beber pociones preparatorias", requiredItem: "Poción de vida" },
+                { id: "b4_43", text: "🗣️ Alentar al grupo con gritos de guerra", requiredItem: "Ración" },
+                { id: "b4_44", text: "👁️ Vigilar los flancos con sigilo (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Descuido táctico (-2 HP).", hpDelta: -2, nextNode: "bosque_n5_rama1" },
+                regular: { log: "Listos para el combate.", nextNode: "bosque_n5_rama1" },
+                good: { log: "Preparación óptima.", nextNode: "bosque_n5_rama2" },
+                perfect: { log: "Moral guerrera al máximo (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "bosque_n5_rama2" }
+            }
+        },
+        bosque_n5_rama1: {
+            title: "Nivel 5 (Fase I) - El Cañón de los Ecos Silvestres",
+            text: "Un desfiladero rocoso donde los rugidos de las bestias resuenan multiplicados.",
+            type: "d20_branch",
+            options: [
+                { id: "b5_11", text: "🗣️ Emitir aullidos de advertencia", requiredItem: "Ración" },
+                { id: "b5_12", text: "🤫 Cruzar en absoluto silencio", requiredItem: "Cuerda" },
+                { id: "b5_13", text: "⚡ Lanzar destellos de luz para desorientar", requiredItem: "Antorcha" },
+                { id: "b5_14", text: "🕵️‍♂️ Buscar rutas altas en los riscos (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Emboscada en el cañón (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_n5_extra" },
+                regular: { log: "Cañón cruzado con éxito.", nextNode: "bosque_n6_rama2" },
+                good: { log: "Posición elevada obtenida (+5 Maná).", manaDelta: 5, nextNode: "bosque_n6_rama3" },
+                perfect: { log: "Dominio del terreno (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "bosque_n6_rama4" }
+            }
+        },
+        bosque_n5_rama2: {
+            title: "Nivel 5 (Fase II) - El Pantano de los Susurros Verdes",
+            text: "Aguas estancadas y lodo profundo que exhala vapores densos.",
+            type: "d20_branch",
+            options: [
+                { id: "b5_21", text: "🪵 Construir pasarelas con troncos", requiredItem: "Cuerda" },
+                { id: "b5_22", text: "🔥 Quemar vapores tóxicos con fuego", requiredItem: "Antorcha" },
+                { id: "b5_23", text: "🍃 Usar hierbas purificadoras", requiredItem: "Ración" },
+                { id: "b5_24", text: "🛡️ Cruzar con pisadas firmes (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Atrapados en el lodo venenoso (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_n5_extra" },
+                regular: { log: "Pantano superado con esfuerzo.", nextNode: "bosque_n6_rama3" },
+                good: { log: "Materiales raros hallados (+5 HP).", hpDelta: 5, nextNode: "bosque_n6_rama4" },
+                perfect: { log: "Resistencia natural (+10 Maná).", manaDelta: 10, nextNode: "bosque_n6_rama1" }
+            }
+        },
+        combate_bosque_n5_extra: { title: "Combate - Hidra de los Pantanos", text: "¡Una serpiente bicéfala surge de las aguas turbias!", type: "combat", monsterName: "Hidra de los Pantanos", baseHp: 60, nextNode: "bosque_n6_rama2" },
+        bosque_n6_rama1: {
+            title: "Nivel 6 (Fase I) - La Biblioteca de los Sabios del Bosque",
+            text: "Árboles huecos convertidos en estanterías naturales con rollos de corteza escrita.",
+            type: "d20_branch",
+            options: [
+                { id: "b6_11", text: "📜 Leer tratados sobre bestias legendarias", requiredItem: "Ración" },
+                { id: "b6_12", text: "🔍 Buscar mapas secretos de la región", requiredItem: "Antorcha" },
+                { id: "b6_13", text: "🕯️ Ignorar los textos y seguir", requiredItem: "Cuerda" },
+                { id: "b6_14", text: "🔮 Absorbir sabiduría natural (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Trampa de esporas en los rollos (-3 HP).", hpDelta: -3, nextNode: "bosque_n7_rama1" },
+                regular: { log: "Conocimiento adquirido.", nextNode: "bosque_n7_rama2" },
+                good: { log: "Mapa útil hallado (+5 Maná).", manaDelta: 5, nextNode: "bosque_n7_rama3" },
+                perfect: { log: "Sabiduría absoluta (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "bosque_n7_rama4" }
+            }
+        },
+        bosque_n6_rama2: {
+            title: "Nivel 6 (Fase II) - El Bosque de los Espejos de Agua",
+            text: "Lagunas perfectas que reflejan un cielo nocturno estrellado aunque sea de día.",
+            type: "d20_branch",
+            options: [
+                { id: "b6_21", text: "🍄 Recolectar agua lunar", requiredItem: "Ración" },
+                { id: "b6_22", text: "🗡️ Rodear la laguna con precaución", requiredItem: "Cuerda" },
+                { id: "b6_23", text: "🦉 Observar reflejos para anticipar peligros", requiredItem: "Antorcha" },
+                { id: "b6_24", text: "⚡ Tocar el agua para invocar energía (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Ilusiones que dañan el espíritu (-2 HP).", hpDelta: -2, nextNode: "bosque_n7_rama2" },
+                regular: { log: "Lagunas superadas.", nextNode: "bosque_n7_rama3" },
+                good: { log: "Esencia de agua lunar (+6 HP).", hpDelta: 6, nextNode: "bosque_n7_rama4" },
+                perfect: { log: "Vitalidad renovada (+10 HP).", hpDelta: 10, nextNode: "bosque_n7_rama1" }
+            }
+        },
+        bosque_n6_rama3: {
+            title: "Nivel 6 (Fase III) - Senda de las Huellas Colosales",
+            text: "Pisadas gigantescas marcadas en el lodo que indican la cercanía de una bestia alfa.",
+            type: "d20_branch",
+            options: [
+                { id: "b6_31", text: "🔍 Analizar profundidad y dirección de huellas", requiredItem: "Antorcha" },
+                { id: "b6_32", text: "🚶 Tomar un desvío alternativo", requiredItem: "Cuerda" },
+                { id: "b6_33", text: "✨ Dejar marcas de trampa", requiredItem: "Ración" },
+                { id: "b6_34", text: "🛡️ Avanzar con guardia alta (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Emboscada sorpresa de rastreadores (-2 HP).", hpDelta: -2, nextNode: "bosque_n7_rama1" },
+                regular: { log: "Rastro seguido con éxito.", nextNode: "bosque_n7_rama2" },
+                good: { log: "Trampa menor evitada (+3 HP).", hpDelta: 3, nextNode: "bosque_n7_rama3" },
+                perfect: { log: "Ventaja táctica (+5 Maná).", manaDelta: 5, nextNode: "bosque_n7_rama4" }
+            }
+        },
+        bosque_n6_rama4: {
+            title: "Nivel 6 (Fase IV) - Descenso a la Caverna Raíz",
+            text: "Un túnel natural formado por raíces gigantes que desciende a los niveles profundos.",
+            type: "d20_branch",
+            options: [
+                { id: "b6_41", text: "🧗 Desender rapelando con cuerdas", requiredItem: "Cuerda" },
+                { id: "b6_42", text: "🏃 Deslizarse por los toboganes de musgo", requiredItem: "Antorcha" },
+                { id: "b6_43", text: "🔮 Usar magia para ablandar el suelo", requiredItem: "Ración" },
+                { id: "b6_44", text: "👥 Ayudarse entre todos (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Golpes leves en el descenso (-2 HP).", hpDelta: -2, nextNode: "bosque_n7_rama2" },
+                regular: { log: "Descenso seguro.", nextNode: "bosque_n7_rama3" },
+                good: { log: "Postura perfecta (+4 HP).", hpDelta: 4, nextNode: "bosque_n7_rama4" },
+                perfect: { log: "Manantial secreto (+6 Maná).", manaDelta: 6, nextNode: "bosque_n7_rama1" }
+            }
+        },
+        bosque_n7_rama1: {
+            title: "Nivel 7 (Fase I) - El Abismo de las Cascadas Gemelas",
+            text: "Un abismo cruzado por dos imponentes cascadas que caen hacia la oscuridad.",
+            type: "d20_branch",
+            options: [
+                { id: "b7_11", text: "🪢 Construir puente provisional con cuerdas", requiredItem: "Cuerda" },
+                { id: "b7_12", text: "🧗 Escalar por los salientes húmedos", requiredItem: "Antorcha" },
+                { id: "b7_13", text: "🔮 Levitación grupal sobre el agua", requiredItem: "Poción de vida" },
+                { id: "b7_14", text: "🏃 Saltar con impulso heroico (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Caída a la corriente (-4 HP).", hpDelta: -4, nextNode: "combate_bosque_aleatorio_2" },
+                regular: { log: "Cruce con gran esfuerzo.", nextNode: "bosque_n8_rama2" },
+                good: { log: "Maniobra impecable.", nextNode: "bosque_n8_rama3" },
+                perfect: { log: "Brisa purificadora (+5 HP / +5 Maná).", hpDelta: 5, manaDelta: 5, nextNode: "bosque_n8_rama4" }
+            }
+        },
+        bosque_n7_rama2: {
+            title: "Nivel 7 (Fase II) - El Jardín de Piedras Ancestrales",
+            text: "Monolitos de piedra esculpidos por la naturaleza con formas de animales míticos.",
+            type: "d20_branch",
+            options: [
+                { id: "b7_21", text: "🛡️ Tocar los monolitos con respeto", requiredItem: "Cuerda" },
+                { id: "b7_22", text: "🧹 Limpiar musgo de las inscripciones", requiredItem: "Antorcha" },
+                { id: "b7_23", text: "🚶 Caminar en silencio entre las estatuas", requiredItem: "Ración" },
+                { id: "b7_24", text: "⚡ Canalizar energía en los monolitos (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Reacción defensiva de los monolitos (-3 HP).", hpDelta: -3, nextNode: "bosque_n8_rama2" },
+                regular: { log: "Paso pacífico.", nextNode: "bosque_n8_rama3" },
+                good: { log: "Minerales sagrados (+5 HP).", hpDelta: 5, nextNode: "bosque_n8_rama4" },
+                perfect: { log: "Bendición de piedra (+10 Maná).", manaDelta: 10, nextNode: "bosque_n8_rama1" }
+            }
+        },
+        bosque_n7_rama3: {
+            title: "Nivel 7 (Fase III) - Salón del Consejo de la Fauna",
+            text: "Una gran plaza circular rodeada de árboles gigantes donde las bestias parlamentan.",
+            type: "d20_branch",
+            options: [
+                { id: "b7_31", text: "🪙 Dejar ofrendas de comida", requiredItem: "Ración" },
+                { id: "b7_32", text: "🎵 Tocar instrumentos silvestres", requiredItem: "Antorcha" },
+                { id: "b7_33", text: "🚪 Abrir paso por el sendero principal", requiredItem: "Cuerda" },
+                { id: "b7_34", text: "🕯️ Investigar altares de piedra (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Trampa territorial (-3 HP).", hpDelta: -3, nextNode: "bosque_n8_rama1" },
+                regular: { log: "Plaza superada.", nextNode: "bosque_n8_rama2" },
+                good: { log: "Tesoros menores (+5 HP).", hpDelta: 5, nextNode: "bosque_n8_rama3" },
+                perfect: { log: "Respeto de la fauna (+8 Maná).", manaDelta: 8, nextNode: "bosque_n8_rama4" }
+            }
+        },
+        bosque_n7_rama4: {
+            title: "Nivel 7 (Fase IV) - Corredor de Vientos Salvajes",
+            text: "Un pasaje natural donde los vientos del bosque soplan con fuerza huracanada.",
+            type: "d20_branch",
+            options: [
+                { id: "b7_41", text: "🌪️ Usar el viento a favor", requiredItem: "Antorcha" },
+                { id: "b7_42", text: "⚓ Asegurarse con ganchos a las rocas", requiredItem: "Cuerda" },
+                { id: "b7_43", text: "🔮 Disipar corrientes con magia", requiredItem: "Ración" },
+                { id: "b7_44", text: "🏃 Cruzar corriendo con agilidad (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Golpe contra los árboles (-3 HP).", hpDelta: -3, nextNode: "bosque_n8_rama2" },
+                regular: { log: "Corredor superado.", nextNode: "bosque_n8_rama3" },
+                good: { log: "Impulso de viento (+5 Maná).", manaDelta: 5, nextNode: "bosque_n8_rama4" },
+                perfect: { log: "Dominio de los vientos (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "bosque_n8_rama1" }
+            }
+        },
+        combate_bosque_aleatorio_2: { title: "Combate Sorpresa - Ave de Rapiña Gigante", text: "¡Un grifo salvaje ataca desde las alturas!", type: "combat", monsterName: "Grifo Salvaje", baseHp: 45, nextNode: "bosque_n8_rama2" },
+        bosque_n8_rama1: {
+            title: "Nivel 8 (Fase I) - La Arboleda de los Espejos Místicos",
+            text: "Árboles con cortezas plateadas que reflejan memorias y futuros posibles.",
+            type: "d20_branch",
+            options: [
+                { id: "b8_11", text: "🔮 Consultar los reflejos sobre el jefe final", requiredItem: "Ración" },
+                { id: "b8_12", text: "🔨 Evitar distracciones y seguir", requiredItem: "Antorcha" },
+                { id: "b8_13", text: "🧘 Meditar bajo los árboles plateados", requiredItem: "Cuerda" },
+                { id: "b8_14", text: "🏃 Avanzar sin mirar los reflejos (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Confusión mental (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_n8_extra" },
+                regular: { log: "Arboleda cruzada.", nextNode: "bosque_n9_rama2" },
+                good: { log: "Ventaja táctica (+5 Maná).", manaDelta: 5, nextNode: "bosque_n9_rama3" },
+                perfect: { log: "Claridad silvestre (+8 HP / +8 Maná).", hpDelta: 8, manaDelta: 8, nextNode: "bosque_n9_rama4" }
+            }
+        },
+        bosque_n8_rama2: {
+            title: "Nivel 8 (Fase II) - La Guarida del Viejo Cazador",
+            text: "Un refugio abandonado lleno de trampas desactivadas y armas rústicas.",
+            type: "d20_branch",
+            options: [
+                { id: "b8_21", text: "⚔️ Mejorar armas con acero y madera dura", requiredItem: "Cuerda" },
+                { id: "b8_22", text: "🛡️ Buscar armaduras de cuero reforzado", requiredItem: "Antorcha" },
+                { id: "b8_23", text: "🔮 Bendecir el equipo con runas", requiredItem: "Ración" },
+                { id: "b8_24", text: "🏃 Tomar suministros y continuar (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Trampa olvidada en la guarida (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_n8_extra" },
+                regular: { log: "Equipo revisado.", nextNode: "bosque_n9_rama3" },
+                good: { log: "Armamento mejorado (+5 HP).", hpDelta: 5, nextNode: "bosque_n9_rama4" },
+                perfect: { log: "Bendición del cazador (+10 HP).", hpDelta: 10, nextNode: "bosque_n9_rama1" }
+            }
+        },
+        bosque_n8_rama3: {
+            title: "Nivel 8 (Fase III) - Torreón de la Vigía del Bosque",
+            text: "Una torre construida sobre el tronco del árbol más alto del mundo.",
+            type: "d20_branch",
+            options: [
+                { id: "b8_31", text: "🔭 Escalar hasta la cima para otear", requiredItem: "Cuerda" },
+                { id: "b8_32", text: "🚪 Registrar la base de la torre", requiredItem: "Antorcha" },
+                { id: "b8_33", text: "🔮 Lanzar hechizo de localización", requiredItem: "Ración" },
+                { id: "b8_34", text: "🚶 Descansar en los bancos de madera (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Resbalón en la escalera (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_n8_extra" },
+                regular: { log: "Torre superada.", nextNode: "bosque_n9_rama3" },
+                good: { log: "Vistas y hallazgos útiles (+5 HP).", hpDelta: 5, nextNode: "bosque_n9_rama4" },
+                perfect: { log: "Inspiración del alto bosque (+10 Maná).", manaDelta: 10, nextNode: "bosque_n9_rama1" }
+            }
+        },
+        bosque_n8_rama4: {
+            title: "Nivel 8 (Fase IV) - Senda de las Sombras Verdes",
+            text: "Sombras espesas imitan la forma de feroces bestias para asustar al grupo.",
+            type: "d20_branch",
+            options: [
+                { id: "b8_41", text: "✨ Usar luz para disipar las sombras", requiredItem: "Antorcha" },
+                { id: "b8_42", text: "🛡️ Avanzar con escudos en formación", requiredItem: "Cuerda" },
+                { id: "b8_43", text: "🏃 Correr atravesando la penumbra", requiredItem: "Ración" },
+                { id: "b8_44", text: "🗣️ Gritar con fuerza para ahuyentarlas (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Ataque ilusorio (-3 HP).", hpDelta: -3, nextNode: "combate_bosque_n8_extra" },
+                regular: { log: "Paso seguro.", nextNode: "bosque_n9_rama4" },
+                good: { log: "Fragmento de luz silvestre (+5 HP).", hpDelta: 5, nextNode: "bosque_n9_rama1" },
+                perfect: { log: "Dominio lumínico (+8 HP / +8 Maná).", hpDelta: 8, manaDelta: 8, nextNode: "bosque_n9_rama2" }
+            }
+        },
+        combate_bosque_n8_extra: { title: "Combate - Alfa de la Manada Oscura", text: "¡Una bestia alfa corrompida defiende el paso!", type: "combat", monsterName: "Alfa Oscuro", baseHp: 70, nextNode: "bosque_n9_rama1" },
+        bosque_n9_rama1: {
+            title: "Nivel 9 (Fase I) - La Antesala del Corazón del Bosque",
+            text: "El suelo vibra al unísono con el latido de la tierra. Se acercan al gran santuario natural.",
+            type: "d20_branch",
+            options: [
+                { id: "b9_11", text: "⚔️ Afilar armas y preparar técnicas finales", requiredItem: "Cuerda" },
+                { id: "b9_12", text: "🧪 Consumir pociones restantes", requiredItem: "Poción de vida" },
+                { id: "b9_13", text: "🗣️ Juramento de hermandad silvestre", requiredItem: "Ración" },
+                { id: "b9_14", text: "👁️ Inspeccionar la gran entrada (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Descuido en la concentración (-2 HP).", hpDelta: -2, nextNode: "bosque_nivel10_climax" },
+                regular: { log: "Listos para el juicio final.", nextNode: "bosque_nivel10_climax" },
+                good: { log: "Espíritu elevado (+5 Maná).", manaDelta: 5, nextNode: "bosque_nivel10_climax" },
+                perfect: { log: "Poder natural desatado (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "bosque_nivel10_climax" }
+            }
+        },
+        bosque_n9_rama2: {
+            title: "Nivel 9 (Fase II) - El Puente de Lianas Lumínicas",
+            text: "Un puente vivo hecho de lianas que brillan con fuego fatuo cruzando el abismo central.",
+            type: "d20_branch",
+            options: [
+                { id: "b9_21", text: "✨ Cruzar absorbiendo la luz de las lianas", requiredItem: "Antorcha" },
+                { id: "b9_22", text: "🏃 Correr antes de que el puente se mueva", requiredItem: "Cuerda" },
+                { id: "b9_23", text: "🔮 Sintonizar energía con el puente", requiredItem: "Ración" },
+                { id: "b9_24", text: "🚶 Avanzar firmes y unidos (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Inestabilidad en el puente (-3 HP).", hpDelta: -3, nextNode: "bosque_nivel10_climax" },
+                regular: { log: "Cruce completado.", nextNode: "bosque_nivel10_climax" },
+                good: { log: "Aura protectora (+5 HP).", hpDelta: 5, nextNode: "bosque_nivel10_climax" },
+                perfect: { log: "Bendición lumínica máxima (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "bosque_nivel10_climax" }
+            }
+        },
+        bosque_n9_rama3: {
+            title: "Nivel 9 (Fase III) - Último Bastión Natural",
+            text: "El sancta sanctorum del Bosque Encantado se abre ante ustedes.",
+            type: "d20_branch",
+            options: [
+                { id: "b9_31", text: "🛡️ Oración a los espíritus protectores", requiredItem: "Ración" },
+                { id: "b9_32", text: "⚔️ Preparar golpe contundente", requiredItem: "Cuerda" },
+                { id: "b9_33", text: "🔮 Concentrar maná natural", requiredItem: "Antorcha" },
+                { id: "b9_34", text: "🏃 Avanzar sin vacilar (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Tensión acumulada (-2 HP).", hpDelta: -2, nextNode: "bosque_nivel10_climax" },
+                regular: { log: "Umbral cruzado.", nextNode: "bosque_nivel10_climax" },
+                good: { log: "Vigor renovado (+5 HP).", hpDelta: 5, nextNode: "bosque_nivel10_climax" },
+                perfect: { log: "Poderío supremo (+10 HP / +5 Maná).", hpDelta: 10, manaDelta: 5, nextNode: "bosque_nivel10_climax" }
+            }
+        },
+        bosque_n9_rama4: {
+            title: "Nivel 9 (Fase IV) - Círculos de Resonancia Silvestre",
+            text: "Círculos de piedras y hongos que potencian al máximo las habilidades del grupo.",
+            type: "d20_branch",
+            options: [
+                { id: "b9_41", text: "✨ Sintonizar círculo de fuerza animal", requiredItem: "Antorcha" },
+                { id: "b9_42", text: "🔮 Sintonizar círculo de maná puro", requiredItem: "Ración" },
+                { id: "b9_43", text: "🛡️ Sintonizar círculo de corteza dura", requiredItem: "Cuerda" },
+                { id: "b9_44", text: "⚡ Absorber todo el flujo vital (Libre)" }
+            ],
+            outcomes: {
+                bad: { log: "Sobrecarga de maná natural (-3 HP).", hpDelta: -3, nextNode: "bosque_nivel10_climax" },
+                regular: { log: "Sintonización estable.", nextNode: "bosque_nivel10_climax" },
+                good: { log: "Canalización exitosa (+6 Maná).", manaDelta: 6, nextNode: "bosque_nivel10_climax" },
+                perfect: { log: "Armonía total con el bosque (+10 HP / +10 Maná).", hpDelta: 10, manaDelta: 10, nextNode: "bosque_nivel10_climax" }
+            }
+        },
+        bosque_nivel10_climax: {
+            title: "Nivel 10 (CLÍMAX FINAL) - La Guarida del Rey de las Bestias",
+            text: "Han llegado al corazón sagrado del bosque. El titán guardián y soberano de todas las bestias milenarias emerge imponente para el combate definitivo.",
+            type: "combat",
+            isBoss: true,
+            monsterName: "Rey Titán de las Bestias",
+            baseHp: 120,
+            nextNode: "ending_legendary"
+        },
+        ending_tragic: { title: "💀 FINAL 1: Caídos en el Bosque", text: "Las heridas y el agotamiento sellaron el destino del grupo en la espesura eterna.", type: "ending", badge: "Final Trágico (1/4)" },
+        ending_survivor: { title: "🩹 FINAL 2: Supervivientes al Límite", text: "Lograron salir a la superficie con vida, aunque maltrechos y marcados por los peligros superados.", type: "ending", badge: "Final Agridulce (2/4)" },
+        ending_heroic: { title: "⚔️ FINAL 3:protectores del Bosque", text: "Derrotaron al tirano final y restauraron la paz en todas las tierras silvestres.", type: "ending", badge: "Final Heroico (3/4)" },
+        ending_legendary: { title: "👑 FINAL 4: Leyendas Inmortales del Bosque", text: "Maestría absoluta. Superaron los 10 niveles de prueba con perfección y son recordados como héroes míticos.", type: "ending", badge: "Final Legendario (4/4)" }
     }
 };
 
@@ -802,7 +1340,6 @@ window.addEventListener("DOMContentLoaded", () => {
                     rollBtn.disabled = !isMyTurn;
                     rollBtn.textContent = "🎲 ¡Tirar D20";
 
-                    // SI ES EL TURNO DEL ENEMIGO, EL LÍDER O EL PRIMER JUGADOR EJECUTA EL ATAQUE AUTOMÁTICO TRAS 3 SEGUNDOS
                     if (data.enemyTurnNext && players.length > 0 && players[0].characterName === activeCharacter.characterName && !data.enemyAttackProcessed) {
                         setTimeout(async () => {
                             const freshSnap = await window.getDoc(roomRef);
@@ -840,14 +1377,11 @@ async function processEnemyAutomaticTurn(roomData, roomRef) {
     let players = roomData.players || [];
     if (players.length === 0) return;
 
-    // Elegir un jugador al azar para atacarlo
     let target = players[Math.floor(Math.random() * players.length)];
     let mDmg = Math.floor(Math.random() * 6) + 3;
     target.hp = Math.max(0, target.hp - mDmg);
 
     let updatedPlayers = players.map(p => p.characterName === target.characterName ? target : p);
-    
-    // El siguiente en atacar vuelve a ser el primer jugador de la lista o rotativo
     let nextAttacker = updatedPlayers[0].characterName;
 
     let logMsg = `👹 ¡El enemigo atacó a ${target.characterName} infligiendo -${mDmg} HP!`;
@@ -989,7 +1523,7 @@ function updateGameLobbyList(players) {
 async function startAdventure() {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
     await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0, votes: {}, lastUnlockedOption: null });
-    logSystemMessage(`🚀 ¡La campaña masiva ha comenzado!`);
+    logSystemMessage(`🚀 ¡La campaña ha comenzado!`);
 }
 
 function renderStoryNode(nodeId, roomData) {
