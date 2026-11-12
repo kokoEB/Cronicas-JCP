@@ -177,8 +177,8 @@ const campaigns = {
             text: "Despiertan en una vasta cámara circular iluminada por cristales titilantes. Cuatro imponentes senderos se extienden ante ustedes en total calma, sin enemigos a la vista. ¿Qué camino deciden tomar?",
             type: "d20_branch",
             options: [
-                { id: "p1_forja", text: "🔥 Camino 1: El Desfiladero de las Forjas Ancestrales", requiredItem: "Antorcha", bonusLog: "Usaron la antorcha para iluminar la forja y hallar un botín.", penaltyLog: "Sin antorcha, la oscuridad ocultó una trampa (-3 HP)." },
-                { id: "p2_agua", text: "🌊 Camino 2: Las Cavernas Subterráneas de los Espejos", requiredItem: "Cuerda", bonusLog: "La cuerda aseguró el paso resbaladizo con éxito.", penaltyLog: "Resbalaron en la humedad (-2 HP)." },
+                { id: "p1_forja", text: "🔥 Camino 1: El Desfiladero de las Forjas Ancestrales", requiredItem: "Antorcha" },
+                { id: "p2_agua", text: "🌊 Camino 2: Las Cavernas Subterráneas de los Espejos", requiredItem: "Cuerda" },
                 { id: "p3_ruinas", text: "🏛️ Camino 3: Las Columnas del Templo de los Ecos" },
                 { id: "p4_bosque", text: "🌿 Camino 4: Las Raíces Profundas y Lumínicas" }
             ],
@@ -765,10 +765,9 @@ window.addEventListener("DOMContentLoaded", () => {
     if (!activeCharacter.maxHp) activeCharacter.maxHp = activeCharacter.hp;
     if (!activeCharacter.maxMana) activeCharacter.maxMana = activeCharacter.mana;
 
-    // Inicializar propiedades de usos para habilidades D12, D10 y D8 si no existen
     if (activeCharacter.abilities) {
         activeCharacter.abilities.forEach(ab => {
-            if (ab.dice === "D10" && ab.d10UsesLeft === undefined) ab.d10UsesLeft = 2; // Primeras 2 de regalo
+            if (ab.dice === "D10" && ab.d10UsesLeft === undefined) ab.d10UsesLeft = 2;
         });
     }
 
@@ -816,10 +815,17 @@ window.addEventListener("DOMContentLoaded", () => {
                 const currentNode = campaign[data.currentNodeId || "start"];
 
                 if (currentNode && currentNode.type === "combat") {
-                    turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE TÁCTICO!</strong> | Turno de iniciativa / ataques`;
-                    turnIndicator.style.color = "#ff6b6b";
-                    rollBtn.disabled = false;
-                    rollBtn.textContent = "🎲 ¡Tirar Iniciativa / Atacar!";
+                    if (!data.combatInitiativeDetermined) {
+                        turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE TÁCTICO!</strong> | Tirar iniciativa para ver quién arranca`;
+                        turnIndicator.style.color = "#ff6b6b";
+                        rollBtn.disabled = false;
+                        rollBtn.textContent = "🎲 ¡Tirar Iniciativa!";
+                    } else {
+                        turnIndicator.innerHTML = `⚔️ <strong>¡COMBATE EN CURSO!</strong> | Turno de ataques tácticos`;
+                        turnIndicator.style.color = "#ff6b6b";
+                        rollBtn.disabled = false;
+                        rollBtn.textContent = "⚔️ ¡Atacar / Acción!";
+                    }
                 } else if (!allVoted) {
                     turnIndicator.innerHTML = `⏳ Esperando votos de todos los aventureros... (${Object.keys(votes).length}/${players.length})`;
                     turnIndicator.style.color = "var(--gold)";
@@ -928,7 +934,7 @@ function renderActionChoices() {
 function selectAction(actionObj, element) {
     document.querySelectorAll('.ability-card-game').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected'); currentSelectedAction = actionObj;
-    document.getElementById("rollLog").innerHTML = `✔ Acción lista: <strong>${actionObj.name}</strong>. ¡Tirá el D20 para atacar!`;
+    document.getElementById("rollLog").innerHTML = `✔ Acción lista: <strong>${actionObj.name}</strong>. ¡Tiralo en tu turno!`;
 }
 
 async function selectStoryOption(optId, btnElement) {
@@ -1034,7 +1040,11 @@ function renderStoryNode(nodeId, roomData) {
         }
     } else if (node.type === "combat") {
         html += `<br><br><div style="background:#2b1515; border:1px solid #a83232; padding:10px; border-radius:5px;"><strong style="color:#ff6b6b;">👹 Enemigo: ${roomData.monsterName || node.monsterName}</strong><br>Vida: ${roomData.monsterHp} / ${roomData.monsterMaxHp} HP</div>`;
-        choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ ¡Combate táctico por turnos y iniciativa activa!</p>`;
+        if (!roomData.combatInitiativeDetermined) {
+            choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ <strong>¡Momento épico! Preparate para pelear...</strong> Tira el D20 para definir la iniciativa.</p>`;
+        } else {
+            choicesArea.innerHTML = `<p style="color:var(--gold);">⚔️ ¡Combate activo por turnos! Elegí tu acción abajo y atacá.</p>`;
+        }
     } else if (node.type === "ending") {
         html = `<div style="text-align:center; padding:15px;"><span class="tier-badge tier-perfect">${node.badge}</span><h2 style="color:var(--gold);">${node.title}</h2><p>${node.text}</p><a href="sala.html" class="btn-gold" style="text-decoration:none; display:inline-block; padding:10px;">🔄 Volver a Salas</a></div>`;
     }
@@ -1090,15 +1100,12 @@ async function rollD20Action() {
     const d20 = Math.floor(Math.random() * 20) + 1; 
     let logMessage = "";
 
-    // Reducir Cooldowns de armas y habilidades generales
-    if (activeCharacter.weapon.currentCd > 0) activeCharacter.weapon.currentCd--;
-    if (activeCharacter.abilities) {
-        activeCharacter.abilities.forEach(ab => { 
-            if (ab.currentCd > 0) ab.currentCd--; 
-        });
-    }
-
     if (node.type === "d20_branch") {
+        if (activeCharacter.weapon.currentCd > 0) activeCharacter.weapon.currentCd--;
+        if (activeCharacter.abilities) {
+            activeCharacter.abilities.forEach(ab => { if (ab.currentCd > 0) ab.currentCd--; });
+        }
+
         const votes = roomData.votes || {};
         let voteCounts = {};
         Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
@@ -1112,26 +1119,24 @@ async function rollD20Action() {
         let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
         const chosenOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
-        // Lógica de inventario (mochila) para caminos
-        let outcome;
+        let finalD20 = d20;
         if (chosenOptObj.requiredItem) {
             const hasItem = activeCharacter.inventory && activeCharacter.inventory.some(i => i.name === chosenOptObj.requiredItem);
             if (hasItem) {
-                // Consumimos el objeto y damos beneficio
                 const idx = activeCharacter.inventory.findIndex(i => i.name === chosenOptObj.requiredItem);
                 activeCharacter.inventory.splice(idx, 1);
-                d20 += 3; // Bonus por usar objeto
+                finalD20 += 3;
                 logSystemMessage(`🎒 ${activeCharacter.characterName} usó ${chosenOptObj.requiredItem} requerido: ¡Bonificación aplicada!`);
             } else {
-                // Castigo por no tener el objeto
                 activeCharacter.hp = Math.max(0, activeCharacter.hp - 3);
                 logSystemMessage(`⚠️ ${activeCharacter.characterName} no tenía ${chosenOptObj.requiredItem}: ¡Sufrió castigo (-3 HP)!`);
             }
         }
 
-        if (d20 <= 5) { outcome = node.outcomes.bad; }
-        else if (d20 <= 10) { outcome = node.outcomes.regular; }
-        else if (d20 <= 15) { outcome = node.outcomes.good; }
+        let outcome;
+        if (finalD20 <= 5) { outcome = node.outcomes.bad; }
+        else if (finalD20 <= 10) { outcome = node.outcomes.regular; }
+        else if (finalD20 <= 15) { outcome = node.outcomes.good; }
         else { outcome = node.outcomes.perfect; }
 
         if (outcome.hpDelta) activeCharacter.hp = Math.max(0, Math.min(activeCharacter.maxHp, activeCharacter.hp + outcome.hpDelta));
@@ -1153,25 +1158,29 @@ async function rollD20Action() {
         await window.updateDoc(roomRef, nextUpdates);
 
     } else if (node.type === "combat") {
-        if (!currentSelectedAction) { alert("Elegí un ataque o acción."); return; }
+        let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
+
+        // FASE 1: Tirar Iniciativa antes de atacar
+        if (!roomData.combatInitiativeDetermined) {
+            let enemyInit = Math.floor(Math.random() * 20) + 1;
+            let groupBeatEnemy = d20 >= enemyInit;
+            logSystemMessage(`⚔️ INICIATIVA: ${activeCharacter.characterName} sacó un D20(${d20}) vs Enemigo(${enemyInit}). ${groupBeatEnemy ? '¡El Grupo ataca primero!' : '¡El Enemigo toma la iniciativa!'}`);
+            await window.updateDoc(roomRef, { combatInitiativeDetermined: true, enemyTurnNext: !groupBeatEnemy });
+            updateSidebarUI(); renderActionChoices();
+            return;
+        }
+
+        // FASE 2: Ataques y Acciones ya iniciados los turnos
+        if (!currentSelectedAction) { alert("Elegí un ataque o acción de la lista inferior antes de tirar."); return; }
         if (currentSelectedAction.type === "weapon" && activeCharacter.weapon.currentCd > 0) { alert("Arma en Cooldown."); return; }
         if (currentSelectedAction.type === "ability") {
             const ab = activeCharacter.abilities[currentSelectedAction.index];
             if (ab.currentCd > 0) { alert("Habilidad en Cooldown."); return; }
-            if (ab.dice === "D10" && ab.d10UsesLeft <= 0 && ab.currentCd === 0) {
-                // Ya gastó los usos extra, requiere espera de 3 turnos
-            }
         }
 
-        let updatedPlayers = players.map(p => p.characterName === activeCharacter.characterName ? activeCharacter : p);
-
-        // Determinación de iniciativa al empezar el combate si no está definida
-        if (!roomData.combatInitiativeDetermined) {
-            let enemyInit = Math.floor(Math.random() * 20) + 1;
-            let groupBeatEnemy = d20 >= enemyInit;
-            logSystemMessage(`⚔️ INICIATIVA DE COMBATE: ${activeCharacter.characterName} sacó un D20(${d20}) vs Enemigo(${enemyInit}). ${groupBeatEnemy ? '¡El Grupo ataca primero!' : '¡El Enemigo toma la iniciativa!'}`);
-            await window.updateDoc(roomRef, { combatInitiativeDetermined: true, enemyTurnNext: !groupBeatEnemy });
-            return;
+        if (activeCharacter.weapon.currentCd > 0) activeCharacter.weapon.currentCd--;
+        if (activeCharacter.abilities) {
+            activeCharacter.abilities.forEach(ab => { if (ab.currentCd > 0) ab.currentCd--; });
         }
 
         if (currentSelectedAction.type === "rest") {
@@ -1184,23 +1193,22 @@ async function rollD20Action() {
             if (activeCharacter.mana < manaCost) { alert("Falta maná."); return; }
             activeCharacter.mana -= manaCost;
 
-            // Gestión de reglas de dados (D12, D10, D8)
             if (currentSelectedAction.type === "weapon") {
                 activeCharacter.weapon.currentCd = activeCharacter.weapon.cdMax;
             } else if (currentSelectedAction.type === "ability") {
                 let ab = activeCharacter.abilities[currentSelectedAction.index];
                 if (ab.dice === "D12") {
-                    ab.currentCd = 3; // 1 uso, 3 turnos de espera
+                    ab.currentCd = 3;
                 } else if (ab.dice === "D10") {
                     if (ab.d10UsesLeft > 0) {
                         ab.d10UsesLeft--;
-                        if (ab.d10UsesLeft === 0) ab.currentCd = 3; // Tras gastar las 2, exige 3 turnos
+                        if (ab.d10UsesLeft === 0) ab.currentCd = 3;
                     } else {
-                        ab.currentCd = 2; // Después de esperar, 1 vez cada 2 turnos
+                        ab.currentCd = 2;
                         ab.d10UsesLeft = 1; 
                     }
                 } else if (ab.dice === "D8") {
-                    ab.currentCd = 1; // 1 uso, 1 turno de descanso
+                    ab.currentCd = 1;
                 }
             }
 
@@ -1228,7 +1236,6 @@ async function rollD20Action() {
             }
         }
 
-        // Frecuencia de turnos según cantidad de jugadores (1 o 5 = alternado 1 a 1; 2, 3 o 4 = cada 2 turnos)
         let playerCount = updatedPlayers.length;
         let enemyShouldAttack = roomData.enemyTurnNext || false;
         let combatCounter = (roomData.combatTurnCounter || 0) + 1;
