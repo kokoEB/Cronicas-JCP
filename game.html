@@ -1080,13 +1080,15 @@ let outcome;
 
         selectedStoryOptionId = null;
         
-        // Guardamos el resultado del dado en la sala para que se muestre debajo de la opción ganadora
-        const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
+const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
         nextUpdates.players = updatedPlayers; 
         nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
         nextUpdates.votes = {}; 
-        nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length);
-        nextUpdates.lastRollResult = { roller: activeCharacter.characterName, d20: d20, log: outcome.log };
+        
+        // Rotación justa de tirador basada en el índice de turno
+        let nextShooter = ((roomData.currentShooterIndex || 0) + 1) % updatedPlayers.length;
+        nextUpdates.currentShooterIndex = nextShooter;
+        nextUpdates.lastRollResult = null; // Limpiamos el dado viejo para que no se arrastre al nuevo nivel
         
         await window.updateDoc(roomRef, nextUpdates);
 
