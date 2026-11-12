@@ -930,7 +930,7 @@ function updateGameLobbyList(players) {
 
 async function startAdventure() {
     const roomRef = window.doc(window.db, "rooms", activeRoomCode);
-    await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0, currentShooterIndex: 0, votes: {} });
+    await window.updateDoc(roomRef, { gameStarted: true, currentNodeId: "start", turnIndex: 0, combatTurnCounter: 0, currentShooterIndex: 0, votes: {}, lastRollResult: null });
     logSystemMessage(`🚀 ¡La campaña masiva ha comenzado!`);
 }
 
@@ -943,11 +943,45 @@ function renderStoryNode(nodeId, roomData) {
     if (node.type === "d20_branch") {
         const votes = roomData.votes || {};
         const players = roomData.players || [];
-        html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
-        node.options.forEach(opt => {
-            const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
-            btn.textContent = opt.text; btn.onclick = () => selectStoryOption(opt.id, btn); choicesArea.appendChild(btn);
-        });
+        const allVoted = players.length > 0 && players.every(p => votes[p.characterName]);
+
+        if (!allVoted) {
+            // Si todavía falta gente por votar, mostramos todas las opciones para elegir
+            html += `<br><br><div style="font-size:12px; color:var(--muted);">🎲 <strong>Votación Grupal (${Object.keys(votes).length}/${players.length} votos emitidos)</strong></div>`;
+            node.options.forEach(opt => {
+                const btn = document.createElement("button"); btn.className = "choice-btn" + (selectedStoryOptionId === opt.id ? " selected" : "");
+                btn.textContent = opt.text; btn.onclick = () => selectStoryOption(opt.id, btn); choicesArea.appendChild(btn);
+            });
+        } else {
+            // Si TODOS ya votaron, calculamos cuál ganó y dejamos únicamente esa opción visible
+            let voteCounts = {};
+            Object.values(votes).forEach(v => { voteCounts[v] = (voteCounts[v] || 0) + 1; });
+            let maxVotes = 0, winningOptions = [];
+            for (let opt in voteCounts) {
+                if (voteCounts[opt] > maxVotes) { maxVotes = voteCounts[opt]; winningOptions = [opt]; }
+                else if (voteCounts[opt] === maxVotes) { winningOptions.push(opt); }
+            }
+            let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
+            let winningOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
+
+            html += `<br><br><div style="font-size:12px; color:lightgreen;">✔ <strong>¡Votación completada con éxito! Camino seleccionado:</strong></div>`;
+            
+            // Creamos el botón fijo ganador arriba
+            const winBtn = document.createElement("div");
+            winBtn.className = "choice-btn selected";
+            winBtn.style.cursor = "default";
+            winBtn.style.borderColor = "lightgreen";
+            winBtn.textContent = winningOptObj.text;
+            choicesArea.appendChild(winBtn);
+
+            // Si el dado ya se tiró y hay un registro en el log o podemos mostrar el resultado del D20 debajo:
+            if (roomData.lastRollResult) {
+                const rollBox = document.createElement("div");
+                rollBox.style.cssText = "margin-top: 10px; background: #151316; border: 1px solid var(--gold); padding: 10px; border-radius: 5px; font-size: 13px; color: var(--gold); text-align: center;";
+                rollBox.innerHTML = `🎲 <strong>Resultado del D20 (${roomData.lastRollResult.roller}):</strong> Salió un <strong>${roomData.lastRollResult.d20}</strong><br><span style="color:var(--text);">${roomData.lastRollResult.log}</span>`;
+                choicesArea.appendChild(rollBox);
+            }
+        }
     } else if (node.type === "combat") {
         html += `<br><br><div style="background:#2b1515; border:1px solid #a83232; padding:10px; border-radius:5px;"><strong style="color:#ff6b6b;">👹 Enemigo: ${roomData.monsterName || node.monsterName}</strong><br>Vida: ${roomData.monsterHp} / ${roomData.monsterMaxHp} HP</div>`;
         choicesArea.innerHTML = `<p style="color:var(--gold);">¡Combate táctico por turnos y cooldowns activos!</p>`;
@@ -959,7 +993,7 @@ function renderStoryNode(nodeId, roomData) {
 
 async function prepareNextNodeData(campaign, nextNodeId, playerCount) {
     const nextNode = campaign[nextNodeId];
-    let updateObj = { currentNodeId: nextNodeId, turnIndex: 0, combatTurnCounter: 0, votes: {} };
+    let updateObj = { currentNodeId: nextNodeId, turnIndex: 0, combatTurnCounter: 0, votes: {}, lastRollResult: null };
     if (nextNode && nextNode.type === "combat") {
         const scaledHp = nextNode.isBoss ? (nextNode.baseHp || 120) + (playerCount - 1) * 20 : (nextNode.baseHp + (playerCount - 1) * 5);
         updateObj.monsterHp = scaledHp; updateObj.monsterMaxHp = scaledHp; updateObj.monsterName = nextNode.monsterName;
@@ -1021,7 +1055,7 @@ async function rollD20Action() {
         let chosenOptionId = winningOptions[Math.floor(Math.random() * winningOptions.length)];
         const chosenOptObj = node.options.find(o => o.id === chosenOptionId) || node.options[0];
 
-        let outcome;
+let outcome;
         if (d20 <= 5) { outcome = node.outcomes.bad; }
         else if (d20 <= 10) { outcome = node.outcomes.regular; }
         else if (d20 <= 15) { outcome = node.outcomes.good; }
@@ -1035,11 +1069,15 @@ async function rollD20Action() {
         logSystemMessage(logMessage);
 
         selectedStoryOptionId = null;
+        
+        // Guardamos el resultado del dado en la sala para que se muestre debajo de la opción ganadora
         const nextUpdates = await prepareNextNodeData(campaign, outcome.nextNode, updatedPlayers.length);
         nextUpdates.players = updatedPlayers; 
         nextUpdates.turnIndex = (roomData.turnIndex || 0) + 1;
         nextUpdates.votes = {}; 
         nextUpdates.currentShooterIndex = Math.floor(Math.random() * updatedPlayers.length);
+        nextUpdates.lastRollResult = { roller: activeCharacter.characterName, d20: d20, log: outcome.log };
+        
         await window.updateDoc(roomRef, nextUpdates);
 
     } else if (node.type === "combat") {
